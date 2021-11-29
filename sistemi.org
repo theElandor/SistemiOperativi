@@ -850,18 +850,19 @@ Quando si parla di nucleo, si intende /kernel/.
 *** Time sharing
 Tecnica per eseguire più applicazioni su una singola unoità di calcolo.
 Quando un applicazione è ferma, il processore esegue le altre.
+La tecnica del time sharing è nata inizalmente per gestire dei sistemi
+multiutente
 *** PCB
 Process Control Block ---> struttura dati dell'astrazione del processo.
 Contiene informazioni sullo stato del processo e puntatori alle risorse che il
 processo usa. E' anche conosciuto come Process Descriptor.
-Domana sul problema della ridodanza: il PCB non contiene dei PUNTATORI a delle aree 
+Domanda sul problema della ridodanza: il PCB non contiene dei PUNTATORI a delle aree 
 di memoria che contengono le risorse che deve usare? Perchè si parla di problema di 
 RIDONDANZA?
 **** PID
 Campo contenuto nel descrittore, TID per i thread.
 E' un numero interno non negativo assegnato dal nucleo quanto viene 
 creato il processo. E' necessario per poter interagire col processo.
-
 *** Thread
 Sottoprocessi, ciascun thread esegue una funzione specifica.
 I thread di un processo condividono TUTTE le risorse.
@@ -874,8 +875,8 @@ finale!
 **** Approfondimento
 Su linux i thread sono processi, dipende solo da come vengono creati.
 GREEN THREAD --> consumano meno corrente, eseguono in maniera distaccata
-e non vanno ad intaccare il kernel. Si usano soltanto i processi , i
-thread sono essenzialmente delle funzioni.
+e non vanno ad intaccare il kernel.
+Si usano soltanto i processi , i thread sono essenzialmente delle funzioni.
 Problema: se un thread si blocca, si blocca tutto, perchè il processo
 si blocca per eseguire l'operazione richiesta(es. lettura/scrittura).
 Viene bloccato tutto il processo.
@@ -884,6 +885,7 @@ Quindi i green thread sono utili quando non devo fare dell'IO ad esempio
 Nel modello spiegato a lezione invece, c'è Parallelizzazione, quindi
 si blocca solo il singolo thread. C'è più lavoro da parte del 
 sistema operativo, che deve assegnare ai processori i singoli thread.
+Questo lavoro viene eseguito dal KERNEL.
 
 RICHIESTA DI IO SINCRONA --> devo finire la richiesta per iniziare
 a eseguire la seconda
@@ -897,7 +899,6 @@ tra i processi il codice uguale, ad esempio. Infatti l'area
 di codice NON è scrivibile, quindi possono condividerle senza problemi.
 Basta che queste risorse siano RO. Quando sono anche scrivibili
 non si può fare.
-
 *** Individuazione
 pidof per ottenere il PID di un processo.
 Molte distro usando systemd invece di init.
@@ -907,10 +908,9 @@ Init di sistema --> init di utente1
 Posso assegnare performance differenziate ai diversi utenti.
 **** Gang scheduling o Group scheduling
 Lo scheduling viene fatto per gruppi, come in UBUNTU.
-Si possono assegnare diverse risorse ai singolo alberi.
-
+Si possono assegnare diverse risorse ai singoli alberi.
 *** Creazione dei Processi
-**** FORKING
+**** FORKING e PREFORKING
 Esercizio sulla gerarchia con bash:
 bash ogni volta viene ricaricata da disco!
 Quindi oltre a fare il fork viene anche eseguito il codice di bash.

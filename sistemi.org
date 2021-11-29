@@ -1,12 +1,16 @@
 #+TITLE: Appunti Sistemi Operativi
 #+SETUPFILE: /home/matteo/Desktop/tema.setup
 #+AUTHOR: Matteo Eros Lugli
+* INFO
 Da individuazione di file in avanti sono riportate solo le soluzioni degli esercizi
 e approfondimenti non riportati sulle slide.
 Ricorda, questi sono solo approfondimenti / ragionamenti. Non sono
 sostituitivi alle slide.
 E' anche necessario integrare questi appunti con il file note.org, sempre
 nella cartella "Sistemi operativi"
+
+E' possibile trovare questo foglio  di appunti al seguente link:
+https://github.com/theElandor/SistemiOperativi
 * REGEX IN EMACS
 Ctrl alt s per entrare in Regex Mode
 ** LINE BOUNDRIES
@@ -982,3 +986,4 @@ un comando. Questi modulini sono contenuti in /lib/modules caricabili con modpro
 ***** Desktop semantico(appr)
 Desktop che offre delle funzionalità di ricerca avanzate.
 Ogni file viene etichettato, per poi effettuare delle ricerche.
+

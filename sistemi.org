@@ -1,1 +1,984 @@
+#+TITLE: Appunti Sistemi Operativi
+#+SETUPFILE: /home/matteo/Desktop/tema.setup
+#+AUTHOR: Matteo Eros Lugli
+Da individuazione di file in avanti sono riportate solo le soluzioni degli esercizi
+e approfondimenti non riportati sulle slide.
+Ricorda, questi sono solo approfondimenti / ragionamenti. Non sono
+sostituitivi alle slide.
+E' anche necessario integrare questi appunti con il file note.org, sempre
+nella cartella "Sistemi operativi"
+* REGEX IN EMACS
+Ctrl alt s per entrare in Regex Mode
+** LINE BOUNDRIES
+^ = inizio riga
+$ = fine riga
+. = matcha tutte le parole che contengono quello che segue 
+** RANGES
+[a-z] = dalla a alla z
+[A-Za-z] = dalla a alla Z ma anche uppercase
+[abcd1234] = lettere e numeri all'interno della lista 
+** POSTFIX OPERATORS
++ "?" = matcha il termine precedente 0 o una volta.
++ "+" = matcha il termine precedente una o più volte.
++ "*" = matcha il termine precedente zero o più volte possibile.
+** GROUPED MATCHES
+\(GROUP\)
+qadsasdas
+** GREEDY MATCHES
+Di default emacs matcha il massimo che può.
+Aggiungendo il carattere ? matcha il pattern più corto
+*** ESEMPIO 
+Hello wolrd
+Hwllo world world
+Hello world world world
 
+Hello.*world = matcha tutto, anche l'ultimo
+Hello.*?world = matcha Hello wolrd in tutti e tre, 
+perchè fa riferimento solo alla prima parte 
+** MULTIPLE GROUPS
+Ovviamente si possono inserire più gruppi in un match.
+*** ESEMPIO
+\([]\)\([]\) basta concatenarli uno dopo l'altro
+** EXCLUDE SETS
+per escludere un set si usa la seguente
+sintassi: [^SET]
+*** ESEMPIO
+^[^A-Z] = matcha tute le righe che
+non iniziano con una maiuscola.
+** ESERCIZI
+*** Matchare tutti i file che iniziano per 'a'
+**** SOLUZIONE
+
+* DOCUMENTAZIONE
+** COMANDI UTILI
+#+BEGIN_SRC shell
+man bash-builtins
+#+END_SRC
+
+  - apropos list files, cerca tutto quello che ha a che fare
+    con list files, cercando tra le parole chiave
+
+#+BEGIN_SRC shell
+  -apropos -r ’.*create.*process’
+#+END_SRC
+
+  simile al comando precedente
+** ESERCIZI
+*** ES1
+  - Trovare la documentazione relativa allo shell 
+    builtin che permette di attendere la terminazione di un 
+    applicazione
+**** SOLUZIONE
+    man bash-builtins
+    /^\s+wait\s+\[
+*** ES2
+    -Cercare un comando che possa eseguire il checksum
+**** SOLUZIONE
+   apropos checksum
+* FILE
+** ESERCIZIARIO
+Esercizi generici non catalogati.
+*** ES CUT
+    Creare un output che abbia 3 colonne: 
+    1) sequenza di numeri interi a partire da 1
+    2) Gli username esistenti nel sistema
+    3) le shell assegnate agli username
+**** SOLUZIONE
+cat -n /etc/passwd per capire quante righe ho
+oppure si può usare wc -l /etc/passwd
+(per scrivere i 40 numeri basta usare uno script shell)
+cut -f1 -d: /etc/passwd > users.txt per ottenere gli username
+stessa cosa per ottenere il settimo campo.
+con cat file.txt | column -t allinea la terza colonna
+*** ES SORT
+Ordina alfabeticamente secondo la codifica ASCII
+man sort per maggiori informazioni
+voglio ordinare inventario secondo ID
+**** SOLUZIONE
+sort -k 1.4,1.6n inventario.txt
+si può fare anche con sort -k 1.4n, in questo caso va dall' 1.4 fino a fine riga
+In pratica ordina numericamente dal quarto carattere.
+*** ES SORT
+ORdinare /etc/passwd per 
+ordinamento numerico crescente,
+quarto campo, 
+separatore :
+**** SOLUZIONE
+sort -n -k 4 -t":" /etc/passwd
+*** ES FIND e STDERR
+individuare tutti i file .log del sistema.
+**** SOLUZIONE
+find / -name *.log 2> /dev/null
+DESCRITTORI DI FILE
+0--> STDIN
+1--> STDOUT
+2--> STDERR
+il comando prende il secondo canale e lo butta in /dev/null
+usando soltanto il > verrebbe redirectato il canale 1, ossia l'output.
+*** ES FIND
+Voglio trovare tutti i file che iniziano con .bash in /etc
+**** SOLUZIONE
+find /etc -regex ^/etc/.*/\.bash.*$ o qualcosa del genere, guardare le slide.
+*** ES REGEX EMACS
+Trovare il primo carattere 
+/w
+Trovare tutte le righe che iniziano con nota o con per
+Approfondire l'argomento delle regex con emacs
+**** SOLUZIONE
+^\(C-c|Per\)
+*** ES FIND
+Trovare tutti i file html nella macchina.
+.html .htm .HTML .HTM
+**** SOLUZIONE
+find . -iregex '^.*\.htm.*?$' 2>/dev/null
+*** ES FIND
+Cercare tutti i file più grandi di 1M nel sistema
+**** SOLUZIONE
+find / -size +1M 2>/dev/nul
+*** ES FIND PRINTF
+Produrre un elenco di tutti i file di sistema
+con relativa dimensione
+**** SOLUZIONE
+find / -printf "%p %s\n"
+*** ES FIND
+si vuole stampare il tipo di file di ogni file all'intero della
+cartella /etc, usando il comando file e l'opzione -exec
+**** SOLUZIONE
+find /etc -name "*.conf" -exec file "{}" \;
+*** ES FIND
+Trovare tutti i file .conf del sistema, stampando il tipo di file.
+**** SOLUZIONE
+find /etc -name "*.conf" -exec file '{}' \; 
+*** ES FIND REGEX E -EXEC
+    Cancellare tutti i file che terminano con .html o .txt
+**** SOLUZIONE
+Utilizzo due gruppi in or che selezionano tutti i file
+che terminano con html o con txt.
+find -regex "\(.*\.html\)\\|\(.*\.txt\)"
+Soluzione del prof:
+find -regex '^.*\.\(bak\|~\)$' poi bisogna aggiungere la rimozione
+*** ES GREP
+    Si chiede di trovare ed evidenziare in rosso tutti gli indirizzi
+Ipv4 contenuti nel file /etc/hosts
+si chiede inoltre di stampare il numero di riga per ogni match
+**** SOLUZIONE
+Guardare sulle slide, su orgmode viene interpretato come espressione speciale
+*** ES GREP
+Stampare i valori di tutte le etichette UUID nel file /etc/fstab
+evitando di stampare UUID=
+**** SOLUZIONE
+considerare (:<something>:) come [[]] con la stessa espressione dentro.
+grep -Eo "([[:alnum:]]){,7}-(([[:alnum:]]){,4}-){3}([[:alnum:]]){,12}" /etc/fstab
+
+Dato che i caratteri sono esadecimali, uso la seguente dicitura:
+grep -Eo "[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{,12}" /etc/fstab
+in questo modo vengono matchati solo i caratteri esadecimali.
+*** ESERCIZIO COLLEGAMENTI
+Creare un collegamento fisico di nome passwd al file /etc/passwd
+Creare un collegamento simbolico di nome passwd al file 
+/etc/passwd
+Descrivere l'esito.
+**** SOLUZIONE
+Il link fisico richiede l'accesso root, mentre il simbolico no.
+*** ESERCIZIO COLLEGAMENTI SIMBOLICI
+Capire a che link punta il file simb.txt
+**** SOLUZIONE
+readlink simb.txt
+***** OUTPUT:
+file.txt
+** COMANDI UTILI
+   *man man*
+   *ls -l* --> tipo del file, metadati vari, ecc
+   *ls -a*
+   *ls -h* --> stampa in formato umano
+   *ls -lt* --> ordina per tempo  di accesso.
+   *ls -lt --time=ctime* --> ordina per accesso ai metadati
+   *ls -l -S* --> ordina per dimensione
+   *ls -l -S -r* --> ordina al contrario per dimensione
+   *ls -R* --> ricorsivo, parte dalla dir attuale e discende tutto l'albero
+   *ls /etc -Rla* --> stampa ricorsivamente i file nascosti coi metadati
+** FILESYSTEM
+*** /bin
+   contiene i comandi necessari ad un sistema di base testuale
+
+*** /sbin
+contiene i comandi necessari all'avvio
+
+*** /boot
+   contiene i dati relativi alla procedura di boot, configurazione
+   del bootloader, contiene l'immagine del kernel
+
+*** /dev
+  Contiene i *file speciali* che consentono di accedere alle
+  periferiche. Le comunicazioni a basso livello con le periferiche
+  avvengono grazie a questi file.
+**** TIPI DI FILE SPECIALI
+**** A BLOCCHI
+     periferiche veloci accedute serialmente e casualmente, per blocchi
+     di una dimensione minima.
+     Il disco ad esempio legge come minimo 512 byte.
+**** A CARATTERE
+    periferiche lente, accedute a pochi byte per volta.
+**** 2 FILE ASSOCIATI A OGNI FILE
+servono per categorizzare i file.
+con ls -l /dev si possono visualizzare
+**** MAJOR NUMBER 
+**** MINOR NUMBER
+
+*** /etc
+contiene i file di configurazione di s
+
+*** /home
+contiene gli spazi di lavoro dell'utente
+
+*** /lib
+contiene le librerire necessarie all'avvio del sistema.
+contiene anche le librerie del C
+loader dinamico
+moduli del kernel=assomigliano a dei file oggetto.
+*loader dinamico* = /interprete/ del binario. Carica in memoria
+il binario e linka le librerie. Carica im memoria i file necessari
+per l'esecuzione. Se il programma vuole usare printf è lui che va
+a cercare i file del printf.
+
+*** /mnt
+*** /opt
+contiene un filesistem per software non nativo
+contiene directory tipo /opt/software
+
+*** /proc
+   contiene statistiche sulle periferiche
+   e sulle risorse hardware. I file
+   vengono generati al volo dal sistema operativo
+   su richiesta da parte dell'utente
+**** /proc/sys
+    contiene file scrivibili usati per configurare il
+    comportamento del kernel del SO
+
+*** /run 
+   file contenuto in RAM, contiene file
+   volatili associati all'esecuzione dei processi.
+   il disco non si rovina e l'esecuzione è più veloce.
+
+*** /tmp
+   associato a un filesystem montato in RAM, contiene
+   file temporanei aperti dalle applicazioni e scartati
+   ad ogni riavvio.
+
+*** /usr
+   contiene un filesystem completo, contiene dei file
+   non necessari all'avvio della macchina.
+**** /usr/bin
+    contiene i binari, resi disponibili al boot.
+    UNIFICAZIONE DI TUTTI I BINARI
+**** /usr/local
+    filesystem che contiene file non proprietario 
+    non necessario all'avvio della macchina.
+
+*** /var
+   contiene file di log variabili.
+   i log solitamente vengono salvati sul disco
+** ESERCIZI
+*** ES1
+    trovare informazioni sul file associato al primo disco sata.
+**** SOLUZIONE
+    man man
+    apropos -s 4 -r '.*' | less -Mr 
+    ls -l /dev/[sh]da1
+    --> ho scoperto che ho /dev/sda1
+*** ES2
+stat /tmp/.X11-unix/X0 --> socket di comunicazione
+stat /dev/sda1 --> file speciale a blocchi
+stat /dev/tty  --> file speciale a caratteri
+**** SOLUZIONE
+cambia il tipo di file.
+Uno è il socket usato da X11 per comunicare e ricevere i comandi
+** METADATI
+   dati che caratterizzano il file
+   *stat* <nomefile> per visualizzare i metadati.
+*** INODE
+    puntatore che punta alla locazione di memoria del file
+*** COLL 
+    numero di collegamenti fisici al file,
+    punti di ingresso
+    esempio: vim usava vi, quindi i due erano
+    linkati insieme. I due contatori sono quindi pari a 2
+    ,perchè sfruttano lo stesso binario. ovviamente il sistema
+    riesce a capire se è stato invocato vim o vi.
+*** ACCESSO
+*** UID
+Identificatore associato a ogni utente
+Per l'utente root solitamente è 0
+*** TIMESTAMP
+**** ACCESSO
+Accesso in lettura, ultima volta
+**** MODIFICA
+Ultima volta che è stato modificato
+**** CAMBIO
+Mostra l'ultimo istante nella modifica dei metadati
+** APP DI DEFAULT
+*** ASSOCIAZIONE DIRETTA
+    Il SO legge la parte finale (estensione) 
+    e lancia un app di default insieme ad altre app
+    , tipo man man lancia man ls e pager lo stampa
+    in particolare: man chiama less che chiede a lesspipe di spacchettare il file
+    *less .tar.gz* --> mostra i contenuti spacchettati
+** LISTA DI ESTENSIONI
+   Le app hanno associate delle estensioni
+   che provocano la loro apertura se aperte
+   la stessa estensione può essere associata a più
+   applicazioni. In tal modo con tasto destro posso decidere
+   che app usare per aprire il file
+** MECCANISMO DEI MAGIC FILE
+   Il magic file contiene l'associazione
+   tra la sequenza di byte e il tipo di file
+   -> sequenza di byte con associato un tipo di file
+   -> *less /bin/ls* si vede è presente la sequenza ELF, ossia
+   il tipo di file. se uso *cat* non viene impaginato l'output
+   -> *file /etc/passwd* stampa il tipo di file, se non trova caratteri
+   speciali allora è un ASCII
+** MANIPOLAZIONE
+   DI FILE
+   *touch -a file* per cambiare il tempo di accesso
+   *mkdir -p dir1 dir2 dir3* crea le 3 directory
+   *rm -d* fa come rmidr, la dir deve essere non vuota
+   *rm -r dir1* rimozione ricorsiva   
+*** ESERCIZIO
+    creare un backup della home directory su /tmp
+    cp -a /home/studente /tmp
+*** ESERCIZIO
+Studiare la pagina di manuale mv per individuare un modo per 
+creare backup dei file sovrascritti
+*** ESERCIZIO Multiple touch
+Creare un programma che crei file1, file2, ..., file10
+**** SOLUZIONE
+#! /bin/bash
+for ((i=1; i<10;i++))
+do
+    touch "file$i"; 
+done
+** VISUALIZZAZIONE DI UN FILE
+   *cat -E <nomefeile>* fa vedere i fine linea
+   con -T viene stampato il carattere di tabulazione
+   *cat -v <nomefile>* stampa i caratteri non stampabili(caratteri di controllo ASCII)
+   per visualizzare file in formato esadecimale si usa *hexdump /bin/ls*
+   *hexdump /usr/bin/ls -n 32* per stampare i primi n byte.
+   *head -n <numero>* stampa le prime n righe se n è positivo.
+   *head -c 10 /etc/passwd* stampa i primi 10 caratteri, funziona anche con
+   offset negativi.
+   *tail* funziona al contrario rispetto a head
+*** CODIFICA DEI CARATTERI
+**** ISO 8859
+     Codifica dei caratteri a 8 bit, codifica estesa
+**** Greenblatt e Knight
+Progettano le Lisp machine, calcolatori in hardware che
+eseguivano il Lisp (Basato sulle liste)
+Linguaggio molto lento che ha bisogno di molto supporto hardware
+Inizio delle basi di conoscenza e del machine learning
+Inizio della programmazione a oggetti
+**** Church
+Teoria su cui si basa il Lisp. 
+Creazione delle funzioni anonime, ossia blocchi di 
+codice senza nome. ---> Lambda espressione, pemette
+calcolo ricorsivo sulle variabili
+**** Alan Key
+Padre delle interfacce grafiche
+**** LISP MACHINE
+ci si interfaccia con la Lisp keyboard.
+faceva uso di tasti extra per digitare
+caratteri speciali
+Su ogni tasto della Lisp machine era presente un carattere matematico,
+usato solitamente per il linguaggio di programmazione Lisp.
+Per digitare questi caratteri, si usava il tasto CTRL, che spegneva
+i due bit più significativi della codifica. In tal modo si potevano 
+digitare solo i caratteri tra [0,31]
+il Tasto Meta accende l'ottavo bit per attivare altri caratteri speciali ,
+solitamente associati a comandi.
+Quindi vengono selezionati i caratteri tra [128,255];
+Con l'avvento dei PC le Lisp machine vanno in declino, le tasitere si
+semplificano.
+*** DIFFERENZA TRA LITTLE-ENDIAN E BIG-ENDIAN
+    hexdump -C permette di visualizzare il file in forma canonica,
+    proprio per il problema del big/little endian. Quindi con hexdump
+    usare sempre l'opzione -C
+    
+    con hexdump -v viene disabilitata la compattazione di hexdump,
+    infatti inizialmente le informazioni vengono rappresentate in formato
+    compatto.
+*** CARATTERI NON STAMPABILI
+con -v posso stampare
+**** Caratteri di controllo ASCII
+Ossia caratteri nell'intervallo [0,31];
+**** Caratteri non ASCII
+Caratteri con codifiche diverse, come ISO 8859, UTF-8
+ad esempio il carattere "è" non è ASCII, quindi deve essere
+codificato. Con la UTF-8 sono usati 2byte!(quindi 8 bit e 8 bit)
+è --> c3 a8 (UTF-8)
+è --> e8 (UNICODE)
+** INDIVIDUAZIONE E RICERCA DI UN FILE
+spesso find può dare permesso negato se non si è root.
+** COLLEGAMENTI
+Zibaldone
+Cosa cambia da fare un collegamento fisico a creare una copia del file?
+--> la copia di file occupa più memoria rispetto al link. 
+Nei link soft se modifico il file sorgente viene modificato 
+anche il file linkato simbolicamente.
+il link simbolico è un file che contiene il path al file puntato, quindi
+se cambio il nome del file il soft link non vale più.
+
+Quando creo un hard link il Reference count aumenta.
+la memoria viene liberata quando il reference count diventa 0
+*** COLLEGAMENTI FISICI
+Non ho i permessi di collegare i file posseduti da un altro utente
+Non posso collegare file appartenenti a filesystem diveri.
+Infatti le strutture dei filesystem possono essere diversi: infatti
+oggettivamente un hardlink è una entry che punta a una zona di memoria.
+*** COLLEGAMENTI SIMBOLICI
+Si usa il comando ln -s file.txt soft_link.txt
+Con *readlink -f* si risolve la catena di link simbolici
+** tar (ARCHIVI)
+Le estensioni sono usate per convenzione, perchè a UNIX
+non interessano le estensioni in questo caso.
+*** CREARE UN ARCHIVIO
+per archiviare il contenuto della directory /etc all'interno
+di etc.tar si usa l'opzione -c(create)
+tar -c -f etc.tar /etc
+*** VISUALIZZARE UN ARCHIVIO
+si usa l'opzione -t(table of content)
+tar -t -f etc.tar
+*** ESTRARRE UN ARCHIVIO
+Per estrarre un archivio si usa il seguente comando: (extract)\\
+tar -x -f etc.tar
+*** MODALITA VERBOSA
+si aggiunge l'opzione -v \\
+tar -v -x -f etc.tar \\
+stampa file e directory manipolati durante l'operazione
+*** SPECIFICARE UNA CARTELLA
+per creare un archivio tmp.tar di /tmp nella current directory:
+tar -C /tmp -f tmp.tar -c
+*** DIASPORA UNIX
+sviluppo indipendente di distro UNIX a seguito della
+-distribuzione del codice sorgente di UNIX System V R4
+-studio dei ciclostili di John Lions in seguito al ritiro 
+  del codice sorgente con la distribuzione UNIX V7 nel 1979
+Ecco una lista delle diverse distribuzioni:
+**** System V
+formato breve (trattino e lettera)
+**** BSD
+alcuni comandi come tar, dd, ps offrono
+opzioni senza trattino
+**** GNU
+formato breve, lungo e BSD
+suppor
+*** COMPRESSIONE
+-z --> compressione .gz
+-j --> compressione .bz2 
+-J --> compressione .xz
+
+tar -z -f etc.tar.gz -C /tmp -x
+crea un archivio compresso della directory /etc
+**** ESERCIZIO
+Creare tre archivi della home directory: \\
+/tmp/home.tar.gz \\
+/tmp/home.tar.bz2 \\
+/tmp/home.tar.xz \\
+Come variano le dimensioni degli archivi?
+***** SOLUZIONE 
+In ordine decrescente di dimensione: .gz , .bz2, .xz
+** 7Z (ARCHIVI)
+Gestisce archivi nei formati seguenti: \\
+7-ZIP
+TAR
+ZIP
+RAR
+*** CREARE UN ARCHIVIO
+per archiviare il contenuto di ~/.config si usa il comando \\
+7z a config.7z ~/.config
+*** VISIONE ARCHIVIO
+Si usa il comando \\
+7z l config.7z
+*** ESTRAZIONE ARCHIVIO
+7z x ~/config.7z
+*** CIFRARE UN ARCHIVIO
+Si usa l'opzione -mhe=on -pKEY, ad esempio:\\
+7z -mhe=on -ppassword a prova.7z /home/matteo/Desktop/Statistica
+** OPERATORI UNARI
+-d FILE VERO se FILE esiste ed è una directory
+-e FILE VERO se FILE esiste
+-f FILE VERO se FILE esiste ed è un file regolare
+-h FILE VERO se FILE esiste ed è un link simbolico
+-r FILE VERO se FILE esiste ed è leggibile
+-w FILE VERO se FILE esiste ed è scrivibile
+-x FILE VERO se FILE esiste ed è eseguibile
+*** ESEMPIO
+Voglio scoprire se il file /etc/passwd è leggibile.
+test -r /etc/passwd
+echo $?
+
+** CANALI DI I/O
+   Questi tre file normalmente puntano alla bash.
+/dev/stdin 
+/dev/stdout 
+/dev/stderr
+con readlink -f posso risolverli.
+proc/self contiene il processo attualmente in esecuziuone
+con tty si vede il file a cui i tre file puntano:
+/dev/pts1 è il file che rappresenta quella specifica finestra 
+di terminale. 
+*** DESCRITTORE DI FILE
+Numero intero rappresentante un indice da un file aperto da un applicazione
+Stdin --> Descrittore di file 0
+Stdout --> Descrittore di file 1
+Stderr --> Descrittore di file 2
+*** OPERATORI DI REDIREZIONE
+< FILENAME associa il canale STDIN ad un file, e non al terminale.
+ad esempio, cat < /etc/passwd
+Si dice a cat di associare il descrittore 0 al file /etc/passwd:
+cat parte senza argomento, in teoria dovrebbe chiedere all'utente
+di inserire da terminale l'argomento. In questo caso non si aspetta
+lo standard in da terminale, ma se lo aspetta da file.
+
+> FILENAME associa il canale di STDOUT ad un file
+ad esempio, cat /etc/passwd > passwd
+>> FILENAME appende l'output di un canale ad un file
+**** ES GREP E REDIREZIONE
+*grep --color=yes -n -H root < /etc/passwd*
+grep non sa che file sta leggendo, perchè semplicemente gli viene passato
+solo il contenuto di /etc/passwd. Infatti ora il canale 1 punta al file 
+/etc/passwd, e non alla finestra del terminale aperto.
+**** N>&m
+ls . nonesistente > out-err.txt 2>&1
+--> Stderr e Stdout usano lo stesso canale, il canale di errore diventa
+una copia del canale di output. In questo modo sia gli errori che l'output
+vengono scritti sul file out-err.txt
+**** MEMOIZATION
+si salvano i dati in memoria per non calcolarle più volte.
+GNU/Linux cerca di effettuare questa operazione per aumentare
+le prestazioni, per questo si usa molta RAM.
+/proc/sys/vm/drop_caches provoca la cancellazione di tutti i 
+buffer di memoria. Se eseguo il comando 
+sudo echo 2 > /proc/sys/vm/drop_caches provoco la cancellazione
+di queste cache, il sistema si impalla.
+
+Non posso eseguire questo comando, perchè la redirezione viene effettuata
+prima dell'esecuzione di sudo, quindi non ho i permessi.
+Uso il seguente comando:
+echo 2 | sudo tee /proc/sys/vm/drop_caches
+tee-> prende lo stdin e lo scrive su stdot e su file.
+
+**** ESERCIZIO
+Produrre un file che sia un elenco di tutti i file nel sistema
+con relativa dimensione, scartando lo STDERR
+***** SOLUZIONE
+find / -printf "%p %s\n" > out.txt 2>/dev/null
+**** EXEC
+La bash stessa diventa ls: la bash non crea un processo figlio 
+che diventa ls, diventa ls lei stessa.
+Infatti il terminale vede il processo figlio (ls) che muore, si chiude
+anche lui.
+exec 3< /etc/passwd
+ls -l /proc/$$/fd per vedere che ho aperto il canale 3
+ora con read -u 3 line si legge la riga
+per stamparla echo $line
+
+Per chiudere
+exec 3<&-
+exec 4>&-
+**** ESERCIZIO EXEC
+Usando exec e read, copiare le prime chinque righe di /etc/passwd nel
+file passwd-top5.txt
+***** SOLUZIONE
+// apro il canale 4 associandolo a top5.txt
+exec 4> top5.txt
+// apro il cananle 3 associandolo a /etc/passwd
+exec 3< /etc/passwd
+//leggo la linea
+read -u 3 line
+// la redirecto su 4
+echo $line >&4
+** PIPE
+I comandi capiscono se l'output è su terminale oppure
+su file.
+dump2() è una funzione legata all'operatore | che crea la struttura
+dati che permette la redirezione dell'output e dell'input.
+Quindi ls | less redireziona i canali , non usa nessun tipo di argomento.
+*** ESEMPIO
+cat /etc/passwd
+bash crea un fork per bash, e viene associato ad un nuovo canale 3 
+il file /etc/passwd. Quando cat viene ucciso con ctrl c, il processo
+muore e il canale viene chiuso.
+*** FILTRI UNIX
+**** Modalità Standalone
+I filtri sono usati in modo indipendente, tipicamente i canali sono
+collegati al terminale, si usano in maniera interattiva
+**** Modalità Combinata
+I canali dei filtri vengono combinati per creare delle pipe
+complesse
+*** ESERCIZIO
+Visualizzare i 10 file più grandi sul desktop
+**** SOLUZIONE MIA
+Soluzione usando le pipe.
+Sia in questa che nella soluzione del prof come primo 
+campo viene settata la grandezza del file, per gestire
+meglio la selezione dei file e l'ordinamento per campo.
+find /home/matteo/Desktop -printf "%s %p\n" > out.txt 
+sort -n -r -k 1 out.txt | head
+**** SOLUZIONE SUA
+(Inizialmente non vengono usate le pipe.)
+find /home/matteo/Desktop -printf "%s %p\n" > out.txt
+sort -n -r -k 1 out.txt > out2.txt
+head out2.txt 
+** OPERATORI DI ESPANSIONE
+Ricorda: l'espansione viene sempre fatta PRIMA 
+dell'esecuzione del comando.
+Usare sempre il quoting (debole o forte). Se non si 
+usa, l'espansione viene fatta immediatamente e il comando
+non ha il comportamento desiderato.
+*** TRAPPOLA
+TRAPPOLONE!!
+find /etc -name ”*.conf”
+l'argomento viene consumato da find
+
+find /etc -name *.conf
+l'argomento viene consumato da bash se non lo proteggo,
+quindi fa l'espansione subito.
+Se ad esempio è presente nella directory a.conf, allora 
+*.conf viene espanso come a.conf.
+Altrimenti, se non riesce a fare l'espansione, *.conf viene passato
+a find, e il comportamento è quello corretto.
+
+Se con il quoting passo l'argomento a find, non viene fatta l'espansione,
+l'argomento viene passato a find che cerca. PROTEGGO DALL'ESPANSIONE.
+*** ESEMPIO
+find /etc -name "*.conf"
+Trova ricorisvamente all'interno della cartella /etc tutti
+i file terminanti con .conf
+
+*** ESEMPIO FIND REGEX
+Trovare tutti i file in /etc che terminano con .conf
+**** SOLUZIONE
+find /etc -regex ".*\.conf$"
+*** ESERCIZIO FINALE
+Individuate tutti i file in /etc che terminano con
+l’estensione .txt.
+** SCRIPTS
+*** ES1
+Crare uno script che crei un file che contiene i numeri
+da 1 a 10, uno per ogni colonna.
+**** SOLUZIONE
+Script che prende due valori in input (lower bound e upper bound)
+e stampa tutti i valori compresi, uno per colonna.
+
+#! /bin/bash
+LOWER=$1;
+UPPER=$2;
+for((i=LOWER; i<=UPPER;i++))
+do
+    echo $i >> out.txt;
+done
+
+** DUBBI
+find /etc -regex ’^/etc/.*/\.bash.*$’
+Domanda: a cosa serve l'ancora finale?
+Non matcha lo stesso anche senza?
+Altra domanda: se .* matcha un carattere qualunque infinite vote,
+a cosa serve fare /.*/ ? Non dovrebbe matcharli lo stesso i backslash?
+***  find /etc -regex ’^/etc/.*/\.bash.*$’
+Comando sulle slide che da problemi
+**** OUTPUT
+find: ‘/etc/cups/ssl’: Permission denied
+find: ‘/etc/polkit-1/localauthority’: Permission denied
+find: ‘/etc/ssl/private’: Permission denied
+*** Comando mio
+    Sul principio che il .* dovrebbe matchare tutto, allora uso il seguente comando:
+    find /etc -regex '.*\.bash.*'
+**** Output
+     /etc/skel/.bashrc
+     /etc/skel/.bash_logout
+     find: ‘/etc/cups/ssl’: Permission denied
+     /etc/bash.bashrc
+     find: ‘/etc/polkit-1/localauthority’: Permission denied
+     find: ‘/etc/ssl/private’: Permission denied
+
+*** ESERCIZIO
+Trovare nella cartella /home/matteo/train tutti i file che iniziano con a
+**** SOLUZIONE
+find /home/matteo/train -regex '/home/matteo/train/a.*'
+* AUTENTICAZIONE
+** GLOSSARIO
+*** Fattori di Autenticazione
+Informazioni che solo l'utente può conoscere, come una password.
+{conoscere, sapere, saper-fare}
+Autenticazione a due fattori
+*** Entropia
+logb2(A^N) dove A è l'alfabeto e N è la lunghezza della password.
+Ovviamente aumentando N è meglio.
+*** SHA 512
+$6$ --> Algoritmo usato per l'hashing. Viene applicato più volte.
+Dopo il primo dollaro, c'è una stringa hasshata che viene incollata alla password.
+--> aggiunta di un SALT
+** COMANDI
+*** Criptare in MD5
+    echo 'password123!' | md5sum
+    devo quotare forte se voglio inserire caratteri speciali.
+** ESERCIZI
+*** ES1
+Autenticatevi come studente2.
+Eseguite le operazioni seguenti:
+impostazione del numero di telefono di lavoro al valore
+12345678;
+cambio della password al valore strongpassword;
+cambio di shell a /bin/rbash.
+**** SOLUZIONE
+su - studente2
+chfn
+basta usare i comandi sulle slide senza opzioni.
+*** ES2
+Autenticatevi come studente2.
+Eseguite le operazioni seguenti:
+impostazione del campo “Altro” al valore Dirigente.
+**** SOLUZIONE
+Si può fare solo da utente root. 
+Su ubuntu--> sudo chfn -o "Dipendente" studente2
+Altrimenti si logga come root e si esegue il comando senza sudo.
+* AUTORIZZAZIONE
+** GRUPPI
+*** Principio del Minimo Privilegio
+Do a ogni utente in ogni istante il minimo
+privilegio per svolgere le sue task.
+*** addgroup
+serve a creare gruppi che potranno essere associati ad un utente come 
+gruppi secondari. Potranno diventare anche gruppi primari di un utente.
+** PERMESSI
+Da sapere cosìè la lettera prima dei permessi
+PCB = Blocco di controllo del processo.
+Per poter accedere a /dev/sda, andreoli dovrebbe appartenere
+al gruppo disk.
+Come faccio ad aggiungermi al gruppo disk? Vedi gestione dei gruppi.
+** GESTIONE DEI GRUPPI
+*** Delgroup
+    Cancella il gruppo dalla lista dei gruppi
+    Cancella il gruppo dall'elenco dei gruppi di ogni utente.
+*** groups
+Comando per visualizzare i gruppi di un utente
+
+sudo groups matteo --> stampa i gruppi a cui appartiene matteo.
+root non ha ragione di appartenere a diversi gruppi,
+se sei root l'algoritmo di matching per controllare i permessi
+non viene applicato.
+*** ESERCIZIO
+Si provi ad assegnare all'utente prova i seguenti gruppi
+di lavoro primario e secondari.
+Gruppo primario: root.
+Gruppi secondari: disk cdrom floppy audio.
+**** Soluzione
+si usano i comandi usermod -g e usermod -G con relativi argomenti.
+**** Trappola
+con -G si SOVRASCRIVE, cancella e riscrive, quindi non aggiunge il gruppo
+che viene dato in pasto al comando.
+
+*** Approfondimento
+Quando parte una sessione grafica, vengono creati diversi processi
+Il primo processo è Init, seguito da GDM che carica tutti i processi,
+GDM esegue da root, i vari processi hanno ID dello user che ha fatto
+il login.
+Quindi il database viene letto da GDM al login, e i permessi vengono 
+ereditati da padre in figlio. Per questo fino al prossimo login le mie
+modifiche non funzionano.
+**** newgrp
+In pratica cambia temporaneamente il gruppo primario --> newgrp disk setta 
+disk come gruppo primario.
+
+** GESTIONE DEI PERMESSI
+*** ESERCIZIO
+Create un file vuoto dal nome lista2.txt nella vostra
+home directory. Usando chmod con rappresentazione
+testuale dei permessi, impostate i permessi seguenti sul
+file:
+rwxr-xr-x
+Verificate la corretta applicazione dei permessi.
+**** SOLUZIONE
+touch lista2.txt
+ls -l per controllare i permessi già presenti
+chmod ugo+x /root/lista2.txt
+*** RAPPRESENTAZIONE OTTALE
+    il quarto bit è usato per settare i permessi speciali.
+*** ESERCIZIO
+Si supponga di voler assegnare al file di testo
+/home/studente/file.txt il seguente insieme di
+permessi: rw-rw-r--.
+Si costruisce il numero in base ottale.
+**** SOLUZIONE
+Usando i principi
+chmod 0664 /home/studente/file.txt
+*** ESERCIZIO
+Copiate il file /usr/bin/passwd nella vostra home
+directory. Usando chmod con rappresentazione ottale
+dei permessi, impostate i permessi seguenti sul file:
+rwsr-xr-x
+Verificate la corretta applicazione dei permessi.
+**** SOLUZIONE
+cp /etc/passwd /root/passwords.txt
+chmod 4755 /root/password.txt
+
+In tal modo, settando il primo bit a 4, setto il bit SETGID
+* FILESYSTEM
+** Glossario
+RAID= Array di dischi
+LVM = Prende un insieme di dischi partizionati su cui
+lui crea delle ulteriori partizioni.
+Cercare su wikipedia
+*** File sparso
+Se non voglio sprecare memoria, nelle zone di memoria
+in cui dovrebbero esserci molti 0, invece ci sono
+delle label "segnaposto.".
+Quindi per creare le VM sembra meglio non allocare tutto subito.
+Il problema è che la VM diventa più lenta, per questo non viene
+offerta come scelta primaria.
+** Approfondimento
+Proc e sys sono dei filesystem virtuali, vengono generati dinamicamente 
+dal sistema operativo.
+Virtual filesystem.
+*** udev
+demone che esegue degli script per montare in automatico ad esempio le chaivette,
+in base a degli eventi hardware che gli manda il sistema operativo.
+udev monta i filesystem virtuali al boot. Le informazioni necessarie sono contenute
+nel file /dev/fstab
+* PROCESSI
+*big fat warnings*
+Quando si parla di nucleo, si intende /kernel/.
+*** Time sharing
+Tecnica per eseguire più applicazioni su una singola unoità di calcolo.
+Quando un applicazione è ferma, il processore esegue le altre.
+*** PCB
+Process Control Block ---> struttura dati dell'astrazione del processo.
+Contiene informazioni sullo stato del processo e puntatori alle risorse che il
+processo usa. E' anche conosciuto come Process Descriptor.
+Domana sul problema della ridodanza: il PCB non contiene dei PUNTATORI a delle aree 
+di memoria che contengono le risorse che deve usare? Perchè si parla di problema di 
+RIDONDANZA?
+**** PID
+Campo contenuto nel descrittore, TID per i thread.
+E' un numero interno non negativo assegnato dal nucleo quanto viene 
+creato il processo. E' necessario per poter interagire col processo.
+
+*** Thread
+Sottoprocessi, ciascun thread esegue una funzione specifica.
+I thread di un processo condividono TUTTE le risorse.
+Ogni thread ha il proprio TCB (*thread control block*).
+Gli stack sono separati!
+Altrimenti ad esempio le funzioni chiamate scriverebbero tutti sullo
+stesso record di attivazione e sarebbe un bordello.
+L'ordine in cui vengono eseguiti i thread influisce sul risultato 
+finale!
+**** Approfondimento
+Su linux i thread sono processi, dipende solo da come vengono creati.
+GREEN THREAD --> consumano meno corrente, eseguono in maniera distaccata
+e non vanno ad intaccare il kernel. Si usano soltanto i processi , i
+thread sono essenzialmente delle funzioni.
+Problema: se un thread si blocca, si blocca tutto, perchè il processo
+si blocca per eseguire l'operazione richiesta(es. lettura/scrittura).
+Viene bloccato tutto il processo.
+Quindi i green thread sono utili quando non devo fare dell'IO ad esempio
+
+Nel modello spiegato a lezione invece, c'è Parallelizzazione, quindi
+si blocca solo il singolo thread. C'è più lavoro da parte del 
+sistema operativo, che deve assegnare ai processori i singoli thread.
+
+RICHIESTA DI IO SINCRONA --> devo finire la richiesta per iniziare
+a eseguire la seconda
+RICHIESTA DI IO ASCINCRONA --> duale della precedente.
+
+*** Isolamento dei processi
+Stack, dati, codice sono isolati da un processo all'altro.
+IN TEORIA: infatti il SO dovrebbe sprecare molta memoria.
+C'è molta ridondanza.In realtà il SO fa in modo da condividere
+tra i processi il codice uguale, ad esempio. Infatti l'area
+di codice NON è scrivibile, quindi possono condividerle senza problemi.
+Basta che queste risorse siano RO. Quando sono anche scrivibili
+non si può fare.
+
+*** Individuazione
+pidof per ottenere il PID di un processo.
+Molte distro usando systemd invece di init.
+**** Ubuntu: 
+Init di sistema --> init di utente1
+                --> init di utente2
+Posso assegnare performance differenziate ai diversi utenti.
+**** Gang scheduling o Group scheduling
+Lo scheduling viene fatto per gruppi, come in UBUNTU.
+Si possono assegnare diverse risorse ai singolo alberi.
+
+*** Creazione dei Processi
+**** FORKING
+Esercizio sulla gerarchia con bash:
+bash ogni volta viene ricaricata da disco!
+Quindi oltre a fare il fork viene anche eseguito il codice di bash.
+Nei webserver, il daemon(httpd) forka i figli che poi parlano con il client.
+Il processo muore quando termina la richiesta del client.
++ problema di inefficienz perchè il processi vengono killati e ricreati.
++ Soluzione: si mantengono aperti N thread (pool di thread / processi). Il
+  padre di volta in volta inoltra le richieste ai figli. Tecnica chiamata *PREFORK*
+*** Albero dei Processi
+**** Init
+fa in modo che i suoi figli di primo livello siano sempre quelli, per stabilità.
+Chi crea INIT?
++ POWER ON SELF TEST
+ Serve a garantire consistenza della macchina, effettua diversi controlli (slide).
+ Controllo RAM --> veniva fatto. Ora la RAM è troppo capiente. Prima era facilmente intercambiabile.
+ Inizializzazione dischi --> si cercava una periferica che fosse opportunamente configurata per fare il boot.
+ Se non veniva trovata, si faceva il boot da rete.
++ Bootloader
+ 1 stadio
+ I primi 446 byte del disco contiene del codice macchina. Questo codice è il bootloader.
+ Questo programma fa fare un jump al [?]
+
+ 2 stadio
+ Viene creato il menù di boot. Su windows viene fatto anche il chainloading. Si fa un salto aggiuntivo al 
+ bootloader di windows. Infatti il bootloader di windows non ama la presenza di altri bootloader.
+
+ 
+Il bootloader carica il Kernel. Significa prendere il filesystem della macchina e caricare il kernel dentro
+alla directory boot.
+vmlinuz
++ z perchè sono compressi
++ tutto ciò che è crakkato e distribuito illegalmente finisce con z.
+
+***** SPIEGAZIONE (cosa ho capito)
+Nel primo blocchetto solitamente c'è il codice macchina che avvia GRUB.
+Mi fa fare il salto al secondo blocco. Ora posso scegliere Linux o Windows come sistema operativo da avviare.
+Se seleziono linux nessun problema, viene caricato il kernel ecc.
+Se seleziono Windows, il bootloader (GRUB) mi fa saltare ad un altro blocco (terzo blocco) che contiene
+il bootloader di Windows, che si incazza se viene avviato da GRUB. In particolare, viene effettuato 
+un processo di virtualizzazione che fa pensare a windows di essere il bootloader principale.
+**** Inizializzazione Periferiche
+Linux deve avere i driver per supportare le periferiche di tutti i dispositivi.
+Il kernel dovrebbe essere tipo 100 mega, non adatto alle dimensioni dei kernel (10/15 mega).
+Quando il kernel parte, non monta subito la partizione di root, carica un altro file.
+Nella cartella boot, si trova il file initrd
+***** initrd
+Ramdisk init --> file compresso che viene scompattato. E' anche lui un filesystem di root. Contiene
+uno script di init, tutti i device driver delle periferiche delle macchine.
+Cosa fa la ramdisk: 
++  
++ caricare il driver della scheda e garantire l'attivazione
++ caricare il driver di rete e il firmware
++ mettere uno splashscreen per coprire il processo di boot.
+
+Al termine, il disco e la scheda video sono funizonanti.
+A questo punto la ramdisk viene scartata e viene montato il filesystem.
+Si esegue /sbin/init
+
+Questa suddivisione tra ramdisk e kernel avviene perchè è inutile montare
+sulla mia macchina i driver di tutte le macchine esistenti.
+Semplicemente i driver vengono letti, viene preso quello che serve, viene caricato.
+Fine, non carico tutto.
+***** Approfondimento sul kernel
+I driver delle "periferiche esterne" sono seperati, sono modulini caricabili con
+un comando. Questi modulini sono contenuti in /lib/modules caricabili con modprobe. 
+**** Visualizzare l'albero dei processi.
++ {} --> thread
++ [] --> processo.
+***** Desktop semantico(appr)
+Desktop che offre delle funzionalità di ricerca avanzate.
+Ogni file viene etichettato, per poi effettuare delle ricerche.

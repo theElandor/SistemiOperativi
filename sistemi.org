@@ -987,3 +987,60 @@ un comando. Questi modulini sono contenuti in /lib/modules caricabili con modpro
 Desktop che offre delle funzionalità di ricerca avanzate.
 Ogni file viene etichettato, per poi effettuare delle ricerche.
 
+**** Reparenting
+Inizialmente i processi orfani venivano assegnati all'unico processo
+init.
+*** Segnali
+**** SIGSEGV
+Segmentation Fault: un processo accede ad una cella di memoria
+non assegnata a quel processo.
+LA CPU in maniera SINCRONA invia una notifica al processo per
+killarlo.
+**** Signal handler
+E' tipo l'ActionListener.
+TERMINATE --> in realtà alla fine viene chiamata una exit.
+**** Core dump
+File binario che contiene lo stato della memoria dopo un crash.
+Il debugger lo legge e ricostruisce lo stato dell'applicazione
+Coredumpctl --> programma che aiuta a leggere i coredump.
+
+**** Sigterm
+Chiude tutti i descrittore e flussha i buffer facendo un uscita
+ordinata.
+***** Approfondimento
+Per uscire in modo pulito da un applicazione prima si manda
+un sigterm. L'handler viene gestito fino alla fine, poi si 
+manda anche un sigkill per sicurezza.
+**** Sigkill
+Il segnale non è gestibile dall'handler, quindi viene sempre
+fatto il terminate.
+Viene comunque fatto perchè il programmatore potrebbe sbagliarsi
+a scrivere il Listener di sigterm e il processo rimarebbe appeso.
+**** Sigint
+Ctrl-c, segnale che volendo può essere gestito da un handler.
+ad esempio se uso bc, se mando ctrl c, il programma non esce
+e da un segnale in output.
+**** Sigcont
+Con ctrl z stoppo l'eseceuzione, con fd faccio ripartire il processo.
+Vengono mostrati anche ctrlq e ctrls
+**** Sigquit
+ctrl \ --> viene gerenrato un coredump.
+I file coredump vengono salvati o nella dir corrente o un una
+specifica directory(con systemd)
+
+*** Pkill
+pkill è un alias di pgrep. In UNIX si costruisce un comando
+bene, poi altri comandi che gli assomigliano derivano da lui.
+**** ESERCIZIO
+Eseguite un emulatore di terminale.
+Leggete la pagina di manuale di pkill e individuate un
+modo per terminare l’istanza più recente del processo
+bash.
+***** SOLUZIONE
+Per motivi di sicurezza bash ignora il segnale terminate dei
+suoi figli,quindi non posso autochiuderla con il segnale term.
+Se uso kill, il processo non usa l'handler, quindi l'ultima
+bash muore.
+*** Pipe
+Broken Pipe --> qualcuno ha chiusto STDIN o STODUT
+quindi non ha senso che gli altri processi continuino

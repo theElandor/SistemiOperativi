@@ -851,12 +851,12 @@ nel file /dev/fstab
 * PROCESSI
 *big fat warnings*
 Quando si parla di nucleo, si intende /kernel/.
-*** Time sharing
+** Time sharing
 Tecnica per eseguire più applicazioni su una singola unoità di calcolo.
 Quando un applicazione è ferma, il processore esegue le altre.
 La tecnica del time sharing è nata inizalmente per gestire dei sistemi
 multiutente
-*** PCB
+** PCB
 Process Control Block ---> struttura dati dell'astrazione del processo.
 Contiene informazioni sullo stato del processo e puntatori alle risorse che il
 processo usa. E' anche conosciuto come Process Descriptor.
@@ -867,7 +867,7 @@ RIDONDANZA?
 Campo contenuto nel descrittore, TID per i thread.
 E' un numero interno non negativo assegnato dal nucleo quanto viene 
 creato il processo. E' necessario per poter interagire col processo.
-*** Thread
+** Thread
 Sottoprocessi, ciascun thread esegue una funzione specifica.
 I thread di un processo condividono TUTTE le risorse.
 Ogni thread ha il proprio TCB (*thread control block*).
@@ -895,7 +895,7 @@ RICHIESTA DI IO SINCRONA --> devo finire la richiesta per iniziare
 a eseguire la seconda
 RICHIESTA DI IO ASCINCRONA --> duale della precedente.
 
-*** Isolamento dei processi
+** Isolamento dei processi
 Stack, dati, codice sono isolati da un processo all'altro.
 IN TEORIA: infatti il SO dovrebbe sprecare molta memoria.
 C'è molta ridondanza.In realtà il SO fa in modo da condividere
@@ -903,7 +903,7 @@ tra i processi il codice uguale, ad esempio. Infatti l'area
 di codice NON è scrivibile, quindi possono condividerle senza problemi.
 Basta che queste risorse siano RO. Quando sono anche scrivibili
 non si può fare.
-*** Individuazione
+** Individuazione
 pidof per ottenere il PID di un processo.
 Molte distro usando systemd invece di init.
 **** Ubuntu: 
@@ -913,7 +913,7 @@ Posso assegnare performance differenziate ai diversi utenti.
 **** Gang scheduling o Group scheduling
 Lo scheduling viene fatto per gruppi, come in UBUNTU.
 Si possono assegnare diverse risorse ai singoli alberi.
-*** Creazione dei Processi
+** Creazione dei Processi
 **** FORKING e PREFORKING
 Esercizio sulla gerarchia con bash:
 bash ogni volta viene ricaricata da disco!
@@ -923,7 +923,7 @@ Il processo muore quando termina la richiesta del client.
 + problema di inefficienz perchè il processi vengono killati e ricreati.
 + Soluzione: si mantengono aperti N thread (pool di thread / processi). Il
   padre di volta in volta inoltra le richieste ai figli. Tecnica chiamata *PREFORK*
-*** Albero dei Processi
+** Albero dei Processi
 **** Init
 fa in modo che i suoi figli di primo livello siano sempre quelli, per stabilità.
 Chi crea INIT?
@@ -990,7 +990,7 @@ Ogni file viene etichettato, per poi effettuare delle ricerche.
 **** Reparenting
 Inizialmente i processi orfani venivano assegnati all'unico processo
 init.
-*** Segnali
+** Segnali
 **** SIGSEGV
 Segmentation Fault: un processo accede ad una cella di memoria
 non assegnata a quel processo.
@@ -1028,7 +1028,7 @@ ctrl \ --> viene gerenrato un coredump.
 I file coredump vengono salvati o nella dir corrente o un una
 specifica directory(con systemd)
 
-*** Pkill
+** Pkill
 pkill è un alias di pgrep. In UNIX si costruisce un comando
 bene, poi altri comandi che gli assomigliano derivano da lui.
 **** ESERCIZIO
@@ -1041,6 +1041,54 @@ Per motivi di sicurezza bash ignora il segnale terminate dei
 suoi figli,quindi non posso autochiuderla con il segnale term.
 Se uso kill, il processo non usa l'handler, quindi l'ultima
 bash muore.
-*** Pipe
+** Pipe
 Broken Pipe --> qualcuno ha chiusto STDIN o STODUT
 quindi non ha senso che gli altri processi continuino
+**** MPV
+ha la capacità di leggere blocchi di byte e riprodurli.
+Non ho tutto il file subito, viene letto a pezzi, riproduzione
+in diretta.
+A mpv serve un file, quindi si fa uso del file speciale.
+Il contenuto del file audio scaricato non viene scritto su disco, 
+ma su un buffer in memoria. Quesot buffer è grande 64 byte.
+La pipe si blocca se non c'è un consumer.
+**** ESERCIZIO
+Visualizzate i trenta file più grandi nell’intero file system.
+Usate le named pipe per la comunicazione tra processi.
+Spiegate il blocco dei vari processi coinvolti.
+***** SOLUZIONE
+Quando eseguo sort redirezionando l'output su buffer2, la pipe 
+si blocca perchè il sistema operativo capisce che da buffer2 non
+sta leggendo nulla. Quindi non ha nemmeno senso scrivere su buffer2.
+Il blocco potrebbe anche accadere quando sort prova a scrivere su
+buffer2, bisognerebbe guardare le chiamate di sistema di sort.
+In realtà, analizzando le chiamate di sistema con strace, si scopre
+che non vengono stampate le chiamate di sistema di sort. Quindi
+in realtà è bash che blocca la pipe se non vede un consumer su 
+buffer2.
+
+Se eseguo find <opzioni varie> | tee buffer1 bash non blocca find,
+perchè c'è tee in ascolto. Quindi viene stampato tutto l'ouput di find.
+
+** Job Control
+Modo efficiente di spostare una cartella compattandola.
+#+BEGIN_SRC 
+(cd /src/dir && tar cf - .) | ( cd /dst/dir && tar xf -)
+#+END_SRC
+I processi della pipeline eseguono in maniera concorrente,
+anche se in teoria dipende dal tipo di comando.
+Se questi comandi leggono a blocchi, allora possono
+essere eseguiti concorrentemente.
+*** SESSIONI
+Inizialmente una sessione ha un solo gruppo di processi.
+Man mano ne vengono creati altri.
+SID --> PID del processo Session Leader.
+Se in una sessione ci sono n gruppi di processi, n-1
+sono lanciati in background, non possono occupare il
+terminale.
+Mandare i processi in background serve essenzialmente
+quando non ho a disposizione diversi terminali.
+Non è raccomandato eseguire in background comandi interattivi,
+perchè questi processi non possono leggere da terminale.
+Quindi dovrei portarli in foreground per poter leggere l'Input 
+da terminale.

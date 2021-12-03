@@ -1,0 +1,3209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-12-03 ven 09:38 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Appunti Sistemi Operativi</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Matteo Eros Lugli" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Appunti Sistemi Operativi</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgfba3fb4">1. INFO</a></li>
+<li><a href="#org5c1f91f">2. REGEX IN EMACS</a>
+<ul>
+<li><a href="#orgeb7e0c7">2.1. LINE BOUNDRIES</a></li>
+<li><a href="#org7ded88a">2.2. RANGES</a></li>
+<li><a href="#orgb76ec14">2.3. POSTFIX OPERATORS</a></li>
+<li><a href="#org6b44c67">2.4. GROUPED MATCHES</a></li>
+<li><a href="#orgb0cfb35">2.5. GREEDY MATCHES</a>
+<ul>
+<li><a href="#orged7a310">2.5.1. ESEMPIO</a></li>
+</ul>
+</li>
+<li><a href="#org0182f69">2.6. MULTIPLE GROUPS</a>
+<ul>
+<li><a href="#org92cb648">2.6.1. ESEMPIO</a></li>
+</ul>
+</li>
+<li><a href="#org430321c">2.7. EXCLUDE SETS</a>
+<ul>
+<li><a href="#orgd0768fd">2.7.1. ESEMPIO</a></li>
+</ul>
+</li>
+<li><a href="#org7683b35">2.8. ESERCIZI</a>
+<ul>
+<li><a href="#org05f0da7">2.8.1. Matchare tutti i file che iniziano per 'a'</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orge382271">3. DOCUMENTAZIONE</a>
+<ul>
+<li><a href="#orgc085452">3.1. COMANDI UTILI</a></li>
+<li><a href="#orgb616f13">3.2. ESERCIZI</a>
+<ul>
+<li><a href="#orgfe4b7f1">3.2.1. ES1</a></li>
+<li><a href="#org7b9c4c3">3.2.2. ES2</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgfbccc62">4. FILE</a>
+<ul>
+<li><a href="#orgfdb6403">4.1. ESERCIZIARIO</a>
+<ul>
+<li><a href="#org4ab5979">4.1.1. ES CUT</a></li>
+<li><a href="#orgbdf8927">4.1.2. ES SORT</a></li>
+<li><a href="#org967e39e">4.1.3. ES SORT</a></li>
+<li><a href="#orge50d48c">4.1.4. ES FIND e STDERR</a></li>
+<li><a href="#orgddcdd1e">4.1.5. ES FIND</a></li>
+<li><a href="#org91ec60f">4.1.6. ES REGEX EMACS</a></li>
+<li><a href="#org854edd0">4.1.7. ES FIND</a></li>
+<li><a href="#orgc0c856f">4.1.8. ES FIND</a></li>
+<li><a href="#orga0591f9">4.1.9. ES FIND PRINTF</a></li>
+<li><a href="#orgbef730e">4.1.10. ES FIND</a></li>
+<li><a href="#org49a734e">4.1.11. ES FIND</a></li>
+<li><a href="#org16c7339">4.1.12. ES FIND REGEX E -EXEC</a></li>
+<li><a href="#orgca79f0b">4.1.13. ES GREP</a></li>
+<li><a href="#org6ba0881">4.1.14. ES GREP</a></li>
+<li><a href="#orgdb432b8">4.1.15. ESERCIZIO COLLEGAMENTI</a></li>
+<li><a href="#org7001314">4.1.16. ESERCIZIO COLLEGAMENTI SIMBOLICI</a></li>
+</ul>
+</li>
+<li><a href="#orgf7c28e1">4.2. COMANDI UTILI</a></li>
+<li><a href="#orgd506c49">4.3. FILESYSTEM</a>
+<ul>
+<li><a href="#orge9d905a">4.3.1. /bin</a></li>
+<li><a href="#orgc336e82">4.3.2. /sbin</a></li>
+<li><a href="#orga1976d7">4.3.3. /boot</a></li>
+<li><a href="#org78b10a5">4.3.4. /dev</a></li>
+<li><a href="#orga0c7a9d">4.3.5. /etc</a></li>
+<li><a href="#orgf57d520">4.3.6. /home</a></li>
+<li><a href="#orgb75ded8">4.3.7. /lib</a></li>
+<li><a href="#org87b784b">4.3.8. /mnt</a></li>
+<li><a href="#org5a80c89">4.3.9. /opt</a></li>
+<li><a href="#org3916926">4.3.10. /proc</a></li>
+<li><a href="#orgf6f3f56">4.3.11. /run</a></li>
+<li><a href="#org69a2cc8">4.3.12. /tmp</a></li>
+<li><a href="#org06f22ce">4.3.13. /usr</a></li>
+<li><a href="#org7595cdc">4.3.14. /var</a></li>
+</ul>
+</li>
+<li><a href="#orgdfe04cb">4.4. ESERCIZI</a>
+<ul>
+<li><a href="#org9ad6af2">4.4.1. ES1</a></li>
+<li><a href="#org695f6ca">4.4.2. ES2</a></li>
+</ul>
+</li>
+<li><a href="#orgf5fdcf9">4.5. METADATI</a>
+<ul>
+<li><a href="#org63cbfe4">4.5.1. INODE</a></li>
+<li><a href="#org3738f3a">4.5.2. COLL</a></li>
+<li><a href="#org00fbd82">4.5.3. ACCESSO</a></li>
+<li><a href="#org7d49e47">4.5.4. UID</a></li>
+<li><a href="#org65a2dc8">4.5.5. TIMESTAMP</a></li>
+</ul>
+</li>
+<li><a href="#org707d279">4.6. APP DI DEFAULT</a>
+<ul>
+<li><a href="#orgf568b54">4.6.1. ASSOCIAZIONE DIRETTA</a></li>
+</ul>
+</li>
+<li><a href="#orgba0143e">4.7. LISTA DI ESTENSIONI</a></li>
+<li><a href="#orgc900337">4.8. MECCANISMO DEI MAGIC FILE</a></li>
+<li><a href="#org839897c">4.9. MANIPOLAZIONE</a>
+<ul>
+<li><a href="#orgb0ad65d">4.9.1. ESERCIZIO</a></li>
+<li><a href="#org4457ed0">4.9.2. ESERCIZIO</a></li>
+<li><a href="#org60f4630">4.9.3. ESERCIZIO Multiple touch</a></li>
+</ul>
+</li>
+<li><a href="#orga028dc0">4.10. VISUALIZZAZIONE DI UN FILE</a>
+<ul>
+<li><a href="#orgd95d355">4.10.1. CODIFICA DEI CARATTERI</a></li>
+<li><a href="#org674c25c">4.10.2. DIFFERENZA TRA LITTLE-ENDIAN E BIG-ENDIAN</a></li>
+<li><a href="#org5380056">4.10.3. CARATTERI NON STAMPABILI</a></li>
+</ul>
+</li>
+<li><a href="#org82fb7c2">4.11. INDIVIDUAZIONE E RICERCA DI UN FILE</a></li>
+<li><a href="#org4e05746">4.12. COLLEGAMENTI</a>
+<ul>
+<li><a href="#orge5ba876">4.12.1. COLLEGAMENTI FISICI</a></li>
+<li><a href="#org9dcf407">4.12.2. COLLEGAMENTI SIMBOLICI</a></li>
+</ul>
+</li>
+<li><a href="#orga2d73b1">4.13. tar (ARCHIVI)</a>
+<ul>
+<li><a href="#orge548754">4.13.1. CREARE UN ARCHIVIO</a></li>
+<li><a href="#orga48643a">4.13.2. VISUALIZZARE UN ARCHIVIO</a></li>
+<li><a href="#orgdfc2777">4.13.3. ESTRARRE UN ARCHIVIO</a></li>
+<li><a href="#org2ba3f0d">4.13.4. MODALITA VERBOSA</a></li>
+<li><a href="#org712fce1">4.13.5. SPECIFICARE UNA CARTELLA</a></li>
+<li><a href="#org4bde65a">4.13.6. DIASPORA UNIX</a></li>
+<li><a href="#orgfa4e953">4.13.7. COMPRESSIONE</a></li>
+</ul>
+</li>
+<li><a href="#orgcc72009">4.14. 7Z (ARCHIVI)</a>
+<ul>
+<li><a href="#org8e812f9">4.14.1. CREARE UN ARCHIVIO</a></li>
+<li><a href="#org53ef5e2">4.14.2. VISIONE ARCHIVIO</a></li>
+<li><a href="#org7ad2583">4.14.3. ESTRAZIONE ARCHIVIO</a></li>
+<li><a href="#orgbc6a70e">4.14.4. CIFRARE UN ARCHIVIO</a></li>
+</ul>
+</li>
+<li><a href="#orgafec02c">4.15. OPERATORI UNARI</a>
+<ul>
+<li><a href="#org8515339">4.15.1. ESEMPIO</a></li>
+</ul>
+</li>
+<li><a href="#org755024d">4.16. CANALI DI I/O</a>
+<ul>
+<li><a href="#org570f3ea">4.16.1. DESCRITTORE DI FILE</a></li>
+<li><a href="#org89f8b26">4.16.2. OPERATORI DI REDIREZIONE</a></li>
+</ul>
+</li>
+<li><a href="#orgc079f7c">4.17. PIPE</a>
+<ul>
+<li><a href="#orgab5aa1c">4.17.1. ESEMPIO</a></li>
+<li><a href="#org18b0150">4.17.2. FILTRI UNIX</a></li>
+<li><a href="#org0397b56">4.17.3. ESERCIZIO</a></li>
+</ul>
+</li>
+<li><a href="#orgb44499f">4.18. OPERATORI DI ESPANSIONE</a>
+<ul>
+<li><a href="#org89148a2">4.18.1. TRAPPOLA</a></li>
+<li><a href="#org594b680">4.18.2. ESEMPIO</a></li>
+<li><a href="#org31b1854">4.18.3. ESEMPIO FIND REGEX</a></li>
+<li><a href="#org0d51980">4.18.4. ESERCIZIO FINALE</a></li>
+</ul>
+</li>
+<li><a href="#org49c2552">4.19. SCRIPTS</a>
+<ul>
+<li><a href="#org0b7524c">4.19.1. ES1</a></li>
+</ul>
+</li>
+<li><a href="#org3f25397">4.20. DUBBI</a>
+<ul>
+<li><a href="#orgb1af6d0">4.20.1. find <i>etc -regex ’^/etc</i>.*/\.bash.*$’</a></li>
+<li><a href="#org3fc41e1">4.20.2. Comando mio</a></li>
+<li><a href="#org965280f">4.20.3. ESERCIZIO</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org57ec67e">5. AUTENTICAZIONE</a>
+<ul>
+<li><a href="#org528983c">5.1. GLOSSARIO</a>
+<ul>
+<li><a href="#orgcd59d30">5.1.1. Fattori di Autenticazione</a></li>
+<li><a href="#org8748734">5.1.2. Entropia</a></li>
+<li><a href="#org3cd90a9">5.1.3. SHA 512</a></li>
+</ul>
+</li>
+<li><a href="#orgb1d0bb9">5.2. COMANDI</a>
+<ul>
+<li><a href="#org3c01f17">5.2.1. Criptare in MD5</a></li>
+</ul>
+</li>
+<li><a href="#orgc6ff863">5.3. ESERCIZI</a>
+<ul>
+<li><a href="#org6b59aae">5.3.1. ES1</a></li>
+<li><a href="#orgb1b40a9">5.3.2. ES2</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org0628238">6. AUTORIZZAZIONE</a>
+<ul>
+<li><a href="#orgb25cabb">6.1. GRUPPI</a>
+<ul>
+<li><a href="#org6dab73b">6.1.1. Principio del Minimo Privilegio</a></li>
+<li><a href="#org3769908">6.1.2. addgroup</a></li>
+</ul>
+</li>
+<li><a href="#org4aad5e2">6.2. PERMESSI</a></li>
+<li><a href="#org9794811">6.3. GESTIONE DEI GRUPPI</a>
+<ul>
+<li><a href="#org686886b">6.3.1. Delgroup</a></li>
+<li><a href="#org192595a">6.3.2. groups</a></li>
+<li><a href="#orge13c2eb">6.3.3. ESERCIZIO</a></li>
+<li><a href="#org9cf8bd1">6.3.4. Approfondimento</a></li>
+</ul>
+</li>
+<li><a href="#org042664d">6.4. GESTIONE DEI PERMESSI</a>
+<ul>
+<li><a href="#orgc6bf190">6.4.1. ESERCIZIO</a></li>
+<li><a href="#orgcad88c1">6.4.2. RAPPRESENTAZIONE OTTALE</a></li>
+<li><a href="#org7dbf440">6.4.3. ESERCIZIO</a></li>
+<li><a href="#orgce36ea7">6.4.4. ESERCIZIO</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org4287bb3">7. FILESYSTEM</a>
+<ul>
+<li><a href="#orge1eb159">7.1. Glossario</a>
+<ul>
+<li><a href="#org5a25db9">7.1.1. File sparso</a></li>
+</ul>
+</li>
+<li><a href="#org0125a2e">7.2. Approfondimento</a>
+<ul>
+<li><a href="#org4f90a85">7.2.1. udev</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org779861e">8. PROCESSI</a>
+<ul>
+<li><a href="#org2776e04">8.1. Time sharing</a></li>
+<li><a href="#orga605f54">8.2. PCB</a></li>
+<li><a href="#orgaa397a0">8.3. Thread</a></li>
+<li><a href="#org854ae68">8.4. Isolamento dei processi</a></li>
+<li><a href="#orgc057e4d">8.5. Individuazione</a></li>
+<li><a href="#org47cff36">8.6. Creazione dei Processi</a></li>
+<li><a href="#orgd3bbf9e">8.7. Albero dei Processi</a></li>
+<li><a href="#org8fc244c">8.8. Segnali</a></li>
+<li><a href="#org67602e0">8.9. Pkill</a></li>
+<li><a href="#org4ea46dd">8.10. Pipe</a></li>
+<li><a href="#org646272a">8.11. Job Control</a>
+<ul>
+<li><a href="#org6f47911">8.11.1. SESSIONI</a></li>
+<li><a href="#org90bfb3a">8.11.2. Job corrente</a></li>
+<li><a href="#org7d150a2">8.11.3. Sleep</a></li>
+<li><a href="#orgd4fd914">8.11.4. -</a></li>
+<li><a href="#orgaa3369a">8.11.5. fg</a></li>
+<li><a href="#orgd4d66ba">8.11.6. bg</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgfba3fb4" class="outline-2">
+<h2 id="orgfba3fb4"><span class="section-number-2">1</span> INFO</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Da individuazione di file in avanti sono riportate solo le soluzioni degli esercizi
+e approfondimenti non riportati sulle slide.
+Ricorda, questi sono solo approfondimenti / ragionamenti. Non sono
+sostituitivi alle slide.
+E' anche necessario integrare questi appunti con il file note.org, sempre
+nella cartella "Sistemi operativi"
+</p>
+
+<p>
+E' possibile trovare questo foglio  di appunti al seguente link:
+<a href="https://github.com/theElandor/SistemiOperativi">https://github.com/theElandor/SistemiOperativi</a>
+</p>
+</div>
+</div>
+<div id="outline-container-org5c1f91f" class="outline-2">
+<h2 id="org5c1f91f"><span class="section-number-2">2</span> REGEX IN EMACS</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Ctrl alt s per entrare in Regex Mode
+</p>
+</div>
+<div id="outline-container-orgeb7e0c7" class="outline-3">
+<h3 id="orgeb7e0c7"><span class="section-number-3">2.1</span> LINE BOUNDRIES</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+^ = inizio riga
+$ = fine riga
+. = matcha tutte le parole che contengono quello che segue 
+</p>
+</div>
+</div>
+<div id="outline-container-org7ded88a" class="outline-3">
+<h3 id="org7ded88a"><span class="section-number-3">2.2</span> RANGES</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+[a-z] = dalla a alla z
+[A-Za-z] = dalla a alla Z ma anche uppercase
+[abcd1234] = lettere e numeri all'interno della lista 
+</p>
+</div>
+</div>
+<div id="outline-container-orgb76ec14" class="outline-3">
+<h3 id="orgb76ec14"><span class="section-number-3">2.3</span> POSTFIX OPERATORS</h3>
+<div class="outline-text-3" id="text-2-3">
+<ul class="org-ul">
+<li>"?" = matcha il termine precedente 0 o una volta.</li>
+<li>"+" = matcha il termine precedente una o più volte.</li>
+<li>"*" = matcha il termine precedente zero o più volte possibile.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org6b44c67" class="outline-3">
+<h3 id="org6b44c67"><span class="section-number-3">2.4</span> GROUPED MATCHES</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+\(GROUP\)
+qadsasdas
+</p>
+</div>
+</div>
+<div id="outline-container-orgb0cfb35" class="outline-3">
+<h3 id="orgb0cfb35"><span class="section-number-3">2.5</span> GREEDY MATCHES</h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+Di default emacs matcha il massimo che può.
+Aggiungendo il carattere ? matcha il pattern più corto
+</p>
+</div>
+<div id="outline-container-orged7a310" class="outline-4">
+<h4 id="orged7a310"><span class="section-number-4">2.5.1</span> ESEMPIO</h4>
+<div class="outline-text-4" id="text-2-5-1">
+<p>
+Hello wolrd
+Hwllo world world
+Hello world world world
+</p>
+
+<p>
+Hello.*world = matcha tutto, anche l'ultimo
+Hello.*?world = matcha Hello wolrd in tutti e tre, 
+perchè fa riferimento solo alla prima parte 
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org0182f69" class="outline-3">
+<h3 id="org0182f69"><span class="section-number-3">2.6</span> MULTIPLE GROUPS</h3>
+<div class="outline-text-3" id="text-2-6">
+<p>
+Ovviamente si possono inserire più gruppi in un match.
+</p>
+</div>
+<div id="outline-container-org92cb648" class="outline-4">
+<h4 id="org92cb648"><span class="section-number-4">2.6.1</span> ESEMPIO</h4>
+<div class="outline-text-4" id="text-2-6-1">
+<p>
+\([]\)\([]\) basta concatenarli uno dopo l'altro
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org430321c" class="outline-3">
+<h3 id="org430321c"><span class="section-number-3">2.7</span> EXCLUDE SETS</h3>
+<div class="outline-text-3" id="text-2-7">
+<p>
+per escludere un set si usa la seguente
+sintassi: [<sup>SET</sup>]
+</p>
+</div>
+<div id="outline-container-orgd0768fd" class="outline-4">
+<h4 id="orgd0768fd"><span class="section-number-4">2.7.1</span> ESEMPIO</h4>
+<div class="outline-text-4" id="text-2-7-1">
+<p>
+^[<sup>A</sup>-Z] = matcha tute le righe che
+non iniziano con una maiuscola.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org7683b35" class="outline-3">
+<h3 id="org7683b35"><span class="section-number-3">2.8</span> ESERCIZI</h3>
+<div class="outline-text-3" id="text-2-8">
+</div>
+<div id="outline-container-org05f0da7" class="outline-4">
+<h4 id="org05f0da7"><span class="section-number-4">2.8.1</span> Matchare tutti i file che iniziano per 'a'</h4>
+<div class="outline-text-4" id="text-2-8-1">
+</div>
+<ol class="org-ol">
+<li><a id="org5494f63"></a>SOLUZIONE<br /></li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge382271" class="outline-2">
+<h2 id="orge382271"><span class="section-number-2">3</span> DOCUMENTAZIONE</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-orgc085452" class="outline-3">
+<h3 id="orgc085452"><span class="section-number-3">3.1</span> COMANDI UTILI</h3>
+<div class="outline-text-3" id="text-3-1">
+<div class="org-src-container">
+<pre class="src src-shell">man bash-builtins
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>apropos list files, cerca tutto quello che ha a che fare
+con list files, cercando tra le parole chiave</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-shell">-apropos -r &#8217;.*create.*process&#8217;
+</pre>
+</div>
+
+<p>
+simile al comando precedente
+</p>
+</div>
+</div>
+<div id="outline-container-orgb616f13" class="outline-3">
+<h3 id="orgb616f13"><span class="section-number-3">3.2</span> ESERCIZI</h3>
+<div class="outline-text-3" id="text-3-2">
+</div>
+<div id="outline-container-orgfe4b7f1" class="outline-4">
+<h4 id="orgfe4b7f1"><span class="section-number-4">3.2.1</span> ES1</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<ul class="org-ul">
+<li>Trovare la documentazione relativa allo shell 
+builtin che permette di attendere la terminazione di un 
+applicazione</li>
+</ul>
+</div>
+<ol class="org-ol">
+<li><a id="org2e2b270"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-3-2-1-1">
+<p>
+man bash-builtins
+/^\s+wait\s+\[
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org7b9c4c3" class="outline-4">
+<h4 id="org7b9c4c3"><span class="section-number-4">3.2.2</span> ES2</h4>
+<div class="outline-text-4" id="text-3-2-2">
+<p>
+-Cercare un comando che possa eseguire il checksum
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org735175d"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-3-2-2-1">
+<p>
+apropos checksum
+</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-orgfbccc62" class="outline-2">
+<h2 id="orgfbccc62"><span class="section-number-2">4</span> FILE</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-orgfdb6403" class="outline-3">
+<h3 id="orgfdb6403"><span class="section-number-3">4.1</span> ESERCIZIARIO</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+Esercizi generici non catalogati.
+</p>
+</div>
+<div id="outline-container-org4ab5979" class="outline-4">
+<h4 id="org4ab5979"><span class="section-number-4">4.1.1</span> ES CUT</h4>
+<div class="outline-text-4" id="text-4-1-1">
+<p>
+Creare un output che abbia 3 colonne: 
+</p>
+<ol class="org-ol">
+<li>sequenza di numeri interi a partire da 1</li>
+<li>Gli username esistenti nel sistema</li>
+<li>le shell assegnate agli username</li>
+</ol>
+</div>
+<ol class="org-ol">
+<li><a id="orgf474ce3"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-4-1-1-1">
+<p>
+cat -n /etc/passwd per capire quante righe ho
+oppure si può usare wc -l /etc/passwd
+(per scrivere i 40 numeri basta usare uno script shell)
+cut -f1 -d: /etc/passwd &gt; users.txt per ottenere gli username
+stessa cosa per ottenere il settimo campo.
+con cat file.txt | column -t allinea la terza colonna
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgbdf8927" class="outline-4">
+<h4 id="orgbdf8927"><span class="section-number-4">4.1.2</span> ES SORT</h4>
+<div class="outline-text-4" id="text-4-1-2">
+<p>
+Ordina alfabeticamente secondo la codifica ASCII
+man sort per maggiori informazioni
+voglio ordinare inventario secondo ID
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org8fe9613"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-4-1-2-1">
+<p>
+sort -k 1.4,1.6n inventario.txt
+si può fare anche con sort -k 1.4n, in questo caso va dall' 1.4 fino a fine riga
+In pratica ordina numericamente dal quarto carattere.
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org967e39e" class="outline-4">
+<h4 id="org967e39e"><span class="section-number-4">4.1.3</span> ES SORT</h4>
+<div class="outline-text-4" id="text-4-1-3">
+<p>
+ORdinare /etc/passwd per 
+ordinamento numerico crescente,
+quarto campo, 
+separatore :
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org11d6a3c"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-4-1-3-1">
+<p>
+sort -n -k 4 -t":" /etc/passwd
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orge50d48c" class="outline-4">
+<h4 id="orge50d48c"><span class="section-number-4">4.1.4</span> ES FIND e STDERR</h4>
+<div class="outline-text-4" id="text-4-1-4">
+<p>
+individuare tutti i file .log del sistema.
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org5ef1f96"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-4-1-4-1">
+<p>
+find / -name *.log 2&gt; /dev/null
+DESCRITTORI DI FILE
+0&#x2013;&gt; STDIN
+1&#x2013;&gt; STDOUT
+2&#x2013;&gt; STDERR
+il comando prende il secondo canale e lo butta in /dev/null
+usando soltanto il &gt; verrebbe redirectato il canale 1, ossia l'output.
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgddcdd1e" class="outline-4">
+<h4 id="orgddcdd1e"><span class="section-number-4">4.1.5</span> ES FIND</h4>
+<div class="outline-text-4" id="text-4-1-5">
+<p>
+Voglio trovare tutti i file che iniziano con .bash in /etc
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org8e3c62c"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-4-1-5-1">
+<p>
+find <i>etc -regex ^/etc</i>.*/\.bash.*$ o qualcosa del genere, guardare le slide.
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org91ec60f" class="outline-4">
+<h4 id="org91ec60f"><span class="section-number-4">4.1.6</span> ES REGEX EMACS</h4>
+<div class="outline-text-4" id="text-4-1-6">
+<p>
+Trovare il primo carattere 
+/w
+Trovare tutte le righe che iniziano con nota o con per
+Approfondire l'argomento delle regex con emacs
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org8f67462"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-4-1-6-1">
+<p>
+^\(C-c|Per\)
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org854edd0" class="outline-4">
+<h4 id="org854edd0"><span class="section-number-4">4.1.7</span> ES FIND</h4>
+<div class="outline-text-4" id="text-4-1-7">
+<p>
+Trovare tutti i file html nella macchina.
+.html .htm .HTML .HTM
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="orge5e9c10"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-4-1-7-1">
+<p>
+find . -iregex '^.*\.htm.*?$' 2&gt;/dev/null
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgc0c856f" class="outline-4">
+<h4 id="orgc0c856f"><span class="section-number-4">4.1.8</span> ES FIND</h4>
+<div class="outline-text-4" id="text-4-1-8">
+<p>
+Cercare tutti i file più grandi di 1M nel sistema
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="orgf886788"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-4-1-8-1">
+<p>
+find / -size +1M 2&gt;/dev/nul
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orga0591f9" class="outline-4">
+<h4 id="orga0591f9"><span class="section-number-4">4.1.9</span> ES FIND PRINTF</h4>
+<div class="outline-text-4" id="text-4-1-9">
+<p>
+Produrre un elenco di tutti i file di sistema
+con relativa dimensione
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org519ef14"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-4-1-9-1">
+<p>
+find / -printf "%p %s\n"
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgbef730e" class="outline-4">
+<h4 id="orgbef730e"><span class="section-number-4">4.1.10</span> ES FIND</h4>
+<div class="outline-text-4" id="text-4-1-10">
+<p>
+si vuole stampare il tipo di file di ogni file all'intero della
+cartella /etc, usando il comando file e l'opzione -exec
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="orgaffaf91"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-4-1-10-1">
+<p>
+find /etc -name "*.conf" -exec file "{}" \;
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org49a734e" class="outline-4">
+<h4 id="org49a734e"><span class="section-number-4">4.1.11</span> ES FIND</h4>
+<div class="outline-text-4" id="text-4-1-11">
+<p>
+Trovare tutti i file .conf del sistema, stampando il tipo di file.
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org8464131"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-4-1-11-1">
+<p>
+find /etc -name "*.conf" -exec file '{}' \; 
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org16c7339" class="outline-4">
+<h4 id="org16c7339"><span class="section-number-4">4.1.12</span> ES FIND REGEX E -EXEC</h4>
+<div class="outline-text-4" id="text-4-1-12">
+<p>
+Cancellare tutti i file che terminano con .html o .txt
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org588a713"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-4-1-12-1">
+<p>
+Utilizzo due gruppi in or che selezionano tutti i file
+che terminano con html o con txt.
+find -regex "\(.*\.html\)\\|\(.*\.txt\)"
+Soluzione del prof:
+find -regex '^.*\.\(bak\|~\)$' poi bisogna aggiungere la rimozione
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgca79f0b" class="outline-4">
+<h4 id="orgca79f0b"><span class="section-number-4">4.1.13</span> ES GREP</h4>
+<div class="outline-text-4" id="text-4-1-13">
+<p>
+    Si chiede di trovare ed evidenziare in rosso tutti gli indirizzi
+Ipv4 contenuti nel file /etc/hosts
+si chiede inoltre di stampare il numero di riga per ogni match
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="orgc016088"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-4-1-13-1">
+<p>
+Guardare sulle slide, su orgmode viene interpretato come espressione speciale
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org6ba0881" class="outline-4">
+<h4 id="org6ba0881"><span class="section-number-4">4.1.14</span> ES GREP</h4>
+<div class="outline-text-4" id="text-4-1-14">
+<p>
+Stampare i valori di tutte le etichette UUID nel file /etc/fstab
+evitando di stampare UUID=
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org2a8fc84"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-4-1-14-1">
+<pre class="example">
+grep -Eo "([[:alnum:]]){,7}-(([[:alnum:]]){,4}-){3}([[:alnum:]]){,12}" /etc/fstab
+</pre>
+<p>
+Dato che i caratteri sono esadecimali, uso la seguente dicitura:
+grep -Eo "[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{,12}" /etc/fstab
+in questo modo vengono matchati solo i caratteri esadecimali.
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgdb432b8" class="outline-4">
+<h4 id="orgdb432b8"><span class="section-number-4">4.1.15</span> ESERCIZIO COLLEGAMENTI</h4>
+<div class="outline-text-4" id="text-4-1-15">
+<p>
+Creare un collegamento fisico di nome passwd al file /etc/passwd
+Creare un collegamento simbolico di nome passwd al file 
+/etc/passwd
+Descrivere l'esito.
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org62451bf"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-4-1-15-1">
+<p>
+Il link fisico richiede l'accesso root, mentre il simbolico no.
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org7001314" class="outline-4">
+<h4 id="org7001314"><span class="section-number-4">4.1.16</span> ESERCIZIO COLLEGAMENTI SIMBOLICI</h4>
+<div class="outline-text-4" id="text-4-1-16">
+<p>
+Capire a che link punta il file simb.txt
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="orga0dd0b5"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-4-1-16-1">
+<p>
+readlink simb.txt
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org4563014"></a>OUTPUT:<br />
+<div class="outline-text-6" id="text-4-1-16-1-1">
+<p>
+file.txt
+</p>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgf7c28e1" class="outline-3">
+<h3 id="orgf7c28e1"><span class="section-number-3">4.2</span> COMANDI UTILI</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+<b>man man</b>
+<b>ls -l</b> &#x2013;&gt; tipo del file, metadati vari, ecc
+<b>ls -a</b>
+<b>ls -h</b> &#x2013;&gt; stampa in formato umano
+<b>ls -lt</b> &#x2013;&gt; ordina per tempo  di accesso.
+<b>ls -lt &#x2013;time=ctime</b> &#x2013;&gt; ordina per accesso ai metadati
+<b>ls -l -S</b> &#x2013;&gt; ordina per dimensione
+<b>ls -l -S -r</b> &#x2013;&gt; ordina al contrario per dimensione
+<b>ls -R</b> &#x2013;&gt; ricorsivo, parte dalla dir attuale e discende tutto l'albero
+<b>ls /etc -Rla</b> &#x2013;&gt; stampa ricorsivamente i file nascosti coi metadati
+</p>
+</div>
+</div>
+<div id="outline-container-orgd506c49" class="outline-3">
+<h3 id="orgd506c49"><span class="section-number-3">4.3</span> FILESYSTEM</h3>
+<div class="outline-text-3" id="text-4-3">
+</div>
+<div id="outline-container-orge9d905a" class="outline-4">
+<h4 id="orge9d905a"><span class="section-number-4">4.3.1</span> /bin</h4>
+<div class="outline-text-4" id="text-4-3-1">
+<p>
+contiene i comandi necessari ad un sistema di base testuale
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc336e82" class="outline-4">
+<h4 id="orgc336e82"><span class="section-number-4">4.3.2</span> /sbin</h4>
+<div class="outline-text-4" id="text-4-3-2">
+<p>
+contiene i comandi necessari all'avvio
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga1976d7" class="outline-4">
+<h4 id="orga1976d7"><span class="section-number-4">4.3.3</span> /boot</h4>
+<div class="outline-text-4" id="text-4-3-3">
+<p>
+contiene i dati relativi alla procedura di boot, configurazione
+del bootloader, contiene l'immagine del kernel
+</p>
+</div>
+</div>
+
+<div id="outline-container-org78b10a5" class="outline-4">
+<h4 id="org78b10a5"><span class="section-number-4">4.3.4</span> /dev</h4>
+<div class="outline-text-4" id="text-4-3-4">
+<p>
+Contiene i <b>file speciali</b> che consentono di accedere alle
+periferiche. Le comunicazioni a basso livello con le periferiche
+avvengono grazie a questi file.
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org1330247"></a>TIPI DI FILE SPECIALI<br /></li>
+<li><a id="org904ea43"></a>A BLOCCHI<br />
+<div class="outline-text-5" id="text-4-3-4-2">
+<p>
+periferiche veloci accedute serialmente e casualmente, per blocchi
+di una dimensione minima.
+Il disco ad esempio legge come minimo 512 byte.
+</p>
+</div>
+</li>
+<li><a id="org9171f53"></a>A CARATTERE<br />
+<div class="outline-text-5" id="text-4-3-4-3">
+<p>
+periferiche lente, accedute a pochi byte per volta.
+</p>
+</div>
+</li>
+<li><a id="org341ecd1"></a>2 FILE ASSOCIATI A OGNI FILE<br />
+<div class="outline-text-5" id="text-4-3-4-4">
+<p>
+servono per categorizzare i file.
+con ls -l /dev si possono visualizzare
+</p>
+</div>
+</li>
+<li><a id="orgf345e6b"></a>MAJOR NUMBER<br /></li>
+<li><a id="org2603e4a"></a>MINOR NUMBER<br /></li>
+</ol>
+</div>
+
+<div id="outline-container-orga0c7a9d" class="outline-4">
+<h4 id="orga0c7a9d"><span class="section-number-4">4.3.5</span> /etc</h4>
+<div class="outline-text-4" id="text-4-3-5">
+<p>
+contiene i file di configurazione di s
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf57d520" class="outline-4">
+<h4 id="orgf57d520"><span class="section-number-4">4.3.6</span> /home</h4>
+<div class="outline-text-4" id="text-4-3-6">
+<p>
+contiene gli spazi di lavoro dell'utente
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb75ded8" class="outline-4">
+<h4 id="orgb75ded8"><span class="section-number-4">4.3.7</span> /lib</h4>
+<div class="outline-text-4" id="text-4-3-7">
+<p>
+contiene le librerire necessarie all'avvio del sistema.
+contiene anche le librerie del C
+loader dinamico
+moduli del kernel=assomigliano a dei file oggetto.
+<b>loader dinamico</b> = <i>interprete</i> del binario. Carica in memoria
+il binario e linka le librerie. Carica im memoria i file necessari
+per l'esecuzione. Se il programma vuole usare printf è lui che va
+a cercare i file del printf.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org87b784b" class="outline-4">
+<h4 id="org87b784b"><span class="section-number-4">4.3.8</span> /mnt</h4>
+</div>
+<div id="outline-container-org5a80c89" class="outline-4">
+<h4 id="org5a80c89"><span class="section-number-4">4.3.9</span> /opt</h4>
+<div class="outline-text-4" id="text-4-3-9">
+<p>
+contiene un filesistem per software non nativo
+contiene directory tipo /opt/software
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3916926" class="outline-4">
+<h4 id="org3916926"><span class="section-number-4">4.3.10</span> /proc</h4>
+<div class="outline-text-4" id="text-4-3-10">
+<p>
+contiene statistiche sulle periferiche
+e sulle risorse hardware. I file
+vengono generati al volo dal sistema operativo
+su richiesta da parte dell'utente
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org02d887c"></a>/proc/sys<br />
+<div class="outline-text-5" id="text-4-3-10-1">
+<p>
+contiene file scrivibili usati per configurare il
+comportamento del kernel del SO
+</p>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-orgf6f3f56" class="outline-4">
+<h4 id="orgf6f3f56"><span class="section-number-4">4.3.11</span> /run</h4>
+<div class="outline-text-4" id="text-4-3-11">
+<p>
+file contenuto in RAM, contiene file
+volatili associati all'esecuzione dei processi.
+il disco non si rovina e l'esecuzione è più veloce.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org69a2cc8" class="outline-4">
+<h4 id="org69a2cc8"><span class="section-number-4">4.3.12</span> /tmp</h4>
+<div class="outline-text-4" id="text-4-3-12">
+<p>
+associato a un filesystem montato in RAM, contiene
+file temporanei aperti dalle applicazioni e scartati
+ad ogni riavvio.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org06f22ce" class="outline-4">
+<h4 id="org06f22ce"><span class="section-number-4">4.3.13</span> /usr</h4>
+<div class="outline-text-4" id="text-4-3-13">
+<p>
+contiene un filesystem completo, contiene dei file
+non necessari all'avvio della macchina.
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org6da84bf"></a>/usr/bin<br />
+<div class="outline-text-5" id="text-4-3-13-1">
+<p>
+contiene i binari, resi disponibili al boot.
+UNIFICAZIONE DI TUTTI I BINARI
+</p>
+</div>
+</li>
+<li><a id="orgff80e5a"></a>/usr/local<br />
+<div class="outline-text-5" id="text-4-3-13-2">
+<p>
+filesystem che contiene file non proprietario 
+non necessario all'avvio della macchina.
+</p>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org7595cdc" class="outline-4">
+<h4 id="org7595cdc"><span class="section-number-4">4.3.14</span> /var</h4>
+<div class="outline-text-4" id="text-4-3-14">
+<p>
+contiene file di log variabili.
+i log solitamente vengono salvati sul disco
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgdfe04cb" class="outline-3">
+<h3 id="orgdfe04cb"><span class="section-number-3">4.4</span> ESERCIZI</h3>
+<div class="outline-text-3" id="text-4-4">
+</div>
+<div id="outline-container-org9ad6af2" class="outline-4">
+<h4 id="org9ad6af2"><span class="section-number-4">4.4.1</span> ES1</h4>
+<div class="outline-text-4" id="text-4-4-1">
+<p>
+trovare informazioni sul file associato al primo disco sata.
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org5a0c857"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-4-4-1-1">
+<p>
+man man
+apropos -s 4 -r '.*' | less -Mr 
+ls -l <i>dev</i>[sh]da1
+&#x2013;&gt; ho scoperto che ho /dev/sda1
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org695f6ca" class="outline-4">
+<h4 id="org695f6ca"><span class="section-number-4">4.4.2</span> ES2</h4>
+<div class="outline-text-4" id="text-4-4-2">
+<p>
+stat <i>tmp</i>.X11-unix/X0 &#x2013;&gt; socket di comunicazione
+stat /dev/sda1 &#x2013;&gt; file speciale a blocchi
+stat /dev/tty  &#x2013;&gt; file speciale a caratteri
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org268c4bd"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-4-4-2-1">
+<p>
+cambia il tipo di file.
+Uno è il socket usato da X11 per comunicare e ricevere i comandi
+</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgf5fdcf9" class="outline-3">
+<h3 id="orgf5fdcf9"><span class="section-number-3">4.5</span> METADATI</h3>
+<div class="outline-text-3" id="text-4-5">
+<p>
+dati che caratterizzano il file
+<b>stat</b> &lt;nomefile&gt; per visualizzare i metadati.
+</p>
+</div>
+<div id="outline-container-org63cbfe4" class="outline-4">
+<h4 id="org63cbfe4"><span class="section-number-4">4.5.1</span> INODE</h4>
+<div class="outline-text-4" id="text-4-5-1">
+<p>
+puntatore che punta alla locazione di memoria del file
+</p>
+</div>
+</div>
+<div id="outline-container-org3738f3a" class="outline-4">
+<h4 id="org3738f3a"><span class="section-number-4">4.5.2</span> COLL</h4>
+<div class="outline-text-4" id="text-4-5-2">
+<p>
+numero di collegamenti fisici al file,
+punti di ingresso
+esempio: vim usava vi, quindi i due erano
+linkati insieme. I due contatori sono quindi pari a 2
+,perchè sfruttano lo stesso binario. ovviamente il sistema
+riesce a capire se è stato invocato vim o vi.
+</p>
+</div>
+</div>
+<div id="outline-container-org00fbd82" class="outline-4">
+<h4 id="org00fbd82"><span class="section-number-4">4.5.3</span> ACCESSO</h4>
+</div>
+<div id="outline-container-org7d49e47" class="outline-4">
+<h4 id="org7d49e47"><span class="section-number-4">4.5.4</span> UID</h4>
+<div class="outline-text-4" id="text-4-5-4">
+<p>
+Identificatore associato a ogni utente
+Per l'utente root solitamente è 0
+</p>
+</div>
+</div>
+<div id="outline-container-org65a2dc8" class="outline-4">
+<h4 id="org65a2dc8"><span class="section-number-4">4.5.5</span> TIMESTAMP</h4>
+<div class="outline-text-4" id="text-4-5-5">
+</div>
+<ol class="org-ol">
+<li><a id="orge48e520"></a>ACCESSO<br />
+<div class="outline-text-5" id="text-4-5-5-1">
+<p>
+Accesso in lettura, ultima volta
+</p>
+</div>
+</li>
+<li><a id="org2adcceb"></a>MODIFICA<br />
+<div class="outline-text-5" id="text-4-5-5-2">
+<p>
+Ultima volta che è stato modificato
+</p>
+</div>
+</li>
+<li><a id="org0cf2736"></a>CAMBIO<br />
+<div class="outline-text-5" id="text-4-5-5-3">
+<p>
+Mostra l'ultimo istante nella modifica dei metadati
+</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org707d279" class="outline-3">
+<h3 id="org707d279"><span class="section-number-3">4.6</span> APP DI DEFAULT</h3>
+<div class="outline-text-3" id="text-4-6">
+</div>
+<div id="outline-container-orgf568b54" class="outline-4">
+<h4 id="orgf568b54"><span class="section-number-4">4.6.1</span> ASSOCIAZIONE DIRETTA</h4>
+<div class="outline-text-4" id="text-4-6-1">
+<p>
+Il SO legge la parte finale (estensione) 
+e lancia un app di default insieme ad altre app
+, tipo man man lancia man ls e pager lo stampa
+in particolare: man chiama less che chiede a lesspipe di spacchettare il file
+<b>less .tar.gz</b> &#x2013;&gt; mostra i contenuti spacchettati
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgba0143e" class="outline-3">
+<h3 id="orgba0143e"><span class="section-number-3">4.7</span> LISTA DI ESTENSIONI</h3>
+<div class="outline-text-3" id="text-4-7">
+<p>
+Le app hanno associate delle estensioni
+che provocano la loro apertura se aperte
+la stessa estensione può essere associata a più
+applicazioni. In tal modo con tasto destro posso decidere
+che app usare per aprire il file
+</p>
+</div>
+</div>
+<div id="outline-container-orgc900337" class="outline-3">
+<h3 id="orgc900337"><span class="section-number-3">4.8</span> MECCANISMO DEI MAGIC FILE</h3>
+<div class="outline-text-3" id="text-4-8">
+<p>
+Il magic file contiene l'associazione
+tra la sequenza di byte e il tipo di file
+-&gt; sequenza di byte con associato un tipo di file
+-&gt; <b>less /bin/ls</b> si vede è presente la sequenza ELF, ossia
+il tipo di file. se uso <b>cat</b> non viene impaginato l'output
+-&gt; <b>file /etc/passwd</b> stampa il tipo di file, se non trova caratteri
+speciali allora è un ASCII
+</p>
+</div>
+</div>
+<div id="outline-container-org839897c" class="outline-3">
+<h3 id="org839897c"><span class="section-number-3">4.9</span> MANIPOLAZIONE</h3>
+<div class="outline-text-3" id="text-4-9">
+<p>
+DI FILE
+<b>touch -a file</b> per cambiare il tempo di accesso
+<b>mkdir -p dir1 dir2 dir3</b> crea le 3 directory
+<b>rm -d</b> fa come rmidr, la dir deve essere non vuota
+<b>rm -r dir1</b> rimozione ricorsiva   
+</p>
+</div>
+<div id="outline-container-orgb0ad65d" class="outline-4">
+<h4 id="orgb0ad65d"><span class="section-number-4">4.9.1</span> ESERCIZIO</h4>
+<div class="outline-text-4" id="text-4-9-1">
+<p>
+creare un backup della home directory su /tmp
+cp -a /home/studente /tmp
+</p>
+</div>
+</div>
+<div id="outline-container-org4457ed0" class="outline-4">
+<h4 id="org4457ed0"><span class="section-number-4">4.9.2</span> ESERCIZIO</h4>
+<div class="outline-text-4" id="text-4-9-2">
+<p>
+Studiare la pagina di manuale mv per individuare un modo per 
+creare backup dei file sovrascritti
+</p>
+</div>
+</div>
+<div id="outline-container-org60f4630" class="outline-4">
+<h4 id="org60f4630"><span class="section-number-4">4.9.3</span> ESERCIZIO Multiple touch</h4>
+<div class="outline-text-4" id="text-4-9-3">
+<p>
+Creare un programma che crei file1, file2, &#x2026;, file10
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="orgfb21fc5"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-4-9-3-1">
+<p>
+#! /bin/bash
+for ((i=1; i&lt;10;i++))
+do
+    touch "file$i"; 
+done
+</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orga028dc0" class="outline-3">
+<h3 id="orga028dc0"><span class="section-number-3">4.10</span> VISUALIZZAZIONE DI UN FILE</h3>
+<div class="outline-text-3" id="text-4-10">
+<p>
+<b>cat -E &lt;nomefeile&gt;</b> fa vedere i fine linea
+con -T viene stampato il carattere di tabulazione
+<b>cat -v &lt;nomefile&gt;</b> stampa i caratteri non stampabili(caratteri di controllo ASCII)
+per visualizzare file in formato esadecimale si usa <b>hexdump /bin/ls</b>
+<b>hexdump /usr/bin/ls -n 32</b> per stampare i primi n byte.
+<b>head -n &lt;numero&gt;</b> stampa le prime n righe se n è positivo.
+<b>head -c 10 /etc/passwd</b> stampa i primi 10 caratteri, funziona anche con
+offset negativi.
+<b>tail</b> funziona al contrario rispetto a head
+</p>
+</div>
+<div id="outline-container-orgd95d355" class="outline-4">
+<h4 id="orgd95d355"><span class="section-number-4">4.10.1</span> CODIFICA DEI CARATTERI</h4>
+<div class="outline-text-4" id="text-4-10-1">
+</div>
+<ol class="org-ol">
+<li><a id="orgb6a2a7a"></a>ISO 8859<br />
+<div class="outline-text-5" id="text-4-10-1-1">
+<p>
+Codifica dei caratteri a 8 bit, codifica estesa
+</p>
+</div>
+</li>
+<li><a id="org7df7a02"></a>Greenblatt e Knight<br />
+<div class="outline-text-5" id="text-4-10-1-2">
+<p>
+Progettano le Lisp machine, calcolatori in hardware che
+eseguivano il Lisp (Basato sulle liste)
+Linguaggio molto lento che ha bisogno di molto supporto hardware
+Inizio delle basi di conoscenza e del machine learning
+Inizio della programmazione a oggetti
+</p>
+</div>
+</li>
+<li><a id="orgef9a7f4"></a>Church<br />
+<div class="outline-text-5" id="text-4-10-1-3">
+<p>
+Teoria su cui si basa il Lisp. 
+Creazione delle funzioni anonime, ossia blocchi di 
+codice senza nome. &#x2014;&gt; Lambda espressione, pemette
+calcolo ricorsivo sulle variabili
+</p>
+</div>
+</li>
+<li><a id="org8e024a9"></a>Alan Key<br />
+<div class="outline-text-5" id="text-4-10-1-4">
+<p>
+Padre delle interfacce grafiche
+</p>
+</div>
+</li>
+<li><a id="org2bb6d99"></a>LISP MACHINE<br />
+<div class="outline-text-5" id="text-4-10-1-5">
+<p>
+ci si interfaccia con la Lisp keyboard.
+faceva uso di tasti extra per digitare
+caratteri speciali
+Su ogni tasto della Lisp machine era presente un carattere matematico,
+usato solitamente per il linguaggio di programmazione Lisp.
+Per digitare questi caratteri, si usava il tasto CTRL, che spegneva
+i due bit più significativi della codifica. In tal modo si potevano 
+digitare solo i caratteri tra [0,31]
+il Tasto Meta accende l'ottavo bit per attivare altri caratteri speciali ,
+solitamente associati a comandi.
+Quindi vengono selezionati i caratteri tra [128,255];
+Con l'avvento dei PC le Lisp machine vanno in declino, le tasitere si
+semplificano.
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org674c25c" class="outline-4">
+<h4 id="org674c25c"><span class="section-number-4">4.10.2</span> DIFFERENZA TRA LITTLE-ENDIAN E BIG-ENDIAN</h4>
+<div class="outline-text-4" id="text-4-10-2">
+<p>
+hexdump -C permette di visualizzare il file in forma canonica,
+proprio per il problema del big/little endian. Quindi con hexdump
+usare sempre l'opzione -C
+</p>
+
+<p>
+con hexdump -v viene disabilitata la compattazione di hexdump,
+infatti inizialmente le informazioni vengono rappresentate in formato
+compatto.
+</p>
+</div>
+</div>
+<div id="outline-container-org5380056" class="outline-4">
+<h4 id="org5380056"><span class="section-number-4">4.10.3</span> CARATTERI NON STAMPABILI</h4>
+<div class="outline-text-4" id="text-4-10-3">
+<p>
+con -v posso stampare
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="orgeaae071"></a>Caratteri di controllo ASCII<br />
+<div class="outline-text-5" id="text-4-10-3-1">
+<p>
+Ossia caratteri nell'intervallo [0,31];
+</p>
+</div>
+</li>
+<li><a id="org48306fe"></a>Caratteri non ASCII<br />
+<div class="outline-text-5" id="text-4-10-3-2">
+<p>
+Caratteri con codifiche diverse, come ISO 8859, UTF-8
+ad esempio il carattere "è" non è ASCII, quindi deve essere
+codificato. Con la UTF-8 sono usati 2byte!(quindi 8 bit e 8 bit)
+è &#x2013;&gt; c3 a8 (UTF-8)
+è &#x2013;&gt; e8 (UNICODE)
+</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org82fb7c2" class="outline-3">
+<h3 id="org82fb7c2"><span class="section-number-3">4.11</span> INDIVIDUAZIONE E RICERCA DI UN FILE</h3>
+<div class="outline-text-3" id="text-4-11">
+<p>
+spesso find può dare permesso negato se non si è root.
+</p>
+</div>
+</div>
+<div id="outline-container-org4e05746" class="outline-3">
+<h3 id="org4e05746"><span class="section-number-3">4.12</span> COLLEGAMENTI</h3>
+<div class="outline-text-3" id="text-4-12">
+<p>
+Zibaldone
+Cosa cambia da fare un collegamento fisico a creare una copia del file?
+&#x2013;&gt; la copia di file occupa più memoria rispetto al link. 
+Nei link soft se modifico il file sorgente viene modificato 
+anche il file linkato simbolicamente.
+il link simbolico è un file che contiene il path al file puntato, quindi
+se cambio il nome del file il soft link non vale più.
+</p>
+
+<p>
+Quando creo un hard link il Reference count aumenta.
+la memoria viene liberata quando il reference count diventa 0
+</p>
+</div>
+<div id="outline-container-orge5ba876" class="outline-4">
+<h4 id="orge5ba876"><span class="section-number-4">4.12.1</span> COLLEGAMENTI FISICI</h4>
+<div class="outline-text-4" id="text-4-12-1">
+<p>
+Non ho i permessi di collegare i file posseduti da un altro utente
+Non posso collegare file appartenenti a filesystem diveri.
+Infatti le strutture dei filesystem possono essere diversi: infatti
+oggettivamente un hardlink è una entry che punta a una zona di memoria.
+</p>
+</div>
+</div>
+<div id="outline-container-org9dcf407" class="outline-4">
+<h4 id="org9dcf407"><span class="section-number-4">4.12.2</span> COLLEGAMENTI SIMBOLICI</h4>
+<div class="outline-text-4" id="text-4-12-2">
+<p>
+Si usa il comando ln -s file.txt soft<sub>link.txt</sub>
+Con <b>readlink -f</b> si risolve la catena di link simbolici
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orga2d73b1" class="outline-3">
+<h3 id="orga2d73b1"><span class="section-number-3">4.13</span> tar (ARCHIVI)</h3>
+<div class="outline-text-3" id="text-4-13">
+<p>
+Le estensioni sono usate per convenzione, perchè a UNIX
+non interessano le estensioni in questo caso.
+</p>
+</div>
+<div id="outline-container-orge548754" class="outline-4">
+<h4 id="orge548754"><span class="section-number-4">4.13.1</span> CREARE UN ARCHIVIO</h4>
+<div class="outline-text-4" id="text-4-13-1">
+<p>
+per archiviare il contenuto della directory /etc all'interno
+di etc.tar si usa l'opzione -c(create)
+tar -c -f etc.tar /etc
+</p>
+</div>
+</div>
+<div id="outline-container-orga48643a" class="outline-4">
+<h4 id="orga48643a"><span class="section-number-4">4.13.2</span> VISUALIZZARE UN ARCHIVIO</h4>
+<div class="outline-text-4" id="text-4-13-2">
+<p>
+si usa l'opzione -t(table of content)
+tar -t -f etc.tar
+</p>
+</div>
+</div>
+<div id="outline-container-orgdfc2777" class="outline-4">
+<h4 id="orgdfc2777"><span class="section-number-4">4.13.3</span> ESTRARRE UN ARCHIVIO</h4>
+<div class="outline-text-4" id="text-4-13-3">
+<p>
+Per estrarre un archivio si usa il seguente comando: (extract)<br />
+tar -x -f etc.tar
+</p>
+</div>
+</div>
+<div id="outline-container-org2ba3f0d" class="outline-4">
+<h4 id="org2ba3f0d"><span class="section-number-4">4.13.4</span> MODALITA VERBOSA</h4>
+<div class="outline-text-4" id="text-4-13-4">
+<p>
+si aggiunge l'opzione -v <br />
+tar -v -x -f etc.tar <br />
+stampa file e directory manipolati durante l'operazione
+</p>
+</div>
+</div>
+<div id="outline-container-org712fce1" class="outline-4">
+<h4 id="org712fce1"><span class="section-number-4">4.13.5</span> SPECIFICARE UNA CARTELLA</h4>
+<div class="outline-text-4" id="text-4-13-5">
+<p>
+per creare un archivio tmp.tar di /tmp nella current directory:
+tar -C /tmp -f tmp.tar -c
+</p>
+</div>
+</div>
+<div id="outline-container-org4bde65a" class="outline-4">
+<h4 id="org4bde65a"><span class="section-number-4">4.13.6</span> DIASPORA UNIX</h4>
+<div class="outline-text-4" id="text-4-13-6">
+<p>
+sviluppo indipendente di distro UNIX a seguito della
+-distribuzione del codice sorgente di UNIX System V R4
+-studio dei ciclostili di John Lions in seguito al ritiro 
+  del codice sorgente con la distribuzione UNIX V7 nel 1979
+Ecco una lista delle diverse distribuzioni:
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="orga1e70ea"></a>System V<br />
+<div class="outline-text-5" id="text-4-13-6-1">
+<p>
+formato breve (trattino e lettera)
+</p>
+</div>
+</li>
+<li><a id="org89345d2"></a>BSD<br />
+<div class="outline-text-5" id="text-4-13-6-2">
+<p>
+alcuni comandi come tar, dd, ps offrono
+opzioni senza trattino
+</p>
+</div>
+</li>
+<li><a id="orgb5921b4"></a>GNU<br />
+<div class="outline-text-5" id="text-4-13-6-3">
+<p>
+formato breve, lungo e BSD
+suppor
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgfa4e953" class="outline-4">
+<h4 id="orgfa4e953"><span class="section-number-4">4.13.7</span> COMPRESSIONE</h4>
+<div class="outline-text-4" id="text-4-13-7">
+<p>
+-z &#x2013;&gt; compressione .gz
+-j &#x2013;&gt; compressione .bz2 
+-J &#x2013;&gt; compressione .xz
+</p>
+
+<p>
+tar -z -f etc.tar.gz -C /tmp -x
+crea un archivio compresso della directory /etc
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org2f53b89"></a>ESERCIZIO<br />
+<div class="outline-text-5" id="text-4-13-7-1">
+<p>
+Creare tre archivi della home directory: <br />
+/tmp/home.tar.gz <br />
+/tmp/home.tar.bz2 <br />
+/tmp/home.tar.xz <br />
+Come variano le dimensioni degli archivi?
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org63d7043"></a>SOLUZIONE<br />
+<div class="outline-text-6" id="text-4-13-7-1-1">
+<p>
+In ordine decrescente di dimensione: .gz , .bz2, .xz
+</p>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgcc72009" class="outline-3">
+<h3 id="orgcc72009"><span class="section-number-3">4.14</span> 7Z (ARCHIVI)</h3>
+<div class="outline-text-3" id="text-4-14">
+<p>
+Gestisce archivi nei formati seguenti: <br />
+7-ZIP
+TAR
+ZIP
+RAR
+</p>
+</div>
+<div id="outline-container-org8e812f9" class="outline-4">
+<h4 id="org8e812f9"><span class="section-number-4">4.14.1</span> CREARE UN ARCHIVIO</h4>
+<div class="outline-text-4" id="text-4-14-1">
+<p>
+per archiviare il contenuto di ~/.config si usa il comando <br />
+7z a config.7z ~/.config
+</p>
+</div>
+</div>
+<div id="outline-container-org53ef5e2" class="outline-4">
+<h4 id="org53ef5e2"><span class="section-number-4">4.14.2</span> VISIONE ARCHIVIO</h4>
+<div class="outline-text-4" id="text-4-14-2">
+<p>
+Si usa il comando <br />
+7z l config.7z
+</p>
+</div>
+</div>
+<div id="outline-container-org7ad2583" class="outline-4">
+<h4 id="org7ad2583"><span class="section-number-4">4.14.3</span> ESTRAZIONE ARCHIVIO</h4>
+<div class="outline-text-4" id="text-4-14-3">
+<p>
+7z x ~/config.7z
+</p>
+</div>
+</div>
+<div id="outline-container-orgbc6a70e" class="outline-4">
+<h4 id="orgbc6a70e"><span class="section-number-4">4.14.4</span> CIFRARE UN ARCHIVIO</h4>
+<div class="outline-text-4" id="text-4-14-4">
+<p>
+Si usa l'opzione -mhe=on -pKEY, ad esempio:<br />
+7z -mhe=on -ppassword a prova.7z /home/matteo/Desktop/Statistica
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgafec02c" class="outline-3">
+<h3 id="orgafec02c"><span class="section-number-3">4.15</span> OPERATORI UNARI</h3>
+<div class="outline-text-3" id="text-4-15">
+<p>
+-d FILE VERO se FILE esiste ed è una directory
+-e FILE VERO se FILE esiste
+-f FILE VERO se FILE esiste ed è un file regolare
+-h FILE VERO se FILE esiste ed è un link simbolico
+-r FILE VERO se FILE esiste ed è leggibile
+-w FILE VERO se FILE esiste ed è scrivibile
+-x FILE VERO se FILE esiste ed è eseguibile
+</p>
+</div>
+<div id="outline-container-org8515339" class="outline-4">
+<h4 id="org8515339"><span class="section-number-4">4.15.1</span> ESEMPIO</h4>
+<div class="outline-text-4" id="text-4-15-1">
+<p>
+Voglio scoprire se il file /etc/passwd è leggibile.
+test -r /etc/passwd
+echo $?
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org755024d" class="outline-3">
+<h3 id="org755024d"><span class="section-number-3">4.16</span> CANALI DI I/O</h3>
+<div class="outline-text-3" id="text-4-16">
+<p>
+   Questi tre file normalmente puntano alla bash.
+/dev/stdin 
+/dev/stdout 
+/dev/stderr
+con readlink -f posso risolverli.
+proc/self contiene il processo attualmente in esecuziuone
+con tty si vede il file a cui i tre file puntano:
+/dev/pts1 è il file che rappresenta quella specifica finestra 
+di terminale. 
+</p>
+</div>
+<div id="outline-container-org570f3ea" class="outline-4">
+<h4 id="org570f3ea"><span class="section-number-4">4.16.1</span> DESCRITTORE DI FILE</h4>
+<div class="outline-text-4" id="text-4-16-1">
+<p>
+Numero intero rappresentante un indice da un file aperto da un applicazione
+Stdin &#x2013;&gt; Descrittore di file 0
+Stdout &#x2013;&gt; Descrittore di file 1
+Stderr &#x2013;&gt; Descrittore di file 2
+</p>
+</div>
+</div>
+<div id="outline-container-org89f8b26" class="outline-4">
+<h4 id="org89f8b26"><span class="section-number-4">4.16.2</span> OPERATORI DI REDIREZIONE</h4>
+<div class="outline-text-4" id="text-4-16-2">
+<p>
+&lt; FILENAME associa il canale STDIN ad un file, e non al terminale.
+ad esempio, cat &lt; /etc/passwd
+Si dice a cat di associare il descrittore 0 al file /etc/passwd:
+cat parte senza argomento, in teoria dovrebbe chiedere all'utente
+di inserire da terminale l'argomento. In questo caso non si aspetta
+lo standard in da terminale, ma se lo aspetta da file.
+</p>
+
+<p>
+&gt; FILENAME associa il canale di STDOUT ad un file
+ad esempio, cat /etc/passwd &gt; passwd
+&gt;&gt; FILENAME appende l'output di un canale ad un file
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org962d3a5"></a>ES GREP E REDIREZIONE<br />
+<div class="outline-text-5" id="text-4-16-2-1">
+<p>
+<b>grep &#x2013;color=yes -n -H root &lt; /etc/passwd</b>
+grep non sa che file sta leggendo, perchè semplicemente gli viene passato
+solo il contenuto di /etc/passwd. Infatti ora il canale 1 punta al file 
+/etc/passwd, e non alla finestra del terminale aperto.
+</p>
+</div>
+</li>
+<li><a id="org0b5233f"></a>N&gt;&amp;m<br />
+<div class="outline-text-5" id="text-4-16-2-2">
+<p>
+ls . nonesistente &gt; out-err.txt 2&gt;&amp;1
+&#x2013;&gt; Stderr e Stdout usano lo stesso canale, il canale di errore diventa
+una copia del canale di output. In questo modo sia gli errori che l'output
+vengono scritti sul file out-err.txt
+</p>
+</div>
+</li>
+<li><a id="org26c5e09"></a>MEMOIZATION<br />
+<div class="outline-text-5" id="text-4-16-2-3">
+<p>
+si salvano i dati in memoria per non calcolarle più volte.
+GNU/Linux cerca di effettuare questa operazione per aumentare
+le prestazioni, per questo si usa molta RAM.
+/proc/sys/vm/drop<sub>caches</sub> provoca la cancellazione di tutti i 
+buffer di memoria. Se eseguo il comando 
+sudo echo 2 &gt; /proc/sys/vm/drop<sub>caches</sub> provoco la cancellazione
+di queste cache, il sistema si impalla.
+</p>
+
+<p>
+Non posso eseguire questo comando, perchè la redirezione viene effettuata
+prima dell'esecuzione di sudo, quindi non ho i permessi.
+Uso il seguente comando:
+echo 2 | sudo tee /proc/sys/vm/drop<sub>caches</sub>
+tee-&gt; prende lo stdin e lo scrive su stdot e su file.
+</p>
+</div>
+</li>
+
+<li><a id="orge715cb0"></a>ESERCIZIO<br />
+<div class="outline-text-5" id="text-4-16-2-4">
+<p>
+Produrre un file che sia un elenco di tutti i file nel sistema
+con relativa dimensione, scartando lo STDERR
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org233f021"></a>SOLUZIONE<br />
+<div class="outline-text-6" id="text-4-16-2-4-1">
+<p>
+find / -printf "%p %s\n" &gt; out.txt 2&gt;/dev/null
+</p>
+</div>
+</li>
+</ol>
+</li>
+<li><a id="orgc1befc8"></a>EXEC<br />
+<div class="outline-text-5" id="text-4-16-2-5">
+<p>
+La bash stessa diventa ls: la bash non crea un processo figlio 
+che diventa ls, diventa ls lei stessa.
+Infatti il terminale vede il processo figlio (ls) che muore, si chiude
+anche lui.
+exec 3&lt; /etc/passwd
+ls -l /proc/$$/fd per vedere che ho aperto il canale 3
+ora con read -u 3 line si legge la riga
+per stamparla echo $line
+</p>
+
+<p>
+Per chiudere
+exec 3&lt;&amp;-
+exec 4&gt;&amp;-
+</p>
+</div>
+</li>
+<li><a id="orgf62c6af"></a>ESERCIZIO EXEC<br />
+<div class="outline-text-5" id="text-4-16-2-6">
+<p>
+Usando exec e read, copiare le prime chinque righe di /etc/passwd nel
+file passwd-top5.txt
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org545d093"></a>SOLUZIONE<br />
+<div class="outline-text-6" id="text-4-16-2-6-1">
+<p>
+// apro il canale 4 associandolo a top5.txt
+exec 4&gt; top5.txt
+// apro il cananle 3 associandolo a /etc/passwd
+exec 3&lt; /etc/passwd
+//leggo la linea
+read -u 3 line
+// la redirecto su 4
+echo $line &gt;&amp;4
+</p>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgc079f7c" class="outline-3">
+<h3 id="orgc079f7c"><span class="section-number-3">4.17</span> PIPE</h3>
+<div class="outline-text-3" id="text-4-17">
+<p>
+I comandi capiscono se l'output è su terminale oppure
+su file.
+dump2() è una funzione legata all'operatore | che crea la struttura
+dati che permette la redirezione dell'output e dell'input.
+Quindi ls | less redireziona i canali , non usa nessun tipo di argomento.
+</p>
+</div>
+<div id="outline-container-orgab5aa1c" class="outline-4">
+<h4 id="orgab5aa1c"><span class="section-number-4">4.17.1</span> ESEMPIO</h4>
+<div class="outline-text-4" id="text-4-17-1">
+<p>
+cat /etc/passwd
+bash crea un fork per bash, e viene associato ad un nuovo canale 3 
+il file /etc/passwd. Quando cat viene ucciso con ctrl c, il processo
+muore e il canale viene chiuso.
+</p>
+</div>
+</div>
+<div id="outline-container-org18b0150" class="outline-4">
+<h4 id="org18b0150"><span class="section-number-4">4.17.2</span> FILTRI UNIX</h4>
+<div class="outline-text-4" id="text-4-17-2">
+</div>
+<ol class="org-ol">
+<li><a id="org0fb7e2a"></a>Modalità Standalone<br />
+<div class="outline-text-5" id="text-4-17-2-1">
+<p>
+I filtri sono usati in modo indipendente, tipicamente i canali sono
+collegati al terminale, si usano in maniera interattiva
+</p>
+</div>
+</li>
+<li><a id="orgd74a1f0"></a>Modalità Combinata<br />
+<div class="outline-text-5" id="text-4-17-2-2">
+<p>
+I canali dei filtri vengono combinati per creare delle pipe
+complesse
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org0397b56" class="outline-4">
+<h4 id="org0397b56"><span class="section-number-4">4.17.3</span> ESERCIZIO</h4>
+<div class="outline-text-4" id="text-4-17-3">
+<p>
+Visualizzare i 10 file più grandi sul desktop
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="orgc1bd46e"></a>SOLUZIONE MIA<br />
+<div class="outline-text-5" id="text-4-17-3-1">
+<p>
+Soluzione usando le pipe.
+Sia in questa che nella soluzione del prof come primo 
+campo viene settata la grandezza del file, per gestire
+meglio la selezione dei file e l'ordinamento per campo.
+find /home/matteo/Desktop -printf "%s %p\n" &gt; out.txt 
+sort -n -r -k 1 out.txt | head
+</p>
+</div>
+</li>
+<li><a id="orge92f17e"></a>SOLUZIONE SUA<br />
+<div class="outline-text-5" id="text-4-17-3-2">
+<p>
+(Inizialmente non vengono usate le pipe.)
+find /home/matteo/Desktop -printf "%s %p\n" &gt; out.txt
+sort -n -r -k 1 out.txt &gt; out2.txt
+head out2.txt 
+</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgb44499f" class="outline-3">
+<h3 id="orgb44499f"><span class="section-number-3">4.18</span> OPERATORI DI ESPANSIONE</h3>
+<div class="outline-text-3" id="text-4-18">
+<p>
+Ricorda: l'espansione viene sempre fatta PRIMA 
+dell'esecuzione del comando.
+Usare sempre il quoting (debole o forte). Se non si 
+usa, l'espansione viene fatta immediatamente e il comando
+non ha il comportamento desiderato.
+</p>
+</div>
+<div id="outline-container-org89148a2" class="outline-4">
+<h4 id="org89148a2"><span class="section-number-4">4.18.1</span> TRAPPOLA</h4>
+<div class="outline-text-4" id="text-4-18-1">
+<p>
+TRAPPOLONE!!
+find /etc -name ”*.conf”
+l'argomento viene consumato da find
+</p>
+
+<p>
+find /etc -name *.conf
+l'argomento viene consumato da bash se non lo proteggo,
+quindi fa l'espansione subito.
+Se ad esempio è presente nella directory a.conf, allora 
+*.conf viene espanso come a.conf.
+Altrimenti, se non riesce a fare l'espansione, *.conf viene passato
+a find, e il comportamento è quello corretto.
+</p>
+
+<p>
+Se con il quoting passo l'argomento a find, non viene fatta l'espansione,
+l'argomento viene passato a find che cerca. PROTEGGO DALL'ESPANSIONE.
+</p>
+</div>
+</div>
+<div id="outline-container-org594b680" class="outline-4">
+<h4 id="org594b680"><span class="section-number-4">4.18.2</span> ESEMPIO</h4>
+<div class="outline-text-4" id="text-4-18-2">
+<p>
+find /etc -name "*.conf"
+Trova ricorisvamente all'interno della cartella /etc tutti
+i file terminanti con .conf
+</p>
+</div>
+</div>
+
+<div id="outline-container-org31b1854" class="outline-4">
+<h4 id="org31b1854"><span class="section-number-4">4.18.3</span> ESEMPIO FIND REGEX</h4>
+<div class="outline-text-4" id="text-4-18-3">
+<p>
+Trovare tutti i file in /etc che terminano con .conf
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="orgb7a7a7c"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-4-18-3-1">
+<p>
+find /etc -regex ".*\.conf$"
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org0d51980" class="outline-4">
+<h4 id="org0d51980"><span class="section-number-4">4.18.4</span> ESERCIZIO FINALE</h4>
+<div class="outline-text-4" id="text-4-18-4">
+<p>
+Individuate tutti i file in /etc che terminano con
+l’estensione .txt.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org49c2552" class="outline-3">
+<h3 id="org49c2552"><span class="section-number-3">4.19</span> SCRIPTS</h3>
+<div class="outline-text-3" id="text-4-19">
+</div>
+<div id="outline-container-org0b7524c" class="outline-4">
+<h4 id="org0b7524c"><span class="section-number-4">4.19.1</span> ES1</h4>
+<div class="outline-text-4" id="text-4-19-1">
+<p>
+Crare uno script che crei un file che contiene i numeri
+da 1 a 10, uno per ogni colonna.
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org5d7eae9"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-4-19-1-1">
+<p>
+Script che prende due valori in input (lower bound e upper bound)
+e stampa tutti i valori compresi, uno per colonna.
+</p>
+
+<p>
+#! /bin/bash
+LOWER=$1;
+UPPER=$2;
+for((i=LOWER; i&lt;=UPPER;i++))
+do
+    echo $i &gt;&gt; out.txt;
+done
+</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org3f25397" class="outline-3">
+<h3 id="org3f25397"><span class="section-number-3">4.20</span> DUBBI</h3>
+<div class="outline-text-3" id="text-4-20">
+<p>
+find <i>etc -regex ’^/etc</i>.*/\.bash.*$’
+Domanda: a cosa serve l'ancora finale?
+Non matcha lo stesso anche senza?
+Altra domanda: se .* matcha un carattere qualunque infinite vote,
+a cosa serve fare <i>.*</i> ? Non dovrebbe matcharli lo stesso i backslash?
+</p>
+</div>
+<div id="outline-container-orgb1af6d0" class="outline-4">
+<h4 id="orgb1af6d0"><span class="section-number-4">4.20.1</span> find <i>etc -regex ’^/etc</i>.*/\.bash.*$’</h4>
+<div class="outline-text-4" id="text-4-20-1">
+<p>
+Comando sulle slide che da problemi
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="orgb5b5f68"></a>OUTPUT<br />
+<div class="outline-text-5" id="text-4-20-1-1">
+<p>
+find: ‘/etc/cups/ssl’: Permission denied
+find: ‘/etc/polkit-1/localauthority’: Permission denied
+find: ‘/etc/ssl/private’: Permission denied
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org3fc41e1" class="outline-4">
+<h4 id="org3fc41e1"><span class="section-number-4">4.20.2</span> Comando mio</h4>
+<div class="outline-text-4" id="text-4-20-2">
+<p>
+Sul principio che il .* dovrebbe matchare tutto, allora uso il seguente comando:
+find /etc -regex '.*\.bash.*'
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org276abea"></a>Output<br />
+<div class="outline-text-5" id="text-4-20-2-1">
+<p>
+<i>etc/skel</i>.bashrc
+<i>etc/skel</i>.bash<sub>logout</sub>
+find: ‘/etc/cups/ssl’: Permission denied
+/etc/bash.bashrc
+find: ‘/etc/polkit-1/localauthority’: Permission denied
+find: ‘/etc/ssl/private’: Permission denied
+</p>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org965280f" class="outline-4">
+<h4 id="org965280f"><span class="section-number-4">4.20.3</span> ESERCIZIO</h4>
+<div class="outline-text-4" id="text-4-20-3">
+<p>
+Trovare nella cartella /home/matteo/train tutti i file che iniziano con a
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org9807a1f"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-4-20-3-1">
+<p>
+find /home/matteo/train -regex '/home/matteo/train/a.*'
+</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-org57ec67e" class="outline-2">
+<h2 id="org57ec67e"><span class="section-number-2">5</span> AUTENTICAZIONE</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-org528983c" class="outline-3">
+<h3 id="org528983c"><span class="section-number-3">5.1</span> GLOSSARIO</h3>
+<div class="outline-text-3" id="text-5-1">
+</div>
+<div id="outline-container-orgcd59d30" class="outline-4">
+<h4 id="orgcd59d30"><span class="section-number-4">5.1.1</span> Fattori di Autenticazione</h4>
+<div class="outline-text-4" id="text-5-1-1">
+<p>
+Informazioni che solo l'utente può conoscere, come una password.
+{conoscere, sapere, saper-fare}
+Autenticazione a due fattori
+</p>
+</div>
+</div>
+<div id="outline-container-org8748734" class="outline-4">
+<h4 id="org8748734"><span class="section-number-4">5.1.2</span> Entropia</h4>
+<div class="outline-text-4" id="text-5-1-2">
+<p>
+logb2(A<sup>N</sup>) dove A è l'alfabeto e N è la lunghezza della password.
+Ovviamente aumentando N è meglio.
+</p>
+</div>
+</div>
+<div id="outline-container-org3cd90a9" class="outline-4">
+<h4 id="org3cd90a9"><span class="section-number-4">5.1.3</span> SHA 512</h4>
+<div class="outline-text-4" id="text-5-1-3">
+<p>
+\(6\) &#x2013;&gt; Algoritmo usato per l'hashing. Viene applicato più volte.
+Dopo il primo dollaro, c'è una stringa hasshata che viene incollata alla password.
+&#x2013;&gt; aggiunta di un SALT
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb1d0bb9" class="outline-3">
+<h3 id="orgb1d0bb9"><span class="section-number-3">5.2</span> COMANDI</h3>
+<div class="outline-text-3" id="text-5-2">
+</div>
+<div id="outline-container-org3c01f17" class="outline-4">
+<h4 id="org3c01f17"><span class="section-number-4">5.2.1</span> Criptare in MD5</h4>
+<div class="outline-text-4" id="text-5-2-1">
+<p>
+echo 'password123!' | md5sum
+devo quotare forte se voglio inserire caratteri speciali.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc6ff863" class="outline-3">
+<h3 id="orgc6ff863"><span class="section-number-3">5.3</span> ESERCIZI</h3>
+<div class="outline-text-3" id="text-5-3">
+</div>
+<div id="outline-container-org6b59aae" class="outline-4">
+<h4 id="org6b59aae"><span class="section-number-4">5.3.1</span> ES1</h4>
+<div class="outline-text-4" id="text-5-3-1">
+<p>
+Autenticatevi come studente2.
+Eseguite le operazioni seguenti:
+impostazione del numero di telefono di lavoro al valore
+12345678;
+cambio della password al valore strongpassword;
+cambio di shell a /bin/rbash.
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org606248b"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-5-3-1-1">
+<p>
+su - studente2
+chfn
+basta usare i comandi sulle slide senza opzioni.
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgb1b40a9" class="outline-4">
+<h4 id="orgb1b40a9"><span class="section-number-4">5.3.2</span> ES2</h4>
+<div class="outline-text-4" id="text-5-3-2">
+<p>
+Autenticatevi come studente2.
+Eseguite le operazioni seguenti:
+impostazione del campo “Altro” al valore Dirigente.
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="orgf512625"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-5-3-2-1">
+<p>
+Si può fare solo da utente root. 
+Su ubuntu&#x2013;&gt; sudo chfn -o "Dipendente" studente2
+Altrimenti si logga come root e si esegue il comando senza sudo.
+</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-org0628238" class="outline-2">
+<h2 id="org0628238"><span class="section-number-2">6</span> AUTORIZZAZIONE</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+<div id="outline-container-orgb25cabb" class="outline-3">
+<h3 id="orgb25cabb"><span class="section-number-3">6.1</span> GRUPPI</h3>
+<div class="outline-text-3" id="text-6-1">
+</div>
+<div id="outline-container-org6dab73b" class="outline-4">
+<h4 id="org6dab73b"><span class="section-number-4">6.1.1</span> Principio del Minimo Privilegio</h4>
+<div class="outline-text-4" id="text-6-1-1">
+<p>
+Do a ogni utente in ogni istante il minimo
+privilegio per svolgere le sue task.
+</p>
+</div>
+</div>
+<div id="outline-container-org3769908" class="outline-4">
+<h4 id="org3769908"><span class="section-number-4">6.1.2</span> addgroup</h4>
+<div class="outline-text-4" id="text-6-1-2">
+<p>
+serve a creare gruppi che potranno essere associati ad un utente come 
+gruppi secondari. Potranno diventare anche gruppi primari di un utente.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org4aad5e2" class="outline-3">
+<h3 id="org4aad5e2"><span class="section-number-3">6.2</span> PERMESSI</h3>
+<div class="outline-text-3" id="text-6-2">
+<p>
+Da sapere cosìè la lettera prima dei permessi
+PCB = Blocco di controllo del processo.
+Per poter accedere a /dev/sda, andreoli dovrebbe appartenere
+al gruppo disk.
+Come faccio ad aggiungermi al gruppo disk? Vedi gestione dei gruppi.
+</p>
+</div>
+</div>
+<div id="outline-container-org9794811" class="outline-3">
+<h3 id="org9794811"><span class="section-number-3">6.3</span> GESTIONE DEI GRUPPI</h3>
+<div class="outline-text-3" id="text-6-3">
+</div>
+<div id="outline-container-org686886b" class="outline-4">
+<h4 id="org686886b"><span class="section-number-4">6.3.1</span> Delgroup</h4>
+<div class="outline-text-4" id="text-6-3-1">
+<p>
+Cancella il gruppo dalla lista dei gruppi
+Cancella il gruppo dall'elenco dei gruppi di ogni utente.
+</p>
+</div>
+</div>
+<div id="outline-container-org192595a" class="outline-4">
+<h4 id="org192595a"><span class="section-number-4">6.3.2</span> groups</h4>
+<div class="outline-text-4" id="text-6-3-2">
+<p>
+Comando per visualizzare i gruppi di un utente
+</p>
+
+<p>
+sudo groups matteo &#x2013;&gt; stampa i gruppi a cui appartiene matteo.
+root non ha ragione di appartenere a diversi gruppi,
+se sei root l'algoritmo di matching per controllare i permessi
+non viene applicato.
+</p>
+</div>
+</div>
+<div id="outline-container-orge13c2eb" class="outline-4">
+<h4 id="orge13c2eb"><span class="section-number-4">6.3.3</span> ESERCIZIO</h4>
+<div class="outline-text-4" id="text-6-3-3">
+<p>
+Si provi ad assegnare all'utente prova i seguenti gruppi
+di lavoro primario e secondari.
+Gruppo primario: root.
+Gruppi secondari: disk cdrom floppy audio.
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org5144949"></a>Soluzione<br />
+<div class="outline-text-5" id="text-6-3-3-1">
+<p>
+si usano i comandi usermod -g e usermod -G con relativi argomenti.
+</p>
+</div>
+</li>
+<li><a id="org235759c"></a>Trappola<br />
+<div class="outline-text-5" id="text-6-3-3-2">
+<p>
+con -G si SOVRASCRIVE, cancella e riscrive, quindi non aggiunge il gruppo
+che viene dato in pasto al comando.
+</p>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org9cf8bd1" class="outline-4">
+<h4 id="org9cf8bd1"><span class="section-number-4">6.3.4</span> Approfondimento</h4>
+<div class="outline-text-4" id="text-6-3-4">
+<p>
+Quando parte una sessione grafica, vengono creati diversi processi
+Il primo processo è Init, seguito da GDM che carica tutti i processi,
+GDM esegue da root, i vari processi hanno ID dello user che ha fatto
+il login.
+Quindi il database viene letto da GDM al login, e i permessi vengono 
+ereditati da padre in figlio. Per questo fino al prossimo login le mie
+modifiche non funzionano.
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org25b150d"></a>newgrp<br />
+<div class="outline-text-5" id="text-6-3-4-1">
+<p>
+In pratica cambia temporaneamente il gruppo primario &#x2013;&gt; newgrp disk setta 
+disk come gruppo primario.
+</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org042664d" class="outline-3">
+<h3 id="org042664d"><span class="section-number-3">6.4</span> GESTIONE DEI PERMESSI</h3>
+<div class="outline-text-3" id="text-6-4">
+</div>
+<div id="outline-container-orgc6bf190" class="outline-4">
+<h4 id="orgc6bf190"><span class="section-number-4">6.4.1</span> ESERCIZIO</h4>
+<div class="outline-text-4" id="text-6-4-1">
+<p>
+Create un file vuoto dal nome lista2.txt nella vostra
+home directory. Usando chmod con rappresentazione
+testuale dei permessi, impostate i permessi seguenti sul
+file:
+rwxr-xr-x
+Verificate la corretta applicazione dei permessi.
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org3aacd91"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-6-4-1-1">
+<p>
+touch lista2.txt
+ls -l per controllare i permessi già presenti
+chmod ugo+x /root/lista2.txt
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgcad88c1" class="outline-4">
+<h4 id="orgcad88c1"><span class="section-number-4">6.4.2</span> RAPPRESENTAZIONE OTTALE</h4>
+<div class="outline-text-4" id="text-6-4-2">
+<p>
+il quarto bit è usato per settare i permessi speciali.
+</p>
+</div>
+</div>
+<div id="outline-container-org7dbf440" class="outline-4">
+<h4 id="org7dbf440"><span class="section-number-4">6.4.3</span> ESERCIZIO</h4>
+<div class="outline-text-4" id="text-6-4-3">
+<p>
+Si supponga di voler assegnare al file di testo
+/home/studente/file.txt il seguente insieme di
+permessi: rw-rw-r&#x2013;.
+Si costruisce il numero in base ottale.
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org5b4514d"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-6-4-3-1">
+<p>
+Usando i principi
+chmod 0664 /home/studente/file.txt
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgce36ea7" class="outline-4">
+<h4 id="orgce36ea7"><span class="section-number-4">6.4.4</span> ESERCIZIO</h4>
+<div class="outline-text-4" id="text-6-4-4">
+<p>
+Copiate il file /usr/bin/passwd nella vostra home
+directory. Usando chmod con rappresentazione ottale
+dei permessi, impostate i permessi seguenti sul file:
+rwsr-xr-x
+Verificate la corretta applicazione dei permessi.
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org07dac67"></a>SOLUZIONE<br />
+<div class="outline-text-5" id="text-6-4-4-1">
+<p>
+cp /etc/passwd /root/passwords.txt
+chmod 4755 /root/password.txt
+</p>
+
+<p>
+In tal modo, settando il primo bit a 4, setto il bit SETGID
+</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-org4287bb3" class="outline-2">
+<h2 id="org4287bb3"><span class="section-number-2">7</span> FILESYSTEM</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+<div id="outline-container-orge1eb159" class="outline-3">
+<h3 id="orge1eb159"><span class="section-number-3">7.1</span> Glossario</h3>
+<div class="outline-text-3" id="text-7-1">
+<p>
+RAID= Array di dischi
+LVM = Prende un insieme di dischi partizionati su cui
+lui crea delle ulteriori partizioni.
+Cercare su wikipedia
+</p>
+</div>
+<div id="outline-container-org5a25db9" class="outline-4">
+<h4 id="org5a25db9"><span class="section-number-4">7.1.1</span> File sparso</h4>
+<div class="outline-text-4" id="text-7-1-1">
+<p>
+Se non voglio sprecare memoria, nelle zone di memoria
+in cui dovrebbero esserci molti 0, invece ci sono
+delle label "segnaposto.".
+Quindi per creare le VM sembra meglio non allocare tutto subito.
+Il problema è che la VM diventa più lenta, per questo non viene
+offerta come scelta primaria.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org0125a2e" class="outline-3">
+<h3 id="org0125a2e"><span class="section-number-3">7.2</span> Approfondimento</h3>
+<div class="outline-text-3" id="text-7-2">
+<p>
+Proc e sys sono dei filesystem virtuali, vengono generati dinamicamente 
+dal sistema operativo.
+Virtual filesystem.
+</p>
+</div>
+<div id="outline-container-org4f90a85" class="outline-4">
+<h4 id="org4f90a85"><span class="section-number-4">7.2.1</span> udev</h4>
+<div class="outline-text-4" id="text-7-2-1">
+<p>
+demone che esegue degli script per montare in automatico ad esempio le chaivette,
+in base a degli eventi hardware che gli manda il sistema operativo.
+udev monta i filesystem virtuali al boot. Le informazioni necessarie sono contenute
+nel file /dev/fstab
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org779861e" class="outline-2">
+<h2 id="org779861e"><span class="section-number-2">8</span> PROCESSI</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+<b>big fat warnings</b>
+Quando si parla di nucleo, si intende <i>kernel</i>.
+</p>
+</div>
+<div id="outline-container-org2776e04" class="outline-3">
+<h3 id="org2776e04"><span class="section-number-3">8.1</span> Time sharing</h3>
+<div class="outline-text-3" id="text-8-1">
+<p>
+Tecnica per eseguire più applicazioni su una singola unoità di calcolo.
+Quando un applicazione è ferma, il processore esegue le altre.
+La tecnica del time sharing è nata inizalmente per gestire dei sistemi
+multiutente
+</p>
+</div>
+</div>
+<div id="outline-container-orga605f54" class="outline-3">
+<h3 id="orga605f54"><span class="section-number-3">8.2</span> PCB</h3>
+<div class="outline-text-3" id="text-8-2">
+<p>
+Process Control Block &#x2014;&gt; struttura dati dell'astrazione del processo.
+Contiene informazioni sullo stato del processo e puntatori alle risorse che il
+processo usa. E' anche conosciuto come Process Descriptor.
+Domanda sul problema della ridodanza: il PCB non contiene dei PUNTATORI a delle aree 
+di memoria che contengono le risorse che deve usare? Perchè si parla di problema di 
+RIDONDANZA?
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="orge32bba8"></a>PID<br />
+<div class="outline-text-5" id="text-8-2-0-1">
+<p>
+Campo contenuto nel descrittore, TID per i thread.
+E' un numero interno non negativo assegnato dal nucleo quanto viene 
+creato il processo. E' necessario per poter interagire col processo.
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgaa397a0" class="outline-3">
+<h3 id="orgaa397a0"><span class="section-number-3">8.3</span> Thread</h3>
+<div class="outline-text-3" id="text-8-3">
+<p>
+Sottoprocessi, ciascun thread esegue una funzione specifica.
+I thread di un processo condividono TUTTE le risorse.
+Ogni thread ha il proprio TCB (<b>thread control block</b>).
+Gli stack sono separati!
+Altrimenti ad esempio le funzioni chiamate scriverebbero tutti sullo
+stesso record di attivazione e sarebbe un bordello.
+L'ordine in cui vengono eseguiti i thread influisce sul risultato 
+finale!
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org15e8fc5"></a>Approfondimento<br />
+<div class="outline-text-5" id="text-8-3-0-1">
+<p>
+Su linux i thread sono processi, dipende solo da come vengono creati.
+GREEN THREAD &#x2013;&gt; consumano meno corrente, eseguono in maniera distaccata
+e non vanno ad intaccare il kernel.
+Si usano soltanto i processi , i thread sono essenzialmente delle funzioni.
+Problema: se un thread si blocca, si blocca tutto, perchè il processo
+si blocca per eseguire l'operazione richiesta(es. lettura/scrittura).
+Viene bloccato tutto il processo.
+Quindi i green thread sono utili quando non devo fare dell'IO ad esempio
+</p>
+
+<p>
+Nel modello spiegato a lezione invece, c'è Parallelizzazione, quindi
+si blocca solo il singolo thread. C'è più lavoro da parte del 
+sistema operativo, che deve assegnare ai processori i singoli thread.
+Questo lavoro viene eseguito dal KERNEL.
+</p>
+
+<p>
+RICHIESTA DI IO SINCRONA &#x2013;&gt; devo finire la richiesta per iniziare
+a eseguire la seconda
+RICHIESTA DI IO ASCINCRONA &#x2013;&gt; duale della precedente.
+</p>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org854ae68" class="outline-3">
+<h3 id="org854ae68"><span class="section-number-3">8.4</span> Isolamento dei processi</h3>
+<div class="outline-text-3" id="text-8-4">
+<p>
+Stack, dati, codice sono isolati da un processo all'altro.
+IN TEORIA: infatti il SO dovrebbe sprecare molta memoria.
+C'è molta ridondanza.In realtà il SO fa in modo da condividere
+tra i processi il codice uguale, ad esempio. Infatti l'area
+di codice NON è scrivibile, quindi possono condividerle senza problemi.
+Basta che queste risorse siano RO. Quando sono anche scrivibili
+non si può fare.
+</p>
+</div>
+</div>
+<div id="outline-container-orgc057e4d" class="outline-3">
+<h3 id="orgc057e4d"><span class="section-number-3">8.5</span> Individuazione</h3>
+<div class="outline-text-3" id="text-8-5">
+<p>
+pidof per ottenere il PID di un processo.
+Molte distro usando systemd invece di init.
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org97f84f7"></a>Ubuntu:<br />
+<div class="outline-text-5" id="text-8-5-0-1">
+<p>
+Init di sistema &#x2013;&gt; init di utente1
+                &#x2013;&gt; init di utente2
+Posso assegnare performance differenziate ai diversi utenti.
+</p>
+</div>
+</li>
+<li><a id="org63a2efa"></a>Gang scheduling o Group scheduling<br />
+<div class="outline-text-5" id="text-8-5-0-2">
+<p>
+Lo scheduling viene fatto per gruppi, come in UBUNTU.
+Si possono assegnare diverse risorse ai singoli alberi.
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org47cff36" class="outline-3">
+<h3 id="org47cff36"><span class="section-number-3">8.6</span> Creazione dei Processi</h3>
+<div class="outline-text-3" id="text-8-6">
+</div>
+<ol class="org-ol">
+<li><a id="org5bfdb28"></a>FORKING e PREFORKING<br />
+<div class="outline-text-5" id="text-8-6-0-1">
+<p>
+Esercizio sulla gerarchia con bash:
+bash ogni volta viene ricaricata da disco!
+Quindi oltre a fare il fork viene anche eseguito il codice di bash.
+Nei webserver, il daemon(httpd) forka i figli che poi parlano con il client.
+Il processo muore quando termina la richiesta del client.
+</p>
+<ul class="org-ul">
+<li>problema di inefficienz perchè il processi vengono killati e ricreati.</li>
+<li>Soluzione: si mantengono aperti N thread (pool di thread / processi). Il
+padre di volta in volta inoltra le richieste ai figli. Tecnica chiamata <b>PREFORK</b></li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgd3bbf9e" class="outline-3">
+<h3 id="orgd3bbf9e"><span class="section-number-3">8.7</span> Albero dei Processi</h3>
+<div class="outline-text-3" id="text-8-7">
+</div>
+<ol class="org-ol">
+<li><a id="orgc3b169a"></a>Init<br />
+<div class="outline-text-5" id="text-8-7-0-1">
+<p>
+fa in modo che i suoi figli di primo livello siano sempre quelli, per stabilità.
+Chi crea INIT?
+</p>
+<ul class="org-ul">
+<li>POWER ON SELF TEST
+Serve a garantire consistenza della macchina, effettua diversi controlli (slide).
+Controllo RAM &#x2013;&gt; veniva fatto. Ora la RAM è troppo capiente. Prima era facilmente intercambiabile.
+Inizializzazione dischi &#x2013;&gt; si cercava una periferica che fosse opportunamente configurata per fare il boot.
+Se non veniva trovata, si faceva il boot da rete.</li>
+<li><p>
+Bootloader
+1 stadio
+I primi 446 byte del disco contiene del codice macchina. Questo codice è il bootloader.
+Questo programma fa fare un jump al [?]
+</p>
+
+<p>
+2 stadio
+Viene creato il menù di boot. Su windows viene fatto anche il chainloading. Si fa un salto aggiuntivo al 
+bootloader di windows. Infatti il bootloader di windows non ama la presenza di altri bootloader.
+</p></li>
+</ul>
+
+
+<p>
+Il bootloader carica il Kernel. Significa prendere il filesystem della macchina e caricare il kernel dentro
+alla directory boot.
+vmlinuz
+</p>
+<ul class="org-ul">
+<li>z perchè sono compressi</li>
+<li>tutto ciò che è crakkato e distribuito illegalmente finisce con z.</li>
+</ul>
+</div>
+
+<ol class="org-ol">
+<li><a id="org0460e96"></a>SPIEGAZIONE (cosa ho capito)<br />
+<div class="outline-text-6" id="text-8-7-0-1-1">
+<p>
+Nel primo blocchetto solitamente c'è il codice macchina che avvia GRUB.
+Mi fa fare il salto al secondo blocco. Ora posso scegliere Linux o Windows come sistema operativo da avviare.
+Se seleziono linux nessun problema, viene caricato il kernel ecc.
+Se seleziono Windows, il bootloader (GRUB) mi fa saltare ad un altro blocco (terzo blocco) che contiene
+il bootloader di Windows, che si incazza se viene avviato da GRUB. In particolare, viene effettuato 
+un processo di virtualizzazione che fa pensare a windows di essere il bootloader principale.
+</p>
+</div>
+</li>
+</ol>
+</li>
+<li><a id="org490792b"></a>Inizializzazione Periferiche<br />
+<div class="outline-text-5" id="text-8-7-0-2">
+<p>
+Linux deve avere i driver per supportare le periferiche di tutti i dispositivi.
+Il kernel dovrebbe essere tipo 100 mega, non adatto alle dimensioni dei kernel (10/15 mega).
+Quando il kernel parte, non monta subito la partizione di root, carica un altro file.
+Nella cartella boot, si trova il file initrd
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org62b1f00"></a>initrd<br />
+<div class="outline-text-6" id="text-8-7-0-2-1">
+<p>
+Ramdisk init &#x2013;&gt; file compresso che viene scompattato. E' anche lui un filesystem di root. Contiene
+uno script di init, tutti i device driver delle periferiche delle macchine.
+Cosa fa la ramdisk: 
+</p>
+<ul class="org-ul">
+<li></li>
+
+<li>caricare il driver della scheda e garantire l'attivazione</li>
+<li>caricare il driver di rete e il firmware</li>
+<li>mettere uno splashscreen per coprire il processo di boot.</li>
+</ul>
+
+<p>
+Al termine, il disco e la scheda video sono funizonanti.
+A questo punto la ramdisk viene scartata e viene montato il filesystem.
+Si esegue /sbin/init
+</p>
+
+<p>
+Questa suddivisione tra ramdisk e kernel avviene perchè è inutile montare
+sulla mia macchina i driver di tutte le macchine esistenti.
+Semplicemente i driver vengono letti, viene preso quello che serve, viene caricato.
+Fine, non carico tutto.
+</p>
+</div>
+</li>
+<li><a id="orgaade4a1"></a>Approfondimento sul kernel<br />
+<div class="outline-text-6" id="text-8-7-0-2-2">
+<p>
+I driver delle "periferiche esterne" sono seperati, sono modulini caricabili con
+un comando. Questi modulini sono contenuti in /lib/modules caricabili con modprobe. 
+</p>
+</div>
+</li>
+</ol>
+</li>
+<li><a id="orgbe9f6f9"></a>Visualizzare l'albero dei processi.<br />
+<div class="outline-text-5" id="text-8-7-0-3">
+<ul class="org-ul">
+<li>{} &#x2013;&gt; thread</li>
+<li>[] &#x2013;&gt; processo.</li>
+</ul>
+</div>
+<ol class="org-ol">
+<li><a id="org5a1f3f7"></a>Desktop semantico(appr)<br />
+<div class="outline-text-6" id="text-8-7-0-3-1">
+<p>
+Desktop che offre delle funzionalità di ricerca avanzate.
+Ogni file viene etichettato, per poi effettuare delle ricerche.
+</p>
+</div>
+</li>
+</ol>
+</li>
+
+<li><a id="org49ccb88"></a>Reparenting<br />
+<div class="outline-text-5" id="text-8-7-0-4">
+<p>
+Inizialmente i processi orfani venivano assegnati all'unico processo
+init.
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org8fc244c" class="outline-3">
+<h3 id="org8fc244c"><span class="section-number-3">8.8</span> Segnali</h3>
+<div class="outline-text-3" id="text-8-8">
+</div>
+<ol class="org-ol">
+<li><a id="org8f23a89"></a>SIGSEGV<br />
+<div class="outline-text-5" id="text-8-8-0-1">
+<p>
+Segmentation Fault: un processo accede ad una cella di memoria
+non assegnata a quel processo.
+LA CPU in maniera SINCRONA invia una notifica al processo per
+killarlo.
+</p>
+</div>
+</li>
+<li><a id="org9b2c688"></a>Signal handler<br />
+<div class="outline-text-5" id="text-8-8-0-2">
+<p>
+E' tipo l'ActionListener.
+TERMINATE &#x2013;&gt; in realtà alla fine viene chiamata una exit.
+</p>
+</div>
+</li>
+<li><a id="org78bf402"></a>Core dump<br />
+<div class="outline-text-5" id="text-8-8-0-3">
+<p>
+File binario che contiene lo stato della memoria dopo un crash.
+Il debugger lo legge e ricostruisce lo stato dell'applicazione
+Coredumpctl &#x2013;&gt; programma che aiuta a leggere i coredump.
+</p>
+</div>
+</li>
+
+<li><a id="orgcc5dee3"></a>Sigterm<br />
+<div class="outline-text-5" id="text-8-8-0-4">
+<p>
+Chiude tutti i descrittore e flussha i buffer facendo un uscita
+ordinata.
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="orgd09dd96"></a>Approfondimento<br />
+<div class="outline-text-6" id="text-8-8-0-4-1">
+<p>
+Per uscire in modo pulito da un applicazione prima si manda
+un sigterm. L'handler viene gestito fino alla fine, poi si 
+manda anche un sigkill per sicurezza.
+</p>
+</div>
+</li>
+</ol>
+</li>
+<li><a id="orgfe1119d"></a>Sigkill<br />
+<div class="outline-text-5" id="text-8-8-0-5">
+<p>
+Il segnale non è gestibile dall'handler, quindi viene sempre
+fatto il terminate.
+Viene comunque fatto perchè il programmatore potrebbe sbagliarsi
+a scrivere il Listener di sigterm e il processo rimarebbe appeso.
+</p>
+</div>
+</li>
+<li><a id="org3c1fbf7"></a>Sigint<br />
+<div class="outline-text-5" id="text-8-8-0-6">
+<p>
+Ctrl-c, segnale che volendo può essere gestito da un handler.
+ad esempio se uso bc, se mando ctrl c, il programma non esce
+e da un segnale in output.
+</p>
+</div>
+</li>
+<li><a id="orga80eefe"></a>Sigcont<br />
+<div class="outline-text-5" id="text-8-8-0-7">
+<p>
+Con ctrl z stoppo l'eseceuzione, con fd faccio ripartire il processo.
+Vengono mostrati anche ctrlq e ctrls
+</p>
+</div>
+</li>
+<li><a id="org3a61557"></a>Sigquit<br />
+<div class="outline-text-5" id="text-8-8-0-8">
+<p>
+ctrl \ &#x2013;&gt; viene gerenrato un coredump.
+I file coredump vengono salvati o nella dir corrente o un una
+specifica directory(con systemd)
+</p>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org67602e0" class="outline-3">
+<h3 id="org67602e0"><span class="section-number-3">8.9</span> Pkill</h3>
+<div class="outline-text-3" id="text-8-9">
+<p>
+pkill è un alias di pgrep. In UNIX si costruisce un comando
+bene, poi altri comandi che gli assomigliano derivano da lui.
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="orgc5b019e"></a>ESERCIZIO<br />
+<div class="outline-text-5" id="text-8-9-0-1">
+<p>
+Eseguite un emulatore di terminale.
+Leggete la pagina di manuale di pkill e individuate un
+modo per terminare l’istanza più recente del processo
+bash.
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="orgffed08f"></a>SOLUZIONE<br />
+<div class="outline-text-6" id="text-8-9-0-1-1">
+<p>
+Per motivi di sicurezza bash ignora il segnale terminate dei
+suoi figli,quindi non posso autochiuderla con il segnale term.
+Se uso kill, il processo non usa l'handler, quindi l'ultima
+bash muore.
+</p>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+<div id="outline-container-org4ea46dd" class="outline-3">
+<h3 id="org4ea46dd"><span class="section-number-3">8.10</span> Pipe</h3>
+<div class="outline-text-3" id="text-8-10">
+<p>
+Broken Pipe &#x2013;&gt; qualcuno ha chiusto STDIN o STODUT
+quindi non ha senso che gli altri processi continuino
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="orgdcb1789"></a>MPV<br />
+<div class="outline-text-5" id="text-8-10-0-1">
+<p>
+ha la capacità di leggere blocchi di byte e riprodurli.
+Non ho tutto il file subito, viene letto a pezzi, riproduzione
+in diretta.
+A mpv serve un file, quindi si fa uso del file speciale.
+Il contenuto del file audio scaricato non viene scritto su disco, 
+ma su un buffer in memoria. Quesot buffer è grande 64 byte.
+La pipe si blocca se non c'è un consumer.
+</p>
+</div>
+</li>
+<li><a id="org38c0190"></a>ESERCIZIO<br />
+<div class="outline-text-5" id="text-8-10-0-2">
+<p>
+Visualizzate i trenta file più grandi nell’intero file system.
+Usate le named pipe per la comunicazione tra processi.
+Spiegate il blocco dei vari processi coinvolti.
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="orga4c5834"></a>SOLUZIONE<br />
+<div class="outline-text-6" id="text-8-10-0-2-1">
+<p>
+Quando eseguo sort redirezionando l'output su buffer2, la pipe 
+si blocca perchè il sistema operativo capisce che da buffer2 non
+sta leggendo nulla. Quindi non ha nemmeno senso scrivere su buffer2.
+Il blocco potrebbe anche accadere quando sort prova a scrivere su
+buffer2, bisognerebbe guardare le chiamate di sistema di sort.
+In realtà, analizzando le chiamate di sistema con strace, si scopre
+che non vengono stampate le chiamate di sistema di sort. Quindi
+in realtà è bash che blocca la pipe se non vede un consumer su 
+buffer2.
+</p>
+
+<p>
+Se eseguo find &lt;opzioni varie&gt; | tee buffer1 bash non blocca find,
+perchè c'è tee in ascolto. Quindi viene stampato tutto l'ouput di find.
+</p>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org646272a" class="outline-3">
+<h3 id="org646272a"><span class="section-number-3">8.11</span> Job Control</h3>
+<div class="outline-text-3" id="text-8-11">
+<p>
+Modo efficiente di spostare una cartella compattandola.
+</p>
+<pre class="example">
+(cd /src/dir &amp;&amp; tar cf - .) | ( cd /dst/dir &amp;&amp; tar xf -)
+</pre>
+<p>
+I processi della pipeline eseguono in maniera concorrente,
+anche se in teoria dipende dal tipo di comando.
+Se questi comandi leggono a blocchi, allora possono
+essere eseguiti concorrentemente.
+</p>
+</div>
+<div id="outline-container-org6f47911" class="outline-4">
+<h4 id="org6f47911"><span class="section-number-4">8.11.1</span> SESSIONI</h4>
+<div class="outline-text-4" id="text-8-11-1">
+<p>
+Inizialmente una sessione ha un solo gruppo di processi.
+Man mano ne vengono creati altri.
+SID &#x2013;&gt; PID del processo Session Leader.
+Se in una sessione ci sono n gruppi di processi, n-1
+sono lanciati in background, non possono occupare il
+terminale.
+Mandare i processi in background serve essenzialmente
+quando non ho a disposizione diversi terminali.
+Non è raccomandato eseguire in background comandi interattivi,
+perchè questi processi non possono leggere da terminale.
+Quindi dovrei portarli in foreground per poter leggere l'Input 
+da terminale.
+</p>
+</div>
+</div>
+<div id="outline-container-org90bfb3a" class="outline-4">
+<h4 id="org90bfb3a"><span class="section-number-4">8.11.2</span> Job corrente</h4>
+<div class="outline-text-4" id="text-8-11-2">
+<p>
+Ultimo Job interroto con ctrl z oppure l'ultimo job lanciato in 
+background.Ctrl z si manda solo a processi in primo piano.
+Ogni job ha 2 ID, quello di bash e quello del kernel.
+Quello di bash è [num], l'altro è quello del kernel.
+</p>
+</div>
+</div>
+<div id="outline-container-org7d150a2" class="outline-4">
+<h4 id="org7d150a2"><span class="section-number-4">8.11.3</span> Sleep</h4>
+<div class="outline-text-4" id="text-8-11-3">
+<p>
+In questo caso il job sta eseguendo, mentre il processo
+(sleep) sta dormendo. Il job è una PIPELINE gestita da bash.
+</p>
+</div>
+</div>
+<div id="outline-container-orgd4fd914" class="outline-4">
+<h4 id="orgd4fd914"><span class="section-number-4">8.11.4</span> -</h4>
+<div class="outline-text-4" id="text-8-11-4">
+<p>
+Indica il job precedente a quello attuale.(DA non approfondire necessariamente)
+</p>
+</div>
+</div>
+<div id="outline-container-orgaa3369a" class="outline-4">
+<h4 id="orgaa3369a"><span class="section-number-4">8.11.5</span> fg</h4>
+<div class="outline-text-4" id="text-8-11-5">
+<p>
+Se il processo che seleziono è addormentato, quando
+viene messo in foreground, viene svegliato e agganciato al 
+terminale.
+Alias di %1 solitamente. Si riferisce al job con il "+".
+</p>
+<pre class="example">
+%
+</pre>
+</div>
+</div>
+<div id="outline-container-orgd4d66ba" class="outline-4">
+<h4 id="orgd4d66ba"><span class="section-number-4">8.11.6</span> bg</h4>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Matteo Eros Lugli</p>
+<p class="date">Created: 2021-12-03 ven 09:38</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

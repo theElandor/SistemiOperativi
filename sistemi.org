@@ -171,9 +171,9 @@ Guardare sulle slide, su orgmode viene interpretato come espressione speciale
 Stampare i valori di tutte le etichette UUID nel file /etc/fstab
 evitando di stampare UUID=
 **** SOLUZIONE
-considerare (:<something>:) come [[]] con la stessa espressione dentro.
+#+BEGIN_SRC 
 grep -Eo "([[:alnum:]]){,7}-(([[:alnum:]]){,4}-){3}([[:alnum:]]){,12}" /etc/fstab
-
+#+END_SRC
 Dato che i caratteri sono esadecimali, uso la seguente dicitura:
 grep -Eo "[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{,12}" /etc/fstab
 in questo modo vengono matchati solo i caratteri esadecimali.
@@ -1092,3 +1092,65 @@ Non è raccomandato eseguire in background comandi interattivi,
 perchè questi processi non possono leggere da terminale.
 Quindi dovrei portarli in foreground per poter leggere l'Input 
 da terminale.
+*** Job corrente
+Ultimo Job interroto con ctrl z oppure l'ultimo job lanciato in 
+background.Ctrl z si manda solo a processi in primo piano.
+Ogni job ha 2 ID, quello di bash e quello del kernel.
+Quello di bash è [num], l'altro è quello del kernel.
+*** Sleep
+In questo caso il job sta eseguendo, mentre il processo
+(sleep) sta dormendo. Il job è una PIPELINE gestita da bash.
+*** -
+Indica il job precedente a quello attuale.(DA non approfondire necessariamente)
+*** fg
+Se il processo che seleziono è addormentato, quando
+viene messo in foreground, viene svegliato e agganciato al 
+terminale.
+Alias di %1 solitamente. Si riferisce al job con il "+".
+#+BEGIN_SRC 
+%
+#+END_SRC
+*** bg
+**** ESERCIZIO
+Lanciate sullo sfondo un comando che legge un valore
+da terminale e lo memorizza nella variabile a.
+Visualizzate l’elenco dei job.
+Notate qualcosa di strano?
+Come è possibile portare a termine l’operazione?
+***** SOLUZIONE
+#+BEGIN_SRC 
+read a &
+#+END_SRC
+--> in background non posso leggere da terminale, quindi il processo
+viene stoppato.
+se poi faccio echo $a non viene stampato nulla.
+Perchè quando lancio read a in background, bash si forka
+e crea un processo figlio. Quando il processo muore, bash
+figlia muore, e il valore di a non viene salvato.
+**** FORKING
++ Bash forka se deve eseguire un comando non builtin
++ Se esegue un comando in bacgkround forka.
++ Se esegue un comando in una sottoshell.
+
+Non forka se deve eseguire dei builtin (tipo read a)
+#+BEGIN_SRC 
+a=$(wc -l /etc/passwd | cut -f1 -d” ”)
+#+END_SRC
+In questo caso bash si forka per eseguire il comando, poi rimanda
+l'output al padre.
+*** Sostituzione di processo
+/dev/fd/N --> file temporanei che vengono letti (nell'esempio da paste)
+che poi vengono eliminati.
+Questi file sono in memoria, non su disco.
+Vengono eliminati alla fine dell'esecuzione di bash.
+**** ESERCIZIO
+Il comando diff confronta due file e stampa una
+rappresentazione efficiente delle loro differenze.
+A partire da questa informazione, individuate un metodo
+per trovare le differenze nei contenuti di due pagine Web
+distinte.
+***** SOLUZIONE
+Qualcosa del genere.
+#+BEGIN_SRC 
+diff <(wget -q -O <url>) <(wget -q -O - <url>) | less 
+#+END_SRC

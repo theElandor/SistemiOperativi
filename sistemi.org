@@ -1050,7 +1050,7 @@ Non ho tutto il file subito, viene letto a pezzi, riproduzione
 in diretta.
 A mpv serve un file, quindi si fa uso del file speciale.
 Il contenuto del file audio scaricato non viene scritto su disco, 
-ma su un buffer in memoria. Quesot buffer è grande 64 byte.
+ma su un buffer in memoria. Questo buffer è grande 64 byte.
 La pipe si blocca se non c'è un consumer.
 **** ESERCIZIO
 Visualizzate i trenta file più grandi nell’intero file system.
@@ -1154,3 +1154,35 @@ Qualcosa del genere.
 #+BEGIN_SRC 
 diff <(wget -q -O <url>) <(wget -q -O - <url>) | less 
 #+END_SRC
+* PRIVILEGE ESCALATION
+** Effective user ID / group ID
+SETGID --> come il GUID ma si applica alla seconda terna.
+
+** Saved user ID / group ID
+Copia dal valore effettivo all'inizio dell'esecuzione
+(Copia del privilegio effettivo)
+Serve per capire il privilegio che posso riottenere quando
+mi riprendo i privilegi originari dopo un privilege drop.
+** Capability
+*** Capability di processo
+Microprivilegi che suddividono la capacità di root di fare ogni cosa.
+Dico ad un processo di eseguire con delle determinate capacità.
+Questo risolve il problema dell'userID bit, rispettando il 
+concetto di minimo privilegio.
+Le capability vengono assegnate dal kernel quando il processo viene eseguito.
+Ogni processo ha 3 vettori di bit di capability.
+**** Capability Permesse
+che possono essere assegnate dal kernel al processo.
+Il processo può anche decidere di abbandonare questa cap.
+**** Capability Effettive
+Capabilty che ho dopo aver droppato le superflue.
+Le effettive possono essere spente/accese.
+**** Capability Ereditabili
+Processo padre --> si forka --> le cap. ereditate dal padre sono settate come cap. permesse dal figlio.
+*** Capability di file
+**** Cap Permesse
+**** Cap Effettive
+Sono un solo bit.
++ Le permesse non sono abilitate
++ Le permesse sono abilitate
+**** Cap ereditabili

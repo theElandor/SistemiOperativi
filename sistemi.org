@@ -1180,9 +1180,52 @@ Le effettive possono essere spente/accese.
 **** Capability Ereditabili
 Processo padre --> si forka --> le cap. ereditate dal padre sono settate come cap. permesse dal figlio.
 *** Capability di file
+Sono usate dal kernel per stabilire gli insiemi di capability possedute da un 
+processo che esegue quel file.
 **** Cap Permesse
+Sono inserite nell'insieme delle capabilities permesse al processo all'inizio
+della sua esecuzione.
 **** Cap Effettive
 Sono un solo bit.
 + Le permesse non sono abilitate
 + Le permesse sono abilitate
 **** Cap ereditabili
+** Elevazione con SU
+*** id
+a root non servono gruppi, quindi root fa parte solo
+del suo gruppo primario.
+*** su
+quando eseguo su senza argomenti mi si fottono le variabili
+di ambiente.
+/usr/bin /sbin
+con echo $PATH stampo le variabili di ambiente.
+Quindi bisogna caricare l'ambiente dell'utente giusto.
+Per farlo si usa
+#+BEGIN_SRC bash
+su -l
+#+END_SRC
+Notiamo che l'ambiente è molto ridotto.
+Non ci sono variabili d'ambiente grafiche...
+se root si logga graficamente l'output sarebbe più lungo.
++ i COLORS sono variabili che riguardano il colore dei caratteri.
+con dircolors imposta la variabile d'ambiente per impostare
+i colori.
+Comando che mi da l'insieme dei processi, per verificare
+se ho usato su correttamente.
+#+BEGIN_SRC 
+ps faxu | grep COMANDO
+#+END_SRC
++ Il comando su forka un figlio. Per verificare basta lanciare
+un comando longrun e vedere con pstree.
+Comando per elencare solo i file nascosti.
+#+BEGIN_SRC 
+su -c "ls -a -l -d .*" -prova
+#+END_SRC
+*** sudo
++ sudoers è modulare, collega diversi file.
++ man 5 sudoers per maggiori informazioni.
+#+BEGIN_SRC bash
+sudo -u prova -g disk cat /dev/sda
+#+END_SRC
+Per lanciare leggere fdisk da prova aggiungendosi temporaneamente 
+al gruppo disk.

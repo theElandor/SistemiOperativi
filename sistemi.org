@@ -1190,6 +1190,14 @@ Sono un solo bit.
 + Le permesse non sono abilitate
 + Le permesse sono abilitate
 **** Cap ereditabili
+     Vengono messe in and con le capabilities ereditabili dal processo.
+     Il risultato è l'insieme di capabilities che il processo farà ereditare
+     se deciderà di lanciare un nuovo programma (forking)
+*** Calcolo di P'(permitted) 
+    ( P(Inheritable) && F(Inheritable) | (F(permitted) & M) )
+    
+    Con M= scelgo solo alcune delle permitted (per semplicità).
+    
 ** Elevazione con SU
 *** id
 a root non servono gruppi, quindi root fa parte solo
@@ -1200,7 +1208,7 @@ di ambiente.
 /usr/bin /sbin
 con echo $PATH stampo le variabili di ambiente.
 Quindi bisogna caricare l'ambiente dell'utente giusto.
-Per farlo si usa
+Per caricare correttamente le variabili d'ambiente si usa il seguente comando:
 #+BEGIN_SRC bash
 su -l
 #+END_SRC
@@ -1210,8 +1218,7 @@ se root si logga graficamente l'output sarebbe più lungo.
 + i COLORS sono variabili che riguardano il colore dei caratteri.
 con dircolors imposta la variabile d'ambiente per impostare
 i colori.
-Comando che mi da l'insieme dei processi, per verificare
-se ho usato su correttamente.
+Per elencare l'insieme dei processi si usa il seguente comando:
 #+BEGIN_SRC 
 ps faxu | grep COMANDO
 #+END_SRC

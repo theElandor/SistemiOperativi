@@ -1,3 +1,4 @@
+
 #+TITLE: Appunti Sistemi Operativi
 #+SETUPFILE: /home/matteo/Desktop/tema.setup
 #+AUTHOR: Matteo Eros Lugli
@@ -1171,11 +1172,18 @@ per i gruppi.
 
 set user ID --> bit s che permette di eseguire con i privilegi 
 dell'utente creatore del file.
+Il problema è che eseguendo comandi come utente root non si
+rispetta il principio del minimo privilegio.
 ** Saved user ID / group ID
 Copia dal valore effettivo all'inizio dell'esecuzione
 (Copia del privilegio effettivo)
 Serve per capire il privilegio che posso riottenere quando
 mi riprendo i privilegi originari dopo un privilege drop.
++ Questo campo è presente nel *descrittore di processo*
+*** Privilege Drop
+    Il sistema operativo scrive negli identificatori effettivi quelli reali,
+    diminuendo i privilegi del processo.
+    
 ** Capability
 *** Capability di processo
 Microprivilegi che suddividono la capacità di root di fare ogni cosa.
@@ -1229,26 +1237,71 @@ Notiamo che l'ambiente è molto ridotto.
 Non ci sono variabili d'ambiente grafiche...
 se root si logga graficamente l'output sarebbe più lungo.
 + i COLORS sono variabili che riguardano il colore dei caratteri.
-con dircolors imposta la variabile d'ambiente per impostare
+con /dircolors/ imposta la variabile d'ambiente per impostare
 i colori.
 Per elencare l'insieme dei processi si usa il seguente comando:
 #+BEGIN_SRC 
 ps faxu | grep COMANDO
 #+END_SRC
-+ Il comando su forka un figlio. Per verificare basta lanciare
-un comando longrun e vedere con pstree.
-Comando per elencare solo i file nascosti.
+Se metto *bash* come COMANDO, mi vengono mostrati i figli di bash.
++Il comando su forka un figlio. Per verificare basta lanciare
+  un comando longrun e vedere con pstree.
+  Comando per elencare solo i file nascosti.
 #+BEGIN_SRC 
 su -c "ls -a -l -d .*" -prova
 #+END_SRC
-*** sudo
+In questo caso vengono elencati i file nascosti dentro la home di studente.
+** Sudo
 + sudoers è modulare, collega diversi file.
 + man 5 sudoers per maggiori informazioni.
 #+BEGIN_SRC bash
 sudo -u prova -g disk cat /dev/sda
 #+END_SRC
-Per lanciare leggere fdisk da prova aggiungendosi temporaneamente 
+Comando usato per leggere fdisk da prova aggiungendosi temporaneamente 
 al gruppo disk.
+Per poter usare sudo bisogna:
++ far parte del gruppo sudo
++ essere root
+*DOMANDA*: se sotto "User Privilege specification" metto la seguente linea:
+matteo ALL=(ALL:ALL) ALL, è
+ come se nel sistema avessi un altro root?
+Oppure ALL si riferisce a tutto tranne root? Quindi in questo caso potrei
+eseguire come utente QUALSIASI ma non root?
+
+#+begin_src bash
+gpasswd -a studente sudo
+#+end_src
+*DOMANDA* la distinzione tra effetive User Id e Real User Id è
+importante solo quando si parla di setUserId Bit giusto?
+
+Se eseguo comandi con sudo il RealUserID e il RealGroupId sono 0,
+corrispondenti a quelli di root.
+
+*IMPORTANTE*
+Il comando sudo:
++ genera un processo figlio
++ seleziona alcune specifiche variabili d'ambiente
++ esegue l'immagine del comando con gli argomenti e le variabili
+  d'ambiente scelte.
+
+Il seguente comando
+#+begin_src bash
+sudo -u studente id
+#+end_src
+specifica il nome di login dell'utente che esegue il comando.
+
+*DOMANDA* cosa cambia tra env e export? Stampano entrambi le variabili
+d'ambiente?
+
+*DOMANDA* l'utente matteo è nel gruppo sudo. Tuttavia eseguendo il seguente
+comando 
+#+begin_src
+sudo -u studente -g disk cat /dev/sda
+#+end_src
+l'output è il seguente
++All'utente matteo non è consentito
+ eseguire "/usr/bin/cat /dev/sda" come studente:disk su eros.
+ 
 ** Elevazione con SETUID/SETGID
 Ricorda di impostare sempre il bit di esecuzione, altrimenti
 compare la S invece della s
@@ -1267,7 +1320,14 @@ newtop è in esecuzione con i privilegi di root.
 quindi quando viene aperto newtop viene aperto con privilegi di root.
 
 ** Elevazione con Capability
+*DOMANDA* è normale che su arch eseguendo il seguente comando
+#+begin_src bash
+getcap /bin/ping
+#+end_src
+non venga mostrato alcun output? E' perchè arch è rolling release e sempre
+aggiornato? (Arch Vanilla)
 *** Esempio
+    
 a ls non servono capability per leggere i metadati dei dati.
 su debian bisogna usare /sbin/getcap. Infatti /sbin non è
 nel path dell'utente studente.

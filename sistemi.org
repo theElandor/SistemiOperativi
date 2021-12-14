@@ -1164,6 +1164,13 @@ sono quelle EFFETTIVE.
 Di solito quando un processo è creato, l'identificatore utente
 reale è uguale a quello effettivo, stessa cosa per l'identificatore
 di gruppo.
+
+In altre situazioni invece l'identificatore utente effettivo è posto
+uguale all'identificatore utente del creatore del file, stessa cosa
+per i gruppi.
+
+set user ID --> bit s che permette di eseguire con i privilegi 
+dell'utente creatore del file.
 ** Saved user ID / group ID
 Copia dal valore effettivo all'inizio dell'esecuzione
 (Copia del privilegio effettivo)

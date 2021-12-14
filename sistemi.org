@@ -1157,7 +1157,13 @@ diff <(wget -q -O <url>) <(wget -q -O - <url>) | less
 * PRIVILEGE ESCALATION
 ** Effective user ID / group ID
 SETGID --> come il GUID ma si applica alla seconda terna.
-
+Quando un utente esegue un processo (non da root), il 
+nucleo effettua il controllo di accesso.
+Le credenziali di processo usate per effettuare il controllo
+sono quelle EFFETTIVE.
+Di solito quando un processo è creato, l'identificatore utente
+reale è uguale a quello effettivo, stessa cosa per l'identificatore
+di gruppo.
 ** Saved user ID / group ID
 Copia dal valore effettivo all'inizio dell'esecuzione
 (Copia del privilegio effettivo)
@@ -1229,3 +1235,80 @@ sudo -u prova -g disk cat /dev/sda
 #+END_SRC
 Per lanciare leggere fdisk da prova aggiungendosi temporaneamente 
 al gruppo disk.
+** Elevazione con SETUID/SETGID
+Ricorda di impostare sempre il bit di esecuzione, altrimenti
+compare la S invece della s
+*** ESERCIZIO
+Il binario eseguibile top permette di monitorare i
+processi in maniera interattiva.
+Copiate il file dell'eseguibile top nella vostra home
+directory, dandogli il nome newtop.
+Cambiate utente creatore del file nel modo seguente:
+utente creatore → root.
+Impostate il bit SETUID e eseguite newtop.
+Con quali diritti esegue newtop?
+**** SOLUZIONE
+per settare l'UID bisogna loggare come root ovviamente.
+newtop è in esecuzione con i privilegi di root.
+quindi quando viene aperto newtop viene aperto con privilegi di root.
+
+** Elevazione con Capability
+*** Esempio
+a ls non servono capability per leggere i metadati dei dati.
+su debian bisogna usare /sbin/getcap. Infatti /sbin non è
+nel path dell'utente studente.
+Forma di protezione per non fare eseugire comandi che modifcano
+le capability ad utenti normali.
+Infatti se do un nome di comando senza il percorso assoluto,
+viene eseguito il primo comando trovato che matcha.
+
+*** Diaspora UNIX
+nelle nuove distro vedo i binari due volte perchè tutti i
+binari sono unificati nella distro /usr/bin.
+*** Ping
+Per aggirare i servizi del sistema operativo come descritto sotto,
+sono necessari permessi di root. Oppure serve una capability, 
+ossia cap_net_raw. --> permesso di mandare una "busta" personalizzata
+alla scheda di rete.
+/sbin/getcap /bin/ping --> posso vedere le capability di ping.
+**** FUZZING
+Problema: voglio rompere la barriera dei protocolli per fare
+in modo di mandare dei pacchetti malformati per trovare delle
+vulnerabilità nei server.
+Infatti l'"impacchettamento" viene fatto automaticamente dal
+sistema operativo.
+Voglio impacchettare a mano la roba per creare dei pacchetti 
+non standard, in modo da ottenere informazioni analizzando
+la reazione del server.
+
+Ping segue lo stesso procedimento nelle ultime versioni, 
+crea le sue buste.
+Echo request, echo reply
+**** ICMP
+Dal 2015 nel sistema operativo è stata creata la famiglia icmp.
+Quindi quando ci si interfaccia con le primitive del kernel si
+può anche scegliere di mandare dei pacchetti di diagnostica
+di tipo icmp. Quindi ping non necessita per forza dei privilegi di 
+root o delle capability cap_net_raw.
+**** Esercizio
+Usando il comando cp, copiate il comando ping nella
+vostra home directory, dandogli il nome newping.
+Annullate le capability del file newping.
+Eseguite newping 8.8.8.8. Funziona?
+Assegnate le capability cap_net_raw agli insiemi
+permitted ed effective sul file newping.
+Eseguite newping 8.8.8.8. Funziona?
+***** SOLUZIONE
+*dopo la copia newping non ha capabilities*. Vengono tolti
+tutti i privilegi.
+Se anche senza capabilities il comando esegue lo stesso, allora
+il kernel supporta il protocollo icmp, quindi non ha bisogno
+delle capabilites, anche se può essere che siano lo stesso
+assegnate.
+* PACCHETTI SOFTWARE
+** DEbian history
+Prima distro che mette a disposizione un manager di pacchetti.
+Prima distro che si basa sul concetto del freesoftware
+*** Architettura
+specifica di come funziona un processore(x86 64 bit, arm, ecc...)
+

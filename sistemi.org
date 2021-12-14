@@ -1324,8 +1324,9 @@ quindi quando viene aperto newtop viene aperto con privilegi di root.
 #+begin_src bash
 getcap /bin/ping
 #+end_src
-non venga mostrato alcun output? E' perchè arch è rolling release e sempre
-aggiornato? (Arch Vanilla)
+non venga mostrato alcun output? E' perchè su arch è supportato il protocollo
+icmp?
+
 *** Esempio
     
 a ls non servono capability per leggere i metadati dei dati.
@@ -1383,6 +1384,7 @@ assegnate.
 ** DEbian history
 Prima distro che mette a disposizione un manager di pacchetti.
 Prima distro che si basa sul concetto del freesoftware
+Si basa sulla precisione delle release, putando sulla stabilità.
 *** Architettura
 specifica di come funziona un processore(x86 64 bit, arm, ecc...)
 

@@ -1262,46 +1262,45 @@ al gruppo disk.
 Per poter usare sudo bisogna:
 + far parte del gruppo sudo
 + essere root
+*** DOMANDA
 *DOMANDA*: se sotto "User Privilege specification" metto la seguente linea:
 matteo ALL=(ALL:ALL) ALL, è
  come se nel sistema avessi un altro root?
 Oppure ALL si riferisce a tutto tranne root? Quindi in questo caso potrei
 eseguire come utente QUALSIASI ma non root?
-
 #+begin_src bash
 gpasswd -a studente sudo
 #+end_src
+*** DOMANDA
 *DOMANDA* la distinzione tra effetive User Id e Real User Id è
 importante solo quando si parla di setUserId Bit giusto?
 
 Se eseguo comandi con sudo il RealUserID e il RealGroupId sono 0,
 corrispondenti a quelli di root.
-
+*** DOMANDA
 *IMPORTANTE*
 Il comando sudo:
 + genera un processo figlio
 + seleziona alcune specifiche variabili d'ambiente
 + esegue l'immagine del comando con gli argomenti e le variabili
   d'ambiente scelte.
-
 Il seguente comando
 #+begin_src bash
 sudo -u studente id
 #+end_src
 specifica il nome di login dell'utente che esegue il comando.
-
+*** DOMANDA
 *DOMANDA* cosa cambia tra env e export? Stampano entrambi le variabili
 d'ambiente?
-
+*** DOMANDA
 *DOMANDA* l'utente matteo è nel gruppo sudo. Tuttavia eseguendo il seguente
 comando 
 #+begin_src
 sudo -u studente -g disk cat /dev/sda
 #+end_src
 l'output è il seguente
-+All'utente matteo non è consentito
++ All'utente matteo non è consentito
  eseguire "/usr/bin/cat /dev/sda" come studente:disk su eros.
- 
 ** Elevazione con SETUID/SETGID
 Ricorda di impostare sempre il bit di esecuzione, altrimenti
 compare la S invece della s
@@ -1320,13 +1319,13 @@ newtop è in esecuzione con i privilegi di root.
 quindi quando viene aperto newtop viene aperto con privilegi di root.
 
 ** Elevazione con Capability
+*** DOMANDA
 *DOMANDA* è normale che su arch eseguendo il seguente comando
 #+begin_src bash
 getcap /bin/ping
 #+end_src
 non venga mostrato alcun output? E' perchè su arch è supportato il protocollo
 icmp?
-
 *** Esempio
     
 a ls non servono capability per leggere i metadati dei dati.
@@ -1385,6 +1384,86 @@ assegnate.
 Prima distro che mette a disposizione un manager di pacchetti.
 Prima distro che si basa sul concetto del freesoftware
 Si basa sulla precisione delle release, putando sulla stabilità.
+** Debian Structure
 *** Architettura
 specifica di come funziona un processore(x86 64 bit, arm, ecc...)
+*** Debian Constitution
+Specifica i processi decisionali, emula una repubblica parlamentare.
+Nessuno ha pieno potere su tutto.
+**** Project Leader
+di tecnico fa poco, è il leader.
+Principalmente fa pubblicità sul progetto.
+Nomina il segretario di progetto.
+**** Segretario di progetto
+Gestisce le finanze del progetto e verbalizza gli esiti delle votazioni.
+**** Release Team
+Assembla i pacchetti che compongono la distro che si scarica da internet.
 
+E altro.
+I candidati si autopropongono per entrare nel progetto.
+Vengono sottoposti a un intervista tecnica.
+Se la superano diventano *mantainer*.
+Un manteiner può diventare un *developer*, che può ad 
+esempio reclutare altri manteinier.
+*** DAM
+controlla che l'arruolamento sia corretto. (anche eticamente).
+
+*** Versioni
+Ad ogni istante temporale debian offre 3 varianti
++ SO stabile: con software vecchio, ideale da mettere sui server. Non va molto bene per web development ad es.;
++ SO instabile: non molto testate, ma aggiornate. Significa che funziona ma non è stata
+  testata in tutti i sottocasi. Con i report della comunity poi gli errori vengono messi a posto.
++ Testing: via di mezzo tra le due precedenti.
+*** Repo
+Mirror: server web COPIA del server originale messo in diverse *nazioni*
+**** Repository
+***** dist
+Contiene le distribuzioni(passate, attuali, future).
+****** stable
+main , non-free, contrib. Dipende se voglio anche usare
+software non free.
+release --> contiene degli hash su file che garantiscono sicurezza.
+Controllo sull'hash dei singoli file e sulla signature.
+una signature è essenzialmente un hash di un file.
+***** doc
+contiene documentazione per fare i dischetti
+***** indices
+Contiene degli indici per fare le ricerche sui pacchetti.
+***** non-US
+directory obsoleta.
+Tempo fa gli algoritmi di criptaggio non potevano essere esportati perchè 
+risultavano come armi, quindi serviva un mirror non americano.
+***** pool
+Contiene i pacchetti veri e propri.
+Sono indicizzati per lettera, in modo da rendere più veloce la ricerca.
+I pacchetti sono in formato .deb
+***** project
+****** Experimental 
+Gli sviluppatori inseriscono dei pacchetti software che non danno nessuna garanzia.
+Son sicuro che parte, ma per il resto non da garanzie.
+Repository di debugging dei manteiner.
+*** Caricamento di un pacchetto
+1) Subito una serie di script verifica che il pacchetto
+   sia "integro" e che segua le linee guida di debian.
+   Controlli serrati.
+2) Il pacchetto entra in unstable
+3) Il pacchetto entra in testing
+4) Periodo di freeze
+**** Passaggio da unstable a testing
+Deve restare in unstable per qualche giorno in modo che gli utenti possano reportare
+dei bug. Circa 10 giorni. Se il pacchetto non sopravvive viene rimosso da unstable.
+Se sopravvive si fanno altri controlli.
++ Il pacchetto non deve avere bug critici (impedisce il funzionamento di un software)
+  Se il numero di bug critici è maggiore del numero di bug della versione attualmente
+  in testing allora il tutto viene buttato.
++ Il pacchetto deve essere installabile su *tutte* le architetture.
+  Esiste un infrastuttura che permette agli sviluppatori di testare sulle varie architetture.
++ Se le dependecies non sono già in testing allora non si può caricare il pacchetto.
++ Le versioni dei pacchetti devono poter convivere.
+* SIMULAZIONE
+** ES find
+Comando per elencare i primi 30 file *di testo* più grandi del filesystem.
+*** SOLUZIONE (sbagliata)
+find /home -regex '.*\.txt' -printf "%s %p\n" 2>/dev/null | sort -nrk 1 | head -n 30
+bisogna usare -exec{file} ecc.
+** ES pstree

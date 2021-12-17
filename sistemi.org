@@ -2,6 +2,13 @@
 #+TITLE: Appunti Sistemi Operativi
 #+SETUPFILE: /home/matteo/Desktop/tema.setup
 #+AUTHOR: Matteo Eros Lugli
+* SIMULAZIONE
+** ES find
+Comando per elencare i primi 30 file *di testo* più grandi del filesystem.
+*** SOLUZIONE (sbagliata)
+find /home -regex '.*\.txt' -printf "%s %p\n" 2>/dev/null | sort -nrk 1 | head -n 30
+bisogna usare -exec{file} ecc.
+** ES pstree
 * INFO
 Da individuazione di file in avanti sono riportate solo le soluzioni degli esercizi
 e approfondimenti non riportati sulle slide.
@@ -53,7 +60,6 @@ non iniziano con una maiuscola.
 ** ESERCIZI
 *** Matchare tutti i file che iniziano per 'a'
 **** SOLUZIONE
-
 * DOCUMENTAZIONE
 ** COMANDI UTILI
 #+BEGIN_SRC shell
@@ -1262,6 +1268,17 @@ al gruppo disk.
 Per poter usare sudo bisogna:
 + far parte del gruppo sudo
 + essere root
+*IMPORTANTE*
+Il comando sudo:
++ genera un processo figlio
++ seleziona alcune specifiche variabili d'ambiente
++ esegue l'immagine del comando con gli argomenti e le variabili
+  d'ambiente scelte.
+Il seguente comando
+#+begin_src bash
+sudo -u studente id
+#+end_src
+specifica il nome di login dell'utente che esegue il comando.
 *** DOMANDA
 *DOMANDA*: se sotto "User Privilege specification" metto la seguente linea:
 matteo ALL=(ALL:ALL) ALL, è
@@ -1277,18 +1294,6 @@ importante solo quando si parla di setUserId Bit giusto?
 
 Se eseguo comandi con sudo il RealUserID e il RealGroupId sono 0,
 corrispondenti a quelli di root.
-*** DOMANDA
-*IMPORTANTE*
-Il comando sudo:
-+ genera un processo figlio
-+ seleziona alcune specifiche variabili d'ambiente
-+ esegue l'immagine del comando con gli argomenti e le variabili
-  d'ambiente scelte.
-Il seguente comando
-#+begin_src bash
-sudo -u studente id
-#+end_src
-specifica il nome di login dell'utente che esegue il comando.
 *** DOMANDA
 *DOMANDA* cosa cambia tra env e export? Stampano entrambi le variabili
 d'ambiente?
@@ -1319,13 +1324,6 @@ newtop è in esecuzione con i privilegi di root.
 quindi quando viene aperto newtop viene aperto con privilegi di root.
 
 ** Elevazione con Capability
-*** DOMANDA
-*DOMANDA* è normale che su arch eseguendo il seguente comando
-#+begin_src bash
-getcap /bin/ping
-#+end_src
-non venga mostrato alcun output? E' perchè su arch è supportato il protocollo
-icmp?
 *** Esempio
     
 a ls non servono capability per leggere i metadati dei dati.
@@ -1460,10 +1458,151 @@ Se sopravvive si fanno altri controlli.
   Esiste un infrastuttura che permette agli sviluppatori di testare sulle varie architetture.
 + Se le dependecies non sono già in testing allora non si può caricare il pacchetto.
 + Le versioni dei pacchetti devono poter convivere.
-* SIMULAZIONE
-** ES find
-Comando per elencare i primi 30 file *di testo* più grandi del filesystem.
-*** SOLUZIONE (sbagliata)
-find /home -regex '.*\.txt' -printf "%s %p\n" 2>/dev/null | sort -nrk 1 | head -n 30
-bisogna usare -exec{file} ecc.
-** ES pstree
+
+** SOftware di gestione
+*** dpkg
+*importante* --> non pensa alle dependencies
+*** apt
+*importante* --> gestisce anche le dipendenze fra pacchetti.
+la risoluzione delle dipendenze è una VISITA TOPOLOGICA di un grafico.
+
+*** Repository
+URI --> schema di naming, nel caso dei siti web l'URI coincide con l'URL
+deb-src --> per le regole del free software bisogna mettere a
+disposizione anche il *pacchetto sorgente*,
++ Sorgente pronto per essere ricompilato
++ Una directory *debian*
+
+Se al posto di usare la "stable" uso la "jessie", rimango fermo a
+quella versione, mentre se uso la stable posso aggiornare la distro
+e rimanere al passo con gli aggiornamenti.
+**** Aggiornamenti non di sicurezza
+Avanzamento naturale OPPURE modifica della versione attuale.
+**** Stable
+Se al posto di bulls-eye metto stable, quando aggiorno mi aggiorna
+alla nuova versione stable. Mentre se lascio bullseye, semplicemente
+mi aggiorna bullseye.
+
+**** apt update
+L'update non tocca i pacchetti, semplicemente sincronizza i pacchetti
+localmente. Eì l'*upgrade* che va ad aggiornare i pacchetti.
+**** Domanda
+Richiedere deb-src
+** Installazione e rimozione dei pacchetti
+*** apt
+Ogni volta che installo un pacchetto, decifrando i metadati
+dei file, debian verifica che i pacchetti siano "safe".
+Se per caso ci mancano le chiavi pubbliche degli sviluppatori
+debian se ne accorge perchè non può verificare l'integrità.
+Esiste quindi un pacchetto che fornisce le chiavi degli
+sviluppatori
+**** Installazione
+Ricorsivamente vengono risolte le dipendenze.
++ preconfigurare = prepara l'ambiente all'installazione
++ spacchettamento = spacchetta il pacchetto debian e il pacchetto dei file
++ configurazione = configura i pacchetti per il S.O attuale.
++ post-configurazione = si esegue con uno script
+**** KeyRing
+pacchetto che offre le chiavi degli sviluppatori
+**** rimozione
+posso rimuovere un pacchetto mantenendo la configurazione
+con apt remove, mentre rimuovendo con purge, rimuovo anche
+i file di configurazione.
+Se rimuovo un software che ha delle dipendenze, i pacchetti
+installati prima per risolvere le dipendenze devono essere 
+rimosse usando *autoremove*, che automaticamente rimuove
+questo tipo di pacchetti.
+
+Anche con *purge* non possono essere eliminate delle directory 
+che servono ad altri pacchetti. Se la cartella serve solo a 
+quel pacchetto allora ok.
+
+Il sistema operativo effettua CACHING, ossia non rimuove i pacchetti,
+perchè se tanto poi lo riinstallo non devo riscaricarlo.
+con apt clean posso rimuovere i pacchetti inutilizzati.
+**** Aggiornamento dei pacchetti.
+Per aggiornare i pacchetti --> apt update per sincronizzare
+                               apt upgrade per aggiornare i paccheti.
+Quando sono nella stessa versione di debian basta aggiornare 
+i pacchetti per "aggiornare" la distro, perchè le dipendenze
+non cambiano.
+Se invece aggiorno la versione di debian le dipendenze potrebbero
+cambiare.
+**** Aggiornamento della distro
+se aggiorno la distro --> viene rimosso il vecchio pacchetto
+con le vecche dipendenze, installo le nuove dipendenze, aggiorno
+il pacchetto.
+
+** Ricerca e analisi dei pacchetti
+Se installo un pacchetto e il binario non ha il nome
+del pacchetto come faccio ad eseguire il software?
+*** Nomi dei pacchetti
+lib -dev -> fornisce strumenti per la compilazione
+lib senza dev --> fornsice strumenti per l'esecuzione
+
+*** Tipi di simboli (UNIX)
++ Tabella dei simboli statici
++ Tabella dei simboli dinamici
++ Tabella dei simboli debug
+
+*** dipendenze
+se la dipendenza serve per installare il pacchetto, allora
+non va bene l'installazione orizzontale.
+Quindi le pre-dipendenze vengono installate prima.
+
+Depends invece serve per l'esecuzione.
+In questo caso l'installazione avviene orizzontalmente.
+
++ Pre-depends --> verticale
++ Depends --> orizzontale
+**** Conflitto
+due pacchetti vanno in conf se condividono o scrivono modifiche
+sullo stesso file.
+**** Raccomanda
+Suggerimento dell'installatore.
+In realtà nelle ultime distro queste dipendenze "non necessarie"
+vengono installate comunque.
+**** Sostituisce
+Debian capisce che se anche bash-completion e il nuovo software
+lavorano sulle stesse directory allora non deve essere considerata
+come conflitto/errore.
+**** Pacchetti virtuali
+Ad esempio il pacchetto Editor di debian.
+*** dipendenze inverse
+Appunti sulle slide
+*** Ricerca pacchetto --> file
+Per capire quale pacchetto fornisce un file
+#+BEGIN_SRC 
+apt-file search -x '^/usr/bin/top$'
+#+END_SRC
+se mettessi solo top, prenderei anche dei file che
+contengono la parola top, ma non sono eseguibili per esempio.
+O comunque file che non centrano con top.
+*** Unificazione dei binari
+apt sa solo che esiste /bin/dd non /usr/bin/dd , 
+che è semplicemente una copia di /bin/dd.
+Questo a causa dell'unificazione degli eseguibili in /usr/bin.
+Per non rompere gli script sono rimasti
+anche i vecchi binari.Questa unificazione viene fatta da uno 
+script in post-installazione.
+*** Metapacchetti
+Sono essenzialmente pacchetti con molte dependencies, che
+se installati le installano di conseguenza.
+*** Pacchetti virtuali
+Sono essenzialmente liste di pacchetti.
+Se installati con sudo apt install <nome> non succede nulla
+*** update alternatives
+comando che permette di gestire i link simbolici che puntano
+alle applicazioni di default
+
+Per *elencare i PACCHETTI VIRTUALI* si usa il seguente comando
+#+BEGIN_SRC 
+sudo apt update-alternatives --get-selections
+#+END_SRC
+**** DOMANDA:
+Perchè se uso il comando
+#+BEGIN_SRC bash
+update-alternatives --list editor
+#+END_SRC
+mi fa vedere /bin/nano e invece di farmi vedere /bin/emacs
+mi fa veder /usr/bin/emacs?

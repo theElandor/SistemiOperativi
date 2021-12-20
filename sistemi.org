@@ -1594,7 +1594,6 @@ Se installati con sudo apt install <nome> non succede nulla
 *** update alternatives
 comando che permette di gestire i link simbolici che puntano
 alle applicazioni di default
-
 Per *elencare i PACCHETTI VIRTUALI* si usa il seguente comando
 #+BEGIN_SRC 
 sudo apt update-alternatives --get-selections
@@ -1604,5 +1603,7 @@ Perchè se uso il comando
 #+BEGIN_SRC bash
 update-alternatives --list editor
 #+END_SRC
-mi fa vedere /bin/nano e invece di farmi vedere /bin/emacs
-mi fa veder /usr/bin/emacs?
+mi viene mostrato /usr/bin/emacs invece di /bin/emacs-gtk?
+In teoria update-alternatives (come nel caso di nano)
+non dovrebbe vedere gli eseguibili nella cartella /bin
+prima?

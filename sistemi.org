@@ -1,4 +1,3 @@
-
 #+TITLE: Appunti Sistemi Operativi
 #+SETUPFILE: /home/matteo/Desktop/tema.setup
 #+AUTHOR: Matteo Eros Lugli
@@ -8,7 +7,6 @@ Comando per elencare i primi 30 file *di testo* più grandi del filesystem.
 *** SOLUZIONE (sbagliata)
 find /home -regex '.*\.txt' -printf "%s %p\n" 2>/dev/null | sort -nrk 1 | head -n 30
 bisogna usare -exec{file} ecc.
-** ES pstree
 * INFO
 Da individuazione di file in avanti sono riportate solo le soluzioni degli esercizi
 e approfondimenti non riportati sulle slide.
@@ -211,14 +209,11 @@ file.txt
 ** FILESYSTEM
 *** /bin
    contiene i comandi necessari ad un sistema di base testuale
-
 *** /sbin
 contiene i comandi necessari all'avvio
-
 *** /boot
    contiene i dati relativi alla procedura di boot, configurazione
    del bootloader, contiene l'immagine del kernel
-
 *** /dev
   Contiene i *file speciali* che consentono di accedere alle
   periferiche. Le comunicazioni a basso livello con le periferiche
@@ -238,25 +233,22 @@ con ls -l /dev si possono visualizzare
 
 *** /etc
 contiene i file di configurazione di s
-
 *** /home
 contiene gli spazi di lavoro dell'utente
-
 *** /lib
 contiene le librerire necessarie all'avvio del sistema.
 contiene anche le librerie del C
 loader dinamico
 moduli del kernel=assomigliano a dei file oggetto.
-*loader dinamico* = /interprete/ del binario. Carica in memoria
+*loader dinamico* = interprete del binario. Carica in memoria
 il binario e linka le librerie. Carica im memoria i file necessari
 per l'esecuzione. Se il programma vuole usare printf è lui che va
 a cercare i file del printf.
-
 *** /mnt
+Mount point
 *** /opt
 contiene un filesistem per software non nativo
 contiene directory tipo /opt/software
-
 *** /proc
    contiene statistiche sulle periferiche
    e sulle risorse hardware. I file
@@ -1607,3 +1599,5 @@ mi viene mostrato /usr/bin/emacs invece di /bin/emacs-gtk?
 In teoria update-alternatives (come nel caso di nano)
 non dovrebbe vedere gli eseguibili nella cartella /bin
 prima?
+
+** Ciao
